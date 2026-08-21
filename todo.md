@@ -92,3 +92,6 @@
 - [x] Add focused double-tap zoom around the tapped photo location
 - [x] Add report image URI fallback metadata
 - [x] Add interaction validation coverage for zoom reset and navigation
+- [x] Add animated focus transition for double-tap zoom
+- [x] Clean up active gesture animations when closing or switching photos
+- [x] Add deterministic coverage for viewer transform reset behavior
