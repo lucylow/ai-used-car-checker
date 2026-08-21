@@ -59,3 +59,11 @@
 [2026-08-21T22:39:41.022Z] [ERR_PNPM_NO_SCRIPT] Missing script: dev
 [2026-08-21T22:39:41.022Z] Command "dev" not found.
 [2026-08-21T22:39:41.040Z] Dev server exited with code 1
+[2026-08-21T22:40:07.063Z] Starting dev server with command: pnpm run dev
+[2026-08-21T22:40:07.597Z] [ERR_PNPM_NO_SCRIPT] Missing script: dev
+[2026-08-21T22:40:07.597Z] Command "dev" not found.
+[2026-08-21T22:40:07.617Z] Dev server exited with code 1
+[2026-08-21T22:44:52.712Z] Starting dev server with command: pnpm run dev
+[2026-08-21T22:44:53.329Z] [ERR_PNPM_NO_SCRIPT] Missing script: dev
+[2026-08-21T22:44:53.329Z] Command "dev" not found.
+[2026-08-21T22:44:53.348Z] Dev server exited with code 1
