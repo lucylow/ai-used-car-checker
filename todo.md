@@ -65,3 +65,6 @@
 - [x] Add full-screen viewer for saved inspection photos
 - [x] Add inspection timestamp to report preview and PDF metadata
 - [x] Add clearer photo viewer close and navigation feedback
+- [x] Add swipe or previous-next navigation for saved photos
+- [x] Add report photo thumbnails and branded footer content
+- [x] Add photo position and close feedback in the viewer

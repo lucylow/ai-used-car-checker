@@ -482,3 +482,57 @@
 [2026-08-21T23:20:37.551Z] Logs for your project will appear below.
 [2026-08-21T23:20:41.053Z] Web ./index.js ▓▓░░░░░░░░░░░░░░ 17.8% ( 51/121)
 [2026-08-21T23:20:41.157Z] Web Bundled 251ms index.js (258 modules)
+[2026-08-21T23:20:41.915Z] LOG  [web] Logs will appear in the browser console
+[2026-08-21T23:20:47.912Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-21T23:20:47.924Z] Web Bundled 12ms index.js (1 module)
+[2026-08-21T23:20:48.550Z] LOG  [web] Logs will appear in the browser console
+[2026-08-21T23:21:52.433Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-21T23:21:52.448Z] Web Bundled 16ms index.js (1 module)
+[2026-08-21T23:21:52.650Z] LOG  [web] Logs will appear in the browser console
+[2026-08-21T23:22:23.081Z] [ELIFECYCLE] Command failed.
+[2026-08-21T23:22:23.087Z] Dev server exited with code -1
+[2026-08-21T23:22:24.185Z] Starting dev server with command: pnpm run dev
+[2026-08-21T23:22:24.763Z] $ expo start
+[2026-08-21T23:22:25.090Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-21T23:22:26.073Z] Starting Metro Bundler
+[2026-08-21T23:22:29.580Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-21T23:22:30.324Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-21T23:22:30.325Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-21T23:22:30.325Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-21T23:22:30.325Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-21T23:22:30.325Z] Waiting on http://localhost:8081
+[2026-08-21T23:22:30.325Z] Logs for your project will appear below.
+[2026-08-21T23:22:30.325Z] Web ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 98.8% (168/169)
+[2026-08-21T23:22:30.472Z] Web Bundled 941ms index.js (169 modules)
+[2026-08-21T23:22:32.906Z] LOG  [web] Logs will appear in the browser console
+[2026-08-21T23:22:38.573Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-21T23:22:38.585Z] Web Bundled 12ms index.js (1 module)
+[2026-08-21T23:22:39.029Z] [ELIFECYCLE] Command failed.
+[2026-08-21T23:22:39.035Z] Dev server exited with code -1
+[2026-08-21T23:22:40.144Z] Starting dev server with command: pnpm run dev
+[2026-08-21T23:22:40.714Z] $ expo start
+[2026-08-21T23:22:41.014Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-21T23:22:41.852Z] Starting Metro Bundler
+[2026-08-21T23:22:41.955Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-21T23:22:41.955Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-21T23:22:41.955Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-21T23:22:41.955Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-21T23:22:41.956Z] Waiting on http://localhost:8081
+[2026-08-21T23:22:41.956Z] Logs for your project will appear below.
+[2026-08-21T23:22:46.162Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-21T23:22:46.468Z] Web Bundled 306ms index.js (200 modules)
+[2026-08-21T23:22:46.564Z] [ELIFECYCLE] Command failed.
+[2026-08-21T23:22:46.570Z] Dev server exited with code -1
+[2026-08-21T23:22:47.674Z] Starting dev server with command: pnpm run dev
+[2026-08-21T23:22:48.217Z] $ expo start
+[2026-08-21T23:22:48.495Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-21T23:22:49.377Z] Starting Metro Bundler
+[2026-08-21T23:22:49.498Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-21T23:22:49.498Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-21T23:22:49.498Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-21T23:22:49.498Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-21T23:22:49.499Z] Waiting on http://localhost:8081
+[2026-08-21T23:22:49.499Z] Logs for your project will appear below.
+[2026-08-21T23:22:54.842Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-21T23:22:55.092Z] Web Bundled 250ms index.js (256 modules)
+[2026-08-21T23:22:55.992Z] LOG  [web] Logs will appear in the browser console
