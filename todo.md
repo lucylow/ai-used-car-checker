@@ -83,3 +83,6 @@
 - [x] Add smoother zoom transitions and release-state cleanup
 - [x] Add stronger report media fallback handling
 - [x] Add deterministic coverage for bounded media/report behavior
+- [x] Add inertial pan release animation for zoomed photos
+- [x] Add focused double-tap zoom behavior
+- [x] Ensure navigation and close reset all transforms safely
