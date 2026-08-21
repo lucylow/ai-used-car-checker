@@ -27,6 +27,9 @@
 - [x] Add input validation and clearer empty/loading/error feedback
 - [x] Add a managed dev script for the project preview
 - [x] Add deterministic tests for inspection calculations and VIN validation
-- [ ] Add issue editing and removal interactions
+- [x] Add issue editing and removal interactions
 - [x] Add stronger vehicle form validation and inline feedback
 - [x] Add actionable summary controls for repairs and negotiation
+- [x] Add dedicated issue editor modal for severity, cost, and notes
+- [x] Add saved-inspection history actions for delete and duplicate
+- [x] Add functional profile/settings screen interactions
