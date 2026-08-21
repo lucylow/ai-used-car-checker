@@ -33,3 +33,6 @@
 - [x] Add dedicated issue editor modal for severity, cost, and notes
 - [x] Add saved-inspection history actions for delete and duplicate
 - [x] Add functional profile/settings screen interactions
+- [x] Store multiple completed inspections locally
+- [x] Add delete and duplicate confirmation flows for saved inspections
+- [x] Add photo-slot capture, thumbnail, and remove interactions
