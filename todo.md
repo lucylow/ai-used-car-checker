@@ -68,3 +68,6 @@
 - [x] Add swipe or previous-next navigation for saved photos
 - [x] Add report photo thumbnails and branded footer content
 - [x] Add photo position and close feedback in the viewer
+- [x] Add swipe gesture navigation between saved photos
+- [x] Add accessibility labels and hints to photo viewer controls
+- [x] Add improved report/share action feedback
