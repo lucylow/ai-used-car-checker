@@ -89,3 +89,6 @@
 - [x] Bound inertial decay after zoomed-photo pan release
 - [x] Add photo-viewer transform cleanup on unmount or close
 - [x] Add performance-safe image rendering hints
+- [x] Add focused double-tap zoom around the tapped photo location
+- [x] Add report image URI fallback metadata
+- [x] Add interaction validation coverage for zoom reset and navigation
