@@ -56,3 +56,6 @@
 - [x] Add branded PDF header and photo evidence summary
 - [x] Add image payload size safeguards before local persistence
 - [x] Add deterministic report formatting coverage for photos and critical issues
+- [x] Add native image compression before local persistence
+- [x] Recover the managed dev server after the last refresh failure
+- [x] Verify report and image flows after reliability changes
