@@ -44,3 +44,6 @@
 - [x] Add dynamic risk score based on current issue severity
 - [x] Add completed inspection report detail sections
 - [x] Add share-ready report text and copy action
+- [x] Add robust persistence error handling and save-status feedback
+- [x] Add report export/share text generation utility
+- [x] Preserve image metadata and handle canceled picker results cleanly
