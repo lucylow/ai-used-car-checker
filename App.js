@@ -83,8 +83,13 @@ export default function App() {
 
   useEffect(() => {
     if (restored) {
-      AsyncStorage.setItem('carwise-inspection', JSON.stringify({ vehicle, issues, checklist, photos, savedInspections }))
-        .then(() => setSaveStatus('Saved locally'))
+      const persistedPhotos = photos.slice(-12).map((photo) => ({ id: photo.id, uri: photo.uri, width: photo.width, height: photo.height, mimeType: photo.mimeType, fileName: photo.fileName }));
+      const payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, savedInspections });
+      if (payload.length > 250000) {
+        setSaveStatus('Inspection is large — keeping a compact local copy');
+      }
+      AsyncStorage.setItem('carwise-inspection', payload)
+        .then(() => setSaveStatus(payload.length > 250000 ? 'Compact copy saved locally' : 'Saved locally'))
         .catch(() => setSaveStatus('Local save unavailable'));
     }
   }, [vehicle, issues, checklist, photos, savedInspections, restored]);
@@ -114,7 +119,7 @@ export default function App() {
   const pickFromLibrary = async () => { const result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], allowsEditing: true, aspect: [4, 3], quality: 0.8 }); if (!result.canceled && result.assets?.[0]) addPickedPhoto(result.assets[0]); };
   const takeInspectionPhoto = async () => { const permission = await ImagePicker.requestCameraPermissionsAsync(); if (permission.status !== 'granted') return; const result = await ImagePicker.launchCameraAsync({ allowsEditing: true, aspect: [4, 3], quality: 0.8 }); if (!result.canceled && result.assets?.[0]) addPickedPhoto(result.assets[0]); };
   const shareReport = async () => { const report = buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice: 19400, riskScore }); try { await Share.share({ message: report, title: 'Carwise inspection report' }); } catch (_) { setSaveStatus('Share unavailable — report kept in preview'); setReportPreview(report); } };
-  const exportReportPdf = async () => { const report = buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice: 19400, riskScore }); const html = `<html><body style="font-family: -apple-system, sans-serif; padding: 28px; color: #111827"><h1>Carwise inspection report</h1><h2>${vehicle.year} ${vehicle.make} ${vehicle.model}</h2><pre style="white-space: pre-wrap; font-size: 14px; line-height: 1.5">${report}</pre></body></html>`; try { const result = await Print.printToFileAsync({ html }); if (await Sharing.isAvailableAsync()) { await Sharing.shareAsync(result.uri, { mimeType: 'application/pdf', dialogTitle: 'Share Carwise report' }); setSaveStatus('PDF report ready'); } else { setSaveStatus('PDF created; sharing unavailable'); } } catch (_) { setSaveStatus('PDF export unavailable'); } };
+  const exportReportPdf = async () => { const report = buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice: 19400, riskScore }); const issueRows = issues.map((issue) => `<li><strong>${issue.severity.toUpperCase()}</strong> · ${issue.name} · $${issue.cost}</li>`).join(''); const html = `<html><body style="font-family: -apple-system, sans-serif; padding: 28px; color: #111827"><div style="border-bottom: 6px solid #2F80ED; padding-bottom: 16px"><div style="font-size: 12px; letter-spacing: 3px; color: #2F80ED; font-weight: 800">CARWISE</div><h1 style="margin-bottom: 4px">Inspection report</h1><div style="color: #667085">${vehicle.year} ${vehicle.make} ${vehicle.model}</div></div><div style="margin-top: 20px; padding: 16px; background: #F2F4F7; border-radius: 12px"><strong>Risk score: ${riskScore}/100</strong><br/>Estimated repairs: $${repairTotal}<br/>Photo evidence: ${photos.length} item(s)</div><h2>Detected issues</h2><ul>${issueRows || '<li>No issues recorded</li>'}</ul><h2>Report details</h2><pre style="white-space: pre-wrap; font-size: 14px; line-height: 1.5">${report}</pre></body></html>`; try { const result = await Print.printToFileAsync({ html }); if (await Sharing.isAvailableAsync()) { await Sharing.shareAsync(result.uri, { mimeType: 'application/pdf', dialogTitle: 'Share Carwise report' }); setSaveStatus('PDF report ready'); } else { setSaveStatus('PDF created; sharing unavailable'); } } catch (_) { setSaveStatus('PDF export unavailable'); } };
 
   const Home = () => (
     <ScrollView contentContainerStyle={styles.content}>

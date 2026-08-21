@@ -53,3 +53,6 @@
 - [x] Add native PDF/report file export action
 - [x] Add image compression or size safeguards before persistence
 - [x] Add deterministic report utility coverage
+- [x] Add branded PDF header and photo evidence summary
+- [x] Add image payload size safeguards before local persistence
+- [x] Add deterministic report formatting coverage for photos and critical issues
