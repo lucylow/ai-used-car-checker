@@ -41,3 +41,6 @@
 - [x] Add saved inspection detail view with photo and issue summary
 - [x] Add confirmation modal for deleting or duplicating saved inspections
 - [x] Add undo feedback after deleting a saved inspection
+- [x] Add dynamic risk score based on current issue severity
+- [x] Add completed inspection report detail sections
+- [x] Add share-ready report text and copy action
