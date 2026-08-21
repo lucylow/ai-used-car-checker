@@ -59,3 +59,6 @@
 - [x] Add native image compression before local persistence
 - [x] Recover the managed dev server after the last refresh failure
 - [x] Verify report and image flows after reliability changes
+- [x] Add dedicated saved inspection detail screen
+- [x] Add saved-at timestamp and report metadata to detail/export views
+- [x] Add image thumbnails and issue severity breakdown to saved details
