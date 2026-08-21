@@ -104,3 +104,6 @@
 - [x] Add focus animation that respects measured photo content bounds
 - [x] Add richer photo evidence details to PDF output
 - [x] Add deterministic coverage for formatted photo evidence
+- [x] Add collapsible report evidence sections
+- [x] Add polished report action states for PDF and sharing
+- [x] Add report preview coverage for evidence sections
