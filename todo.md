@@ -80,3 +80,6 @@
 - [x] Add bounded zoom range for saved photos
 - [x] Clamp pan offsets while a photo is zoomed
 - [x] Add reset behavior that clears all media transforms
+- [x] Add smoother zoom transitions and release-state cleanup
+- [x] Add stronger report media fallback handling
+- [x] Add deterministic coverage for bounded media/report behavior
