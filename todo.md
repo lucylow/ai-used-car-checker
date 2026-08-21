@@ -101,3 +101,6 @@
 - [x] Add actual photo-content bounds to double-tap focus calculations
 - [x] Add richer report media entries for exported PDFs
 - [x] Add deterministic coverage for photo metadata and report fallback output
+- [x] Add focus animation that respects measured photo content bounds
+- [x] Add richer photo evidence details to PDF output
+- [x] Add deterministic coverage for formatted photo evidence
