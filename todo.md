@@ -36,3 +36,6 @@
 - [x] Store multiple completed inspections locally
 - [x] Add delete and duplicate confirmation flows for saved inspections
 - [x] Add photo-slot capture, thumbnail, and remove interactions
+- [x] Replace photo slots with Expo image picker and permission handling
+- [ ] Add delete/duplicate confirmation and undo feedback
+- [x] Add saved inspection detail view with photo and issue summary

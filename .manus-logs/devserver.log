@@ -150,3 +150,49 @@
 [2026-08-21T22:54:25.640Z] LOG  [web] Logs will appear in the browser console
 [2026-08-21T22:54:35.440Z] [ELIFECYCLE] Command failed.
 [2026-08-21T22:54:35.447Z] Dev server exited with code -1
+[2026-08-21T22:54:36.547Z] Starting dev server with command: pnpm run dev
+[2026-08-21T22:54:37.069Z] $ expo start
+[2026-08-21T22:54:37.358Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-21T22:54:38.170Z] Starting Metro Bundler
+[2026-08-21T22:54:38.281Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-21T22:54:38.282Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-21T22:54:38.282Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-21T22:54:38.282Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-21T22:54:38.282Z] Waiting on http://localhost:8081
+[2026-08-21T22:54:38.282Z] Logs for your project will appear below.
+[2026-08-21T22:54:41.591Z] Web Bundled 245ms index.js (230 modules)
+[2026-08-21T22:54:42.149Z] LOG  [web] Logs will appear in the browser console
+[2026-08-21T22:56:24.933Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-21T22:56:24.946Z] Web Bundled 14ms index.js (1 module)
+[2026-08-21T22:56:27.665Z] LOG  [web] Logs will appear in the browser console
+[2026-08-21T22:56:30.297Z] /home/ubuntu/ai-used-car-checker/node_modules/.pnpm/@expo+cli@54.0.27_expo@54.0.37_@babel+core@7.29.7_supports-color@8.1.1__react-native@0._2c2f679f377e5e7fb43cf67bfe7a93c8/node_modules/@expo/cli/build/src/utils/errors.js:130
+[2026-08-21T22:56:30.297Z] throw error;
+[2026-08-21T22:56:30.297Z] ^
+[2026-08-21T22:56:30.297Z] Error: ENOENT: no such file or directory, watch '/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/expo-image-loader@6.0.0_expo@54.0.37_@babel+core@7.29.7_supports-color@8.1.1__react-nat_5f945ecf44313594adf5feca0c5ddae2/node_modules/expo-image-loader/android'
+[2026-08-21T22:56:30.297Z] at FSWatcher.<computed> (node:internal/fs/watchers:247:19)
+[2026-08-21T22:56:30.297Z] at Object.watch (node:fs:2550:36)
+[2026-08-21T22:56:30.297Z] at FallbackWatcher._watchdir (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/watchers/FallbackWatcher.js:119:33)
+[2026-08-21T22:56:30.297Z] at /home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/watchers/FallbackWatcher.js:219:22
+[2026-08-21T22:56:30.297Z] at Walker.<anonymous> (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/watchers/FallbackWatcher.js:358:5)
+[2026-08-21T22:56:30.297Z] at Walker.emit (node:events:524:28)
+[2026-08-21T22:56:30.297Z] at /home/ubuntu/ai-used-car-checker/node_modules/.pnpm/walker@1.0.8/node_modules/walker/lib/walker.js:69:16
+[2026-08-21T22:56:30.297Z] at FSReqCallback.oncomplete (node:fs:188:23) {
+[2026-08-21T22:56:30.297Z] errno: -2,
+[2026-08-21T22:56:30.297Z] syscall: 'watch',
+[2026-08-21T22:56:30.297Z] code: 'ENOENT',
+[2026-08-21T22:56:30.297Z] path: '/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/expo-image-loader@6.0.0_expo@54.0.37_@babel+core@7.29.7_supports-color@8.1.1__react-nat_5f945ecf44313594adf5feca0c5ddae2/node_modules/expo-image-loader/android',
+[2026-08-21T22:56:30.297Z] filename: '/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/expo-image-loader@6.0.0_expo@54.0.37_@babel+core@7.29.7_supports-color@8.1.1__react-nat_5f945ecf44313594adf5feca0c5ddae2/node_modules/expo-image-loader/android'
+[2026-08-21T22:56:30.297Z] }
+[2026-08-21T22:56:30.297Z] Node.js v22.13.0
+[2026-08-21T22:56:30.344Z] [ELIFECYCLE] Command failed with exit code 7.
+[2026-08-21T22:56:30.361Z] Dev server exited with code 7
+[2026-08-21T22:57:18.368Z] Starting dev server with command: pnpm run dev
+[2026-08-21T22:57:18.915Z] $ expo start
+[2026-08-21T22:57:19.225Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-21T22:57:20.014Z] Starting Metro Bundler
+[2026-08-21T22:57:20.120Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-21T22:57:20.120Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-21T22:57:20.120Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-21T22:57:20.120Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-21T22:57:20.121Z] Waiting on http://localhost:8081
+[2026-08-21T22:57:20.121Z] Logs for your project will appear below.
