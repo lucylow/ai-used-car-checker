@@ -71,3 +71,6 @@
 - [x] Add swipe gesture navigation between saved photos
 - [x] Add accessibility labels and hints to photo viewer controls
 - [x] Add improved report/share action feedback
+- [x] Add pinch-to-zoom for saved inspection photos
+- [x] Add zoom reset and media-viewer feedback
+- [x] Add report media fallback handling for unavailable local image URIs
