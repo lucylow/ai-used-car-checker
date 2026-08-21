@@ -47,3 +47,6 @@
 - [x] Add robust persistence error handling and save-status feedback
 - [x] Add report export/share text generation utility
 - [x] Preserve image metadata and handle canceled picker results cleanly
+- [x] Add image metadata normalization and lightweight persistence safeguards
+- [x] Add dedicated report export preview and share actions
+- [x] Add report fallback handling when native sharing is unavailable
