@@ -95,3 +95,6 @@
 - [x] Add animated focus transition for double-tap zoom
 - [x] Clean up active gesture animations when closing or switching photos
 - [x] Add deterministic coverage for viewer transform reset behavior
+- [x] Track actual rendered photo bounds for zoom focus
+- [x] Add richer report media rows and fallbacks
+- [x] Add deterministic coverage for media metadata formatting
