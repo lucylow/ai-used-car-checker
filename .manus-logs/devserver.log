@@ -295,3 +295,37 @@
 [2026-08-21T23:05:54.655Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
 [2026-08-21T23:05:54.668Z] Web Bundled 13ms index.js (1 module)
 [2026-08-21T23:05:54.859Z] LOG  [web] Logs will appear in the browser console
+[2026-08-21T23:07:26.593Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-21T23:07:26.607Z] Web Bundled 15ms index.js (1 module)
+[2026-08-21T23:07:27.837Z] LOG  [web] Logs will appear in the browser console
+[2026-08-21T23:07:54.494Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-21T23:07:54.512Z] Web Bundled 18ms index.js (1 module)
+[2026-08-21T23:07:56.459Z] LOG  [web] Logs will appear in the browser console
+[2026-08-21T23:08:16.958Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-21T23:08:16.971Z] Web Bundled 13ms index.js (1 module)
+[2026-08-21T23:08:17.158Z] LOG  [web] Logs will appear in the browser console
+[2026-08-21T23:09:16.435Z] /home/ubuntu/ai-used-car-checker/node_modules/.pnpm/@expo+cli@54.0.27_expo@54.0.37_@babel+core@7.29.7_supports-color@8.1.1__react-native@0._2c2f679f377e5e7fb43cf67bfe7a93c8/node_modules/@expo/cli/build/src/utils/errors.js:130
+[2026-08-21T23:09:16.435Z] throw error;
+[2026-08-21T23:09:16.435Z] ^
+[2026-08-21T23:09:16.435Z] Error: ENOENT: no such file or directory, watch '/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/expo-sharing@14.0.8_expo@54.0.37_@babel+core@7.29.7_supports-color@8.1.1__react-native@_f787e068f094057ff2481a58279fdc3f/node_modules/expo-sharing/android/src/main/res'
+[2026-08-21T23:09:16.435Z] at FSWatcher.<computed> (node:internal/fs/watchers:247:19)
+[2026-08-21T23:09:16.435Z] at Object.watch (node:fs:2550:36)
+[2026-08-21T23:09:16.435Z] at FallbackWatcher._watchdir (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/watchers/FallbackWatcher.js:119:33)
+[2026-08-21T23:09:16.435Z] at /home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/watchers/FallbackWatcher.js:219:22
+[2026-08-21T23:09:16.435Z] at Walker.<anonymous> (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/watchers/FallbackWatcher.js:358:5)
+[2026-08-21T23:09:16.435Z] at Walker.emit (node:events:524:28)
+[2026-08-21T23:09:16.435Z] at /home/ubuntu/ai-used-car-checker/node_modules/.pnpm/walker@1.0.8/node_modules/walker/lib/walker.js:69:16
+[2026-08-21T23:09:16.435Z] at FSReqCallback.oncomplete (node:fs:188:23) {
+[2026-08-21T23:09:16.435Z] errno: -2,
+[2026-08-21T23:09:16.435Z] syscall: 'watch',
+[2026-08-21T23:09:16.435Z] code: 'ENOENT',
+[2026-08-21T23:09:16.435Z] path: '/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/expo-sharing@14.0.8_expo@54.0.37_@babel+core@7.29.7_supports-color@8.1.1__react-native@_f787e068f094057ff2481a58279fdc3f/node_modules/expo-sharing/android/src/main/res',
+[2026-08-21T23:09:16.435Z] filename: '/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/expo-sharing@14.0.8_expo@54.0.37_@babel+core@7.29.7_supports-color@8.1.1__react-native@_f787e068f094057ff2481a58279fdc3f/node_modules/expo-sharing/android/src/main/res'
+[2026-08-21T23:09:16.435Z] }
+[2026-08-21T23:09:16.435Z] Node.js v22.13.0
+[2026-08-21T23:09:16.493Z] [ELIFECYCLE] Command failed with exit code 7.
+[2026-08-21T23:09:16.512Z] Dev server exited with code 7
+[2026-08-21T23:10:32.004Z] Starting dev server with command: pnpm run dev
+[2026-08-21T23:10:32.556Z] $ expo start
+[2026-08-21T23:10:32.863Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-21T23:10:33.731Z] Starting Metro Bundler

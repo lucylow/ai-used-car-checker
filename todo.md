@@ -50,3 +50,6 @@
 - [x] Add image metadata normalization and lightweight persistence safeguards
 - [x] Add dedicated report export preview and share actions
 - [x] Add report fallback handling when native sharing is unavailable
+- [x] Add native PDF/report file export action
+- [x] Add image compression or size safeguards before persistence
+- [x] Add deterministic report utility coverage
