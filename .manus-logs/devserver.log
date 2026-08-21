@@ -67,3 +67,8 @@
 [2026-08-21T22:44:53.329Z] [ERR_PNPM_NO_SCRIPT] Missing script: dev
 [2026-08-21T22:44:53.329Z] Command "dev" not found.
 [2026-08-21T22:44:53.348Z] Dev server exited with code 1
+[2026-08-21T22:47:34.770Z] Starting dev server with command: pnpm run dev
+[2026-08-21T22:47:35.324Z] $ expo start
+[2026-08-21T22:47:35.632Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-21T22:47:36.292Z] Starting Metro Bundler
+[2026-08-21T22:47:36.356Z] TypeScript: A tsconfig.json has been auto-generated

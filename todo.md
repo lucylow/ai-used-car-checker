@@ -21,3 +21,9 @@
 - [ ] Save a final checkpoint for delivery
 - [x] Add a reusable UI component layer for buttons, inputs, cards, badges, loading, empty states, and feedback
 
+- [x] Improve local inspection persistence and restore the active inspection on launch
+- [x] Add checklist pass/watch/issue state with visible progress updates
+- [ ] Add issue editor and remove/undo interactions
+- [x] Add input validation and clearer empty/loading/error feedback
+- [x] Add a managed dev script for the project preview
+- [x] Add deterministic tests for inspection calculations and VIN validation

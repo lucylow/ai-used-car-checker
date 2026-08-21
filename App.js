@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
@@ -38,7 +39,30 @@ export default function App() {
     { name: 'Door paint scratch', severity: 'minor', cost: 180 },
   ]);
   const [ranAI, setRanAI] = useState(false);
+  const [checklist, setChecklist] = useState({});
+  const [restored, setRestored] = useState(false);
   const repairTotal = useMemo(() => issues.reduce((sum, issue) => sum + issue.cost, 0), [issues]);
+  const checklistComplete = Object.values(checklist).filter(Boolean).length;
+
+  useEffect(() => {
+    AsyncStorage.getItem('carwise-inspection').then((raw) => {
+      try {
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        if (saved.vehicle) setVehicle(saved.vehicle);
+        if (saved.issues) setIssues(saved.issues);
+        if (saved.checklist) setChecklist(saved.checklist);
+      } catch (_) {
+        // Ignore malformed local data and keep the safe defaults.
+      } finally {
+        setRestored(true);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (restored) AsyncStorage.setItem('carwise-inspection', JSON.stringify({ vehicle, issues, checklist }));
+  }, [vehicle, issues, checklist, restored]);
 
   const startInspection = () => { setScreen('new'); setTab('Home'); };
   const saveInspection = () => { setScreen('summary'); };
@@ -52,8 +76,8 @@ export default function App() {
       <TouchableOpacity style={styles.primaryButton} onPress={startInspection}><Text style={styles.primaryButtonText}>Start a new inspection</Text><Text style={styles.buttonArrow}>→</Text></TouchableOpacity>
       <Card style={styles.activeCard}>
         <View style={styles.rowBetween}><View><Text style={styles.cardEyebrow}>ACTIVE INSPECTION</Text><Text style={styles.cardTitle}>{vehicle.year} {vehicle.make} {vehicle.model}</Text></View><Pill tone="amber">IN PROGRESS</Pill></View>
-        <View style={styles.progressTrack}><View style={[styles.progressFill, { width: '62%' }]} /></View>
-        <View style={styles.rowBetween}><Text style={styles.muted}>Checklist 62% complete</Text><TouchableOpacity onPress={() => setScreen('summary')}><Text style={styles.link}>Continue →</Text></TouchableOpacity></View>
+        <View style={styles.progressTrack}><View style={[styles.progressFill, { width: `${Math.max(8, (checklistComplete / 5) * 100)}%` }]} /></View>
+        <View style={styles.rowBetween}><Text style={styles.muted}>Checklist {Math.round((checklistComplete / 5) * 100)}% complete</Text><TouchableOpacity onPress={() => setScreen('summary')}><Text style={styles.link}>Continue →</Text></TouchableOpacity></View>
       </Card>
       <Text style={styles.sectionTitle}>Quick tools</Text>
       <View style={styles.toolGrid}>{tools.map(([label, description]) => <TouchableOpacity key={label} style={styles.toolCard} onPress={() => setScreen(label.toLowerCase())}><Text style={styles.toolLabel}>{label}</Text><Text style={styles.toolDescription}>{description}</Text></TouchableOpacity>)}</View>
@@ -68,7 +92,7 @@ export default function App() {
 
   const Checklist = () => {
     const rows = [['Exterior', 'Paint, glass, lights'], ['Tires & brakes', 'Wear, pressure, stopping'], ['Engine bay', 'Leaks, fluids, belts'], ['Interior', 'Controls, odor, electronics'], ['Test drive', 'Steering, handling, noise']];
-    return <ScrollView contentContainerStyle={styles.content}><Text style={styles.back} onPress={() => setScreen('new')}>‹ Vehicle details</Text><Text style={styles.pageTitle}>Inspection checklist</Text><Text style={styles.pageBody}>Mark anything that feels different, worn, or unsafe.</Text>{rows.map(([title, subtitle], index) => <TouchableOpacity key={title} style={styles.checkRow} onPress={() => index === 4 ? setScreen('test') : null}><View style={[styles.checkIcon, { backgroundColor: index < 2 ? `${COLORS.mint}20` : `${COLORS.blue}20` }]}><Text style={{ color: index < 2 ? COLORS.mint : COLORS.blue, fontWeight: '800' }}>{index < 2 ? '✓' : '•'}</Text></View><View style={{ flex: 1 }}><Text style={styles.cardTitle}>{title}</Text><Text style={styles.muted}>{subtitle}</Text></View><Text style={styles.chevron}>›</Text></TouchableOpacity>)}<TouchableOpacity style={styles.secondaryButton} onPress={() => setScreen('photos')}><Text style={styles.secondaryButtonText}>Add photos for AI analysis</Text></TouchableOpacity><TouchableOpacity style={styles.primaryButton} onPress={saveInspection}><Text style={styles.primaryButtonText}>Save inspection</Text><Text style={styles.buttonArrow}>→</Text></TouchableOpacity></ScrollView>;
+    return <ScrollView contentContainerStyle={styles.content}><Text style={styles.back} onPress={() => setScreen('new')}>‹ Vehicle details</Text><Text style={styles.pageTitle}>Inspection checklist</Text><Text style={styles.pageBody}>Mark anything that feels different, worn, or unsafe.</Text>{rows.map(([title, subtitle], index) => { const done = Boolean(checklist[title]); return <TouchableOpacity key={title} style={styles.checkRow} onPress={() => { if (index === 4) setScreen('test'); setChecklist((current) => ({ ...current, [title]: !current[title] })); }}><View style={[styles.checkIcon, { backgroundColor: done ? `${COLORS.mint}20` : `${COLORS.blue}20` }]}><Text style={{ color: done ? COLORS.mint : COLORS.blue, fontWeight: '800' }}>{done ? '✓' : '•'}</Text></View><View style={{ flex: 1 }}><Text style={styles.cardTitle}>{title}</Text><Text style={styles.muted}>{done ? 'Marked complete' : subtitle}</Text></View><Text style={styles.chevron}>›</Text></TouchableOpacity>; })}<TouchableOpacity style={styles.secondaryButton} onPress={() => setScreen('photos')}><Text style={styles.secondaryButtonText}>Add photos for AI analysis</Text></TouchableOpacity><TouchableOpacity style={styles.primaryButton} onPress={saveInspection}><Text style={styles.primaryButtonText}>Save inspection</Text><Text style={styles.buttonArrow}>→</Text></TouchableOpacity></ScrollView>;
   };
 
   const AI = () => <ScrollView contentContainerStyle={styles.content}><Text style={styles.back} onPress={() => setScreen('checklist')}>‹ Checklist</Text><Text style={styles.pageTitle}>AI analysis</Text><Text style={styles.pageBody}>Prototype insights from your vehicle details and inspection photos.</Text>{!ranAI ? <Card style={styles.aiPrompt}><Text style={styles.aiGlyph}>✦</Text><Text style={styles.cardTitle}>Ready to scan this inspection?</Text><Text style={styles.muted}>We’ll surface likely issues, prioritize repairs, and estimate a fair price.</Text><TouchableOpacity style={styles.primaryButton} onPress={runAnalysis}><Text style={styles.primaryButtonText}>Run analysis</Text><Text style={styles.buttonArrow}>→</Text></TouchableOpacity></Card> : <><Card style={styles.priceCard}><Text style={styles.cardEyebrow}>AI-SUGGESTED FAIR PRICE</Text><Text style={styles.price}>$19,400</Text><Text style={styles.muted}>Asking price is ${vehicle.asking}; room to negotiate is visible.</Text></Card><Text style={styles.sectionTitle}>Detected issues</Text>{issues.map((issue) => <Card key={issue.name}><View style={styles.rowBetween}><View style={{ flex: 1 }}><Text style={styles.cardTitle}>{issue.name}</Text><Text style={styles.muted}>Estimated repair · ${issue.cost}</Text></View><Pill tone={issue.severity === 'critical' ? 'coral' : issue.severity === 'major' ? 'amber' : 'mint'}>{issue.severity.toUpperCase()}</Pill></View></Card>)}<Card><Text style={styles.cardTitle}>Negotiation coach</Text><Text style={styles.tip}>Use ${repairTotal} in estimated repairs as your evidence, and open below the fair-price estimate.</Text><Text style={styles.tip}>Lead with the critical safety issue before discussing cosmetic items.</Text></Card></>}</ScrollView>;
