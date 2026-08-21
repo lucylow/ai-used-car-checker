@@ -23,7 +23,10 @@
 
 - [x] Improve local inspection persistence and restore the active inspection on launch
 - [x] Add checklist pass/watch/issue state with visible progress updates
-- [ ] Add issue editor and remove/undo interactions
+- [x] Add issue editor and remove/undo interactions
 - [x] Add input validation and clearer empty/loading/error feedback
 - [x] Add a managed dev script for the project preview
 - [x] Add deterministic tests for inspection calculations and VIN validation
+- [ ] Add issue editing and removal interactions
+- [x] Add stronger vehicle form validation and inline feedback
+- [x] Add actionable summary controls for repairs and negotiation
