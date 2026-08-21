@@ -86,3 +86,6 @@
 - [x] Add inertial pan release animation for zoomed photos
 - [x] Add focused double-tap zoom behavior
 - [x] Ensure navigation and close reset all transforms safely
+- [x] Bound inertial decay after zoomed-photo pan release
+- [x] Add photo-viewer transform cleanup on unmount or close
+- [x] Add performance-safe image rendering hints
