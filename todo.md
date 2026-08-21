@@ -77,3 +77,6 @@
 - [x] Add double-tap zoom toggle for saved photos
 - [x] Add pan behavior while a photo is zoomed
 - [x] Add reset and accessibility feedback for zoomed media
+- [x] Add bounded zoom range for saved photos
+- [x] Clamp pan offsets while a photo is zoomed
+- [x] Add reset behavior that clears all media transforms
