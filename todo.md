@@ -98,3 +98,6 @@
 - [x] Track actual rendered photo bounds for zoom focus
 - [x] Add richer report media rows and fallbacks
 - [x] Add deterministic coverage for media metadata formatting
+- [x] Add actual photo-content bounds to double-tap focus calculations
+- [x] Add richer report media entries for exported PDFs
+- [x] Add deterministic coverage for photo metadata and report fallback output
