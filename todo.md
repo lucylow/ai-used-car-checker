@@ -74,3 +74,6 @@
 - [x] Add pinch-to-zoom for saved inspection photos
 - [x] Add zoom reset and media-viewer feedback
 - [x] Add report media fallback handling for unavailable local image URIs
+- [x] Add double-tap zoom toggle for saved photos
+- [x] Add pan behavior while a photo is zoomed
+- [x] Add reset and accessibility feedback for zoomed media
