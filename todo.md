@@ -62,3 +62,6 @@
 - [x] Add dedicated saved inspection detail screen
 - [x] Add saved-at timestamp and report metadata to detail/export views
 - [x] Add image thumbnails and issue severity breakdown to saved details
+- [x] Add full-screen viewer for saved inspection photos
+- [x] Add inspection timestamp to report preview and PDF metadata
+- [x] Add clearer photo viewer close and navigation feedback
