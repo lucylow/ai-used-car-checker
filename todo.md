@@ -333,3 +333,7 @@
 - [x] Implement confirmation-safe reset behavior and status feedback
 - [x] Add deterministic tests for confirmation behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit local-operation failure state and retry queue lifecycle
+- [x] Implement persistent status center and retry-all feedback
+- [x] Add deterministic tests for status-center behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
