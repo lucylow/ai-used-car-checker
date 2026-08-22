@@ -199,3 +199,7 @@
 - [x] Improve the highest-impact report or history reliability gap
 - [x] Add deterministic tests for the new behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit vehicle validation and report-readiness consistency for remaining gaps
+- [x] Improve the highest-impact inspection-flow reliability gap
+- [x] Add deterministic tests for the new behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

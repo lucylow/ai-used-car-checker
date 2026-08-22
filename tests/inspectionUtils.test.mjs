@@ -43,7 +43,10 @@ test('formats canceled-flow guidance consistently', () => {
 
 test('reports main inspection flow readiness consistently', () => {
   assert.deepEqual(getMainFlowReadiness({ vehicle: { make: '', model: '' }, checklist: {}, photos: [] }), { ready: false, missing: ['vehicle details', 'checklist', 'photo evidence'] });
-  assert.equal(getMainFlowReadiness({ vehicle: { make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).ready, true);
+  assert.equal(getMainFlowReadiness({ vehicle: { make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).ready, false);
+  assert.deepEqual(getMainFlowReadiness({ vehicle: { year: '20', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).missing, ['vehicle details']);
+  assert.deepEqual(getMainFlowReadiness({ vehicle: { year: '2020', make: '  ', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).missing, ['vehicle details']);
+  assert.equal(getMainFlowReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).ready, true);
 });
 
 test('formats functional action labels consistently', () => {
@@ -125,6 +128,7 @@ test('reports readiness with precise missing sections', () => {
   const incomplete = getReportReadiness({ vehicle: { make: 'Honda' }, checklist: { Exterior: true }, photos: [] });
   assert.equal(incomplete.ready, false);
   assert.deepEqual(incomplete.missing, ['vehicle details', 'checklist', 'photo evidence']);
+  assert.deepEqual(getReportReadiness({ vehicle: { year: '2020', make: ' ', model: 'Accord' }, checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [{ id: 'p1' }] }).missing, ['vehicle details']);
   const ready = getReportReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [{ id: 'p1' }] });
   assert.equal(ready.ready, true);
   assert.deepEqual(ready.missing, []);

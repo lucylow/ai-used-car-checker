@@ -174,7 +174,7 @@ export default function App() {
     setSavedInspections((current) => [snapshot, ...current.filter((item) => !shouldReplaceSavedInspection(item.vehicle, vehicle))].slice(0, 10));
     setScreen('summary');
   };
-  const runAnalysis = () => { const flow = getMainFlowReadiness({ vehicle, checklist, photos }); if (!vehicle.make.trim() || !vehicle.model.trim()) { setFormError(`Add ${flow.missing.includes('vehicle details') ? 'the vehicle make and model' : 'vehicle details'} before running analysis.`); setScreen('new'); return; } if (!photos.length) setSaveStatus('Analysis uses vehicle details only; add photos for stronger evidence.'); setRanAI(true); setIssues((current) => current.some((i) => i.name === 'Rust underneath') ? current : [...current, { name: 'Rust underneath', severity: 'critical', cost: 850, note: 'Detected from inspection imagery' }]); setScreen('ai'); };
+  const runAnalysis = () => { const flow = getMainFlowReadiness({ vehicle, checklist, photos }); if (flow.missing.includes('vehicle details')) { setFormError('Add a four-digit year, make, and model before running analysis.'); setScreen('new'); return; } if (!photos.length) setSaveStatus('Analysis uses vehicle details only; add photos for stronger evidence.'); setRanAI(true); setIssues((current) => current.some((i) => i.name === 'Rust underneath') ? current : [...current, { name: 'Rust underneath', severity: 'critical', cost: 850, note: 'Detected from inspection imagery' }]); setScreen('ai'); };
   const openIssueEditor = (issue) => { setEditingIssue(issue); setIssueDraft({ severity: issue.severity, cost: String(issue.cost), note: issue.note || '' }); };
   const saveIssueEdit = () => { if (!editingIssue) return; setIssues((current) => current.map((item) => item.name === editingIssue.name ? { ...item, severity: issueDraft.severity, cost: Math.max(0, Number(issueDraft.cost) || 0), note: issueDraft.note } : item)); setEditingIssue(null); };
   const addPickedPhoto = async (asset) => { setPhotoBusy(true); setSaveStatus(getProcessingLabel('photo', 'working')); setLastLocalAction(getOperationStatusLabel('photo', 'working')); let normalized = asset; try { if (asset.uri && !asset.uri.startsWith('data:')) { const compressed = await ImageManipulator.manipulateAsync(asset.uri, [{ resize: { width: 1200 } }], { compress: 0.72, format: ImageManipulator.SaveFormat.JPEG });
@@ -207,7 +207,7 @@ export default function App() {
   };
   const exportReportPdf = async () => {
     const flow = getMainFlowReadiness({ vehicle, checklist, photos });
-    if (!vehicle.make.trim() || !vehicle.model.trim()) { setSaveStatus(`Add ${flow.missing.includes('vehicle details') ? 'vehicle details' : 'the missing inspection details'} before exporting a PDF report.`); setScreen('new'); return; }
+    if (flow.missing.includes('vehicle details')) { setSaveStatus('Add a four-digit year, make, and model before exporting a PDF report.'); setScreen('new'); return; }
     const generatedAt = new Date().toLocaleString();
     const report = `${buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice: 19400, riskScore })}\nGenerated: ${generatedAt}`;
     const issueRows = issues.map((issue) => `<li><strong>${issue.severity.toUpperCase()}</strong> · ${issue.name} · $${issue.cost}</li>`).join('');
