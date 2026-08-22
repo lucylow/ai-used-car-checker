@@ -357,3 +357,7 @@
 - [x] Implement persistent restore notice and recovery actions
 - [x] Add deterministic tests for restore-notice behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit saved inspection data and AI timeline presentation
+- [x] Implement AI timeline details in inspection history
+- [x] Add deterministic tests for history AI timeline behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

@@ -10,6 +10,7 @@ export const normalizeSavedInspection = (item = {}) => {
     issues: Array.isArray(item.issues) ? item.issues.filter(isRecord) : [],
     checklist: isRecord(item.checklist) ? item.checklist : {},
     photos: Array.isArray(item.photos) ? item.photos.filter(isRecord) : [],
+    aiHistory: Array.isArray(item.aiHistory) ? item.aiHistory.filter(isRecord).slice(-6) : [],
     savedAt: item.savedAt || new Date(0).toISOString(),
   };
 };
