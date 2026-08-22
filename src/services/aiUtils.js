@@ -13,6 +13,11 @@ export const getEvidenceAudit = ({ vehicle = {}, checklist = {}, photos = [], is
   return { confirmed, suggested, missing, usablePhotoCount };
 };
 
+export const getPhotoEvidenceReview = (photos = []) => {
+  const prompts = ['Check exterior panels, glass, and lights for visible damage.', 'Check tires and brake area for wear, leaks, or warning signs.', 'Check the engine bay for leaks, corrosion, or missing components.', 'Check the interior controls, warning lights, and upholstery condition.'];
+  return (Array.isArray(photos) ? photos : []).filter((photo) => photo?.uri).map((photo, index) => ({ id: photo.id || `photo-${index + 1}`, label: photo.fileName || `Photo ${index + 1}`, status: 'needs-confirmation', provider: 'local evidence checklist', guidance: prompts[index] || 'Review this image for visible condition changes and document anything unusual.', limitation: 'This review uses photo metadata and a structured prompt only; it is not a visual diagnosis.' }));
+};
+
 export const resetAiHistory = () => [];
 
 export const getAiEvidenceActions = ({ missing = [] } = {}) => {

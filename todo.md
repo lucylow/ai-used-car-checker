@@ -377,3 +377,7 @@
 - [x] Add clear recovery-log empty and queued-state guidance
 - [x] Add deterministic tests for recovery-log presentation helpers
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Add server-side multimodal photo-analysis boundary with structured safe output
+- [x] Add user-controlled photo analysis trigger and review state
+- [x] Add deterministic tests for photo-analysis normalization and fallback behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
