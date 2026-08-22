@@ -711,6 +711,9 @@ test('upserts field-note provenance deterministically and removes only the reque
   assert.equal(updated.market.note.length, 1000);
   assert.equal(updated.market.savedAt, '2026-08-22T12:00:00.000Z');
   assert.equal(updated.market.source, 'Mechanic');
+  const roundTrip = parseInspectionBackup(serializeInspectionBackup({ vehicle: {}, issues: [], checklist: {}, photos: [], toolNotes: updated, savedInspections: [] }));
+  assert.equal(roundTrip.toolNotes.market.source, 'Mechanic');
+  assert.equal(roundTrip.toolNotes.market.savedAt, '2026-08-22T12:00:00.000Z');
   assert.equal(updated.history.note, 'Title checked');
   const removed = removeToolNote(updated, 'market');
   assert.equal(removed.market, undefined);
