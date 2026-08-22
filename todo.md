@@ -144,3 +144,6 @@
 - [x] Add explicit report-action success and failure labels
 - [x] Prevent stale report action timers from updating after unmount
 - [x] Add deterministic coverage for report-action status formatting
+- [x] Add clear loading feedback for photo processing and report preparation
+- [x] Improve empty-state actions for photos and saved inspections
+- [x] Add deterministic coverage for processing-state labels
