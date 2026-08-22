@@ -141,3 +141,6 @@
 - [x] Add explicit active-inspection dirty-state feedback
 - [x] Add safer report preview close and unsaved-change guidance
 - [x] Add deterministic coverage for dirty-state display helpers
+- [x] Add explicit report-action success and failure labels
+- [x] Prevent stale report action timers from updating after unmount
+- [x] Add deterministic coverage for report-action status formatting

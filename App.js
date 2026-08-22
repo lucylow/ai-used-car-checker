@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getLocalSaveLabel } from './src/services/reportUtils';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getLocalSaveLabel, getReportActionStatus } from './src/services/reportUtils';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from './src/services/backupUtils';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness } from './src/services/historyUtils';
 import * as Print from 'expo-print';
@@ -78,6 +78,7 @@ export default function App() {
   const lastPhotoTap = useRef(0);
   const isPhotoZoomed = useRef(false);
   const undoTimer = useRef(null);
+  const reportActionTimer = useRef(null);
   const repairTotal = useMemo(() => issues.reduce((sum, issue) => sum + issue.cost, 0), [issues]);
   const checklistComplete = Object.values(checklist).filter(Boolean).length;
   const riskScore = Math.min(100, issues.reduce((score, issue) => score + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0));
@@ -138,7 +139,7 @@ export default function App() {
     if (restored) persistLocalCopy();
   }, [vehicle, issues, checklist, photos, savedInspections, restored]);
 
-  useEffect(() => () => { if (undoTimer.current) clearTimeout(undoTimer.current); }, []);
+  useEffect(() => () => { if (undoTimer.current) clearTimeout(undoTimer.current); if (reportActionTimer.current) clearTimeout(reportActionTimer.current); }, []);
 
   const exportLocalBackup = async () => { const backup = serializeInspectionBackup({ vehicle, issues, checklist, photos, savedInspections }); const uri = `${FileSystem.cacheDirectory}carwise-backup-${Date.now()}.json`; try { await FileSystem.writeAsStringAsync(uri, backup, { encoding: FileSystem.EncodingType.UTF8 }); if (await Sharing.isAvailableAsync()) { await Sharing.shareAsync(uri, { mimeType: 'application/json', dialogTitle: 'Export Carwise backup' }); setSaveStatus('Backup ready to share'); } else { await Share.share({ message: backup, title: 'Carwise backup' }); setSaveStatus('Backup opened for sharing'); } } catch (_) { setSaveStatus('Backup export unavailable'); } };
   const importLocalBackup = async () => { try { const result = await DocumentPicker.getDocumentAsync({ type: 'application/json', copyToCacheDirectory: true }); if (result.canceled || !result.assets?.[0]) return; const raw = await FileSystem.readAsStringAsync(result.assets[0].uri, { encoding: FileSystem.EncodingType.UTF8 }); const backup = parseInspectionBackup(raw); if (backup.vehicle) setVehicle(backup.vehicle); setIssues(backup.issues); setChecklist(backup.checklist); setPhotos(backup.photos); setSavedInspections(backup.savedInspections); setSaveStatus(`Backup restored · ${getBackupSummary(backup)}`); } catch (_) { setSaveStatus('Backup could not be restored'); } };
@@ -167,8 +168,8 @@ export default function App() {
   const executeHistoryAction = () => { if (!historyConfirm) return; const { action, item } = historyConfirm; if (undoTimer.current) clearTimeout(undoTimer.current); if (action === 'delete') { setSavedInspections((current) => current.filter((saved) => saved.id !== item.id)); setUndoItem(item); undoTimer.current = setTimeout(() => { setUndoItem(null); undoTimer.current = null; }, 5000); } else { setSavedInspections((current) => [{ ...item, id: `${Date.now()}`, savedAt: new Date().toISOString() }, ...current]); } setHistoryConfirm(null); setSaveStatus(getHistoryActionMessage(action)); };
   const pickFromLibrary = async () => { const result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], allowsEditing: true, aspect: [4, 3], quality: 0.8 }); if (!result.canceled && result.assets?.[0]) addPickedPhoto(result.assets[0]); };
   const takeInspectionPhoto = async () => { const permission = await ImagePicker.requestCameraPermissionsAsync(); if (permission.status !== 'granted') return; const result = await ImagePicker.launchCameraAsync({ allowsEditing: true, aspect: [4, 3], quality: 0.8 }); if (!result.canceled && result.assets?.[0]) addPickedPhoto(result.assets[0]); };
-  const runReportAction = async (label, action) => { if (reportBusy) return; setReportBusy(true); setReportAction(label); try { await action(); } finally { setReportBusy(false); setTimeout(() => setReportAction(''), 1800); } };
-  const shareReport = async () => { const report = buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice: 19400, riskScore }); try { await Share.share({ message: report, title: 'Carwise inspection report' }); setSaveStatus('Report shared'); } catch (_) { setSaveStatus('Share unavailable — report kept in preview'); setReportPreview(report); } };
+  const runReportAction = async (label, action) => { if (reportBusy) return; if (reportActionTimer.current) clearTimeout(reportActionTimer.current); setReportBusy(true); setReportAction(label); try { await action(); } finally { setReportBusy(false); reportActionTimer.current = setTimeout(() => { setReportAction(''); reportActionTimer.current = null; }, 1800); } };
+  const shareReport = async () => { const report = buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice: 19400, riskScore }); try { await Share.share({ message: report, title: 'Carwise inspection report' }); setSaveStatus('Report shared'); setReportAction(getReportActionStatus('share', 'success')); } catch (_) { setSaveStatus('Share unavailable — report kept in preview'); setReportAction(getReportActionStatus('share', 'error')); setReportPreview(report); } };
   const readPhotoForPdf = async (photo) => {
     if (!photo?.uri || photo.uri.startsWith('data:') || Platform.OS === 'web') return photo;
     try {
@@ -187,7 +188,7 @@ export default function App() {
     const photoRows = buildPhotoEvidenceHtml(reportPhotos);
     const priorityRows = formatRepairPriorityHtml(issues);
     const html = `<!DOCTYPE html><html><body style="font-family: -apple-system, sans-serif; padding: 28px; color: #111827"><div style="border-bottom: 6px solid #2F80ED; padding-bottom: 16px"><div style="font-size: 12px; letter-spacing: 3px; color: #2F80ED; font-weight: 800">CARWISE</div><div style="font-size: 11px; color: #667085">Generated ${generatedAt}</div><h1 style="margin-bottom: 4px">Inspection report</h1><div style="color: #667085">${vehicle.year} ${vehicle.make} ${vehicle.model}</div></div><div style="margin-top: 20px; padding: 16px; background: #F2F4F7; border-radius: 12px"><strong>Risk score: ${riskScore}/100</strong><br/>Estimated repairs: $${repairTotal}<br/>Photo evidence: ${photos.length} item(s)</div><h2>Detected issues</h2><ul>${issueRows || '<li>No issues recorded</li>'}</ul><h2>Repair priorities</h2><ol>${priorityRows || '<li>No repair priorities recorded</li>'}</ol><h2>Photo evidence</h2><div>${photoRows || '<span style="color:#667085">No photo evidence attached</span>'}</div><h2>Report details</h2><pre style="white-space: pre-wrap; font-size: 14px; line-height: 1.5">${report}</pre><footer style="margin-top:32px; padding-top:12px; border-top:1px solid #D0D5DD; color:#667085; font-size:11px">Carwise · Inspection guidance is informational and should be confirmed by a qualified mechanic.</footer></body></html>`;
-    try { const result = await Print.printToFileAsync({ html }); if (await Sharing.isAvailableAsync()) { await Sharing.shareAsync(result.uri, { mimeType: 'application/pdf', dialogTitle: 'Share Carwise report' }); setSaveStatus('PDF report ready'); } else { setSaveStatus('PDF created; sharing unavailable'); } } catch (_) { setSaveStatus('PDF export unavailable'); }
+    try { const result = await Print.printToFileAsync({ html }); if (await Sharing.isAvailableAsync()) { await Sharing.shareAsync(result.uri, { mimeType: 'application/pdf', dialogTitle: 'Share Carwise report' }); setSaveStatus('PDF report ready'); setReportAction(getReportActionStatus('pdf', 'success')); } else { setSaveStatus('PDF created; sharing unavailable'); setReportAction(getReportActionStatus('pdf', 'error')); } } catch (_) { setSaveStatus('PDF export unavailable'); setReportAction(getReportActionStatus('pdf', 'error')); }
   };
 
   const Home = () => (
