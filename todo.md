@@ -257,3 +257,7 @@
 - [x] Add retryable report action state without duplicate concurrent exports
 - [x] Add deterministic tests for report retry guidance
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit current runtime error paths and silent failure branches
+- [x] Add defensive error handling and actionable recovery feedback
+- [x] Add deterministic tests for new error states
+- [x] Re-run tests, type checks, lint, and Expo web export

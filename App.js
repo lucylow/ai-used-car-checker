@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getReportActionStatus, getReportRetryLabel, getProcessingLabel, getDurablePhotoFileName } from './src/services/reportUtils';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getLocalRestoreErrorGuidance, getReportActionStatus, getReportRetryLabel, getProcessingLabel, getDurablePhotoFileName } from './src/services/reportUtils';
 import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from './src/services/backupUtils';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from './src/services/historyUtils';
 import * as Print from 'expo-print';
@@ -152,13 +152,18 @@ export default function App() {
         if (saved.savedInspections) setSavedInspections(saved.savedInspections);
         if (saved.lastLocalAction) setLastLocalAction(saved.lastLocalAction);
       } catch (_) {
-        // Ignore malformed local data and keep the safe defaults.
+        setLastLocalAction('Local restore needs attention');
+        setSaveStatus(getLocalRestoreErrorGuidance('malformed'));
       } finally {
         setRestored(true);
       }
       ImagePicker.getPendingResultAsync().then((result) => {
         if (result && !result.canceled && result.assets?.[0]) addPickedPhoto(result.assets[0]);
-      }).catch(() => {});
+      }).catch(() => setSaveStatus('Could not restore a pending camera result; you can choose a photo again.'));
+    }).catch(() => {
+      setRestored(true);
+      setSaveState('error');
+      setSaveStatus(getLocalRestoreErrorGuidance('storage'));
     });
   }, []);
 
