@@ -325,3 +325,7 @@
 - [x] Implement durable AI timeline persistence and safe restore
 - [x] Add deterministic tests for persisted AI timeline behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit AI timeline controls and persisted-history lifecycle
+- [x] Implement timeline reset and user feedback safeguards
+- [x] Add deterministic tests for AI timeline reset behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

@@ -13,6 +13,8 @@ export const getEvidenceAudit = ({ vehicle = {}, checklist = {}, photos = [], is
   return { confirmed, suggested, missing, usablePhotoCount };
 };
 
+export const resetAiHistory = () => [];
+
 export const getAiEvidenceActions = ({ missing = [] } = {}) => {
   const gaps = Array.isArray(missing) ? missing : [];
   return gaps.flatMap((gap) => {

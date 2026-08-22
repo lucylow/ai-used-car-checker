@@ -5,7 +5,7 @@ import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel
 import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
@@ -151,6 +151,12 @@ test('replaces duplicate retry keys and drops repeatedly failing work at its lim
   assert.deepEqual(second, { succeeded: 0, failed: 1, dropped: 1 });
   assert.equal(attempts, 2);
   clearRetry('failing');
+});
+
+test('clears AI timeline state without mutating the current analysis', () => {
+  const history = [{ id: 'one', confidence: 64 }, { id: 'two', confidence: 78 }];
+  assert.deepEqual(resetAiHistory(history), []);
+  assert.equal(history.length, 2);
 });
 
 test('preserves a bounded AI timeline in local backups', () => {
