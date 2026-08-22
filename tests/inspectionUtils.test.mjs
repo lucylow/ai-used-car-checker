@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { getRepairTotal, getRiskScore, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getChecklistGuidance, getInspectionNavigationLabel, getLocalSaveLabel, getOperationStatusLabel, getProgressSummaryLabel, getRecoveryGuidance } from '../src/services/reportUtils.js';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveLabel, getOperationStatusLabel, getProgressSummaryLabel, getRecoveryGuidance } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness } from '../src/services/historyUtils.js';
 
@@ -27,6 +27,11 @@ test('filters and sorts saved inspections without mutating source data', () => {
   assert.deepEqual(repairs.map((item) => item.id), ['b', 'a']);
   assert.deepEqual(filterAndSortInspections(inspections, 'honda', 'newest').map((item) => item.id), ['a']);
   assert.deepEqual(inspections.map((item) => item.id), ['a', 'b']);
+});
+
+test('formats inspection action guidance consistently', () => {
+  assert.equal(getInspectionActionGuidance({ photoCount: 0, reportReady: false }), 'Complete the checklist and add photo evidence before sharing.');
+  assert.equal(getInspectionActionGuidance({ photoCount: 1, reportReady: true }), '1 photo attached · report ready to share.');
 });
 
 test('formats inspection navigation labels consistently', () => {

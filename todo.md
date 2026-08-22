@@ -162,3 +162,6 @@
 - [x] Add accessible back-navigation labels across inspection screens
 - [x] Add a clear resume-inspection action from the dashboard
 - [x] Add deterministic coverage for navigation guidance helpers
+- [x] Add a clearer photo evidence count and next-step prompt on the checklist
+- [x] Improve summary action labels for incomplete inspections
+- [x] Add deterministic coverage for inspection action guidance
