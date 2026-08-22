@@ -5,7 +5,7 @@ import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel
 import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiFindingExplanation, getAiReadinessMessage, getAiRecommendation, mergeAiFindings } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiFindingExplanation, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, mergeAiFindings } from '../src/services/aiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
@@ -14,6 +14,13 @@ test('derives transparent AI analysis from inspection evidence', () => {
   assert.equal(result.confidence, 89);
   assert.equal(result.fairPrice, 21456);
   assert.match(result.negotiation, /repair estimate/);
+});
+
+test('builds a severity-first explainable AI action plan', () => {
+  const plan = getAiPriorityPlan({ issues: [{ name: 'Cosmetic scratch', severity: 'minor', cost: 150 }, { name: 'Brake issue', severity: 'major', cost: 420 }], evidenceScore: 60 });
+  assert.deepEqual(plan.map((item) => item.name), ['Brake issue', 'Cosmetic scratch']);
+  assert.match(plan[0].why, /Major concern.*420.*60%/);
+  assert.match(plan[0].nextAction, /service records|repair estimate/i);
 });
 
 test('updates AI confidence as inspection evidence improves', () => {

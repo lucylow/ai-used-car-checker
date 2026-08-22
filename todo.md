@@ -293,3 +293,7 @@
 - [x] Add adaptive AI refresh and evidence-change guidance
 - [x] Add deterministic tests for adaptive AI behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit current AI issue prioritization and action-plan outputs
+- [x] Implement explainable priority ranking and action plan
+- [x] Add deterministic tests for AI prioritization behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
