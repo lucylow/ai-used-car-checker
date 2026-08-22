@@ -559,3 +559,8 @@
 - [x] Animate AI loading, progress feedback, and interactive button states
 - [x] Add deterministic animation behavior coverage
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Animate checklist completion progress and state changes
+- [x] Add reduced-motion-aware press feedback to primary actions and timeline filters
+- [x] Add deterministic coverage for animation state helpers
+- [x] Re-run full validation and save a new checkpoint
