@@ -1,5 +1,7 @@
 const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 
+export const formatCurrency = (value) => `$${(Number(value) || 0).toLocaleString('en-US')}`;
+
 export const formatPhotoEvidenceLabel = (photo = {}, index = 0) => {
   const name = photo.fileName ? ` · ${photo.fileName}` : '';
   const dimensions = photo.width && photo.height ? ` · ${photo.width}×${photo.height}` : '';
@@ -29,8 +31,8 @@ export function buildInspectionReport({ vehicle, issues, checklist, photos, fair
     `Mileage: ${vehicle.mileage || 'Not provided'}`,
     `Risk score: ${riskScore}/100`,
     `Issues found: ${issues.length} (${criticalCount} critical)`,
-    `Estimated repairs: $${repairTotal}`,
-    `AI fair price: $${fairPrice.toLocaleString()}`,
+    `Estimated repairs: ${formatCurrency(repairTotal)}`,
+    `AI fair price: ${formatCurrency(fairPrice)}`,
     `Checklist: ${completedSections}/5 sections complete`,
     `Photo evidence: ${photos.length} item(s)`,
     '',

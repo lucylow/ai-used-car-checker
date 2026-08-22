@@ -135,3 +135,6 @@
 - [x] Strengthen delete undo state and restore feedback
 - [x] Add clearer duplicate and delete action status messaging
 - [x] Add deterministic coverage for history action state transitions
+- [x] Add consistent report currency and issue-count formatting across summary and history
+- [x] Add report preview refresh feedback after inspection edits
+- [x] Add deterministic coverage for report display formatting
