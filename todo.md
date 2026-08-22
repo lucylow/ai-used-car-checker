@@ -180,3 +180,6 @@
 - [x] Add permission-denied feedback for camera and photo-library actions
 - [x] Add validation feedback for prototype tool inputs
 - [x] Add deterministic coverage for permission and input guidance helpers
+- [x] Add explicit canceled-action feedback for camera, library, and document picker flows
+- [x] Add safer empty-state actions for saved inspection details and prototype tools
+- [x] Add deterministic coverage for canceled-flow guidance helpers
