@@ -150,3 +150,6 @@
 - [x] Add persistent action history for recent local operations
 - [x] Improve photo and report error recovery messaging
 - [x] Add deterministic coverage for local operation status helpers
+- [x] Add clearer retry guidance after failed photo or backup actions
+- [x] Improve report preview readiness call-to-action copy
+- [x] Add deterministic coverage for recovery guidance labels

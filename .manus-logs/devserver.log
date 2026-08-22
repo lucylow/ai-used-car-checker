@@ -1696,3 +1696,62 @@
 [2026-08-22T01:33:43.660Z] Web ./index.js ▓░░░░░░░░░░░░░░░  6.9% ( 40/152)
 [2026-08-22T01:33:43.872Z] Web Bundled 382ms index.js (471 modules)
 [2026-08-22T01:33:45.826Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T01:34:18.999Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T01:34:19.017Z] Web Bundled 18ms index.js (1 module)
+[2026-08-22T01:34:19.312Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T01:34:47.435Z] [ELIFECYCLE] Command failed.
+[2026-08-22T01:34:47.441Z] Dev server exited with code -1
+[2026-08-22T01:34:48.542Z] Starting dev server with command: pnpm run dev
+[2026-08-22T01:34:49.093Z] $ expo start
+[2026-08-22T01:34:49.438Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T01:34:50.332Z] Starting Metro Bundler
+[2026-08-22T01:34:53.862Z] Web ./index.js ▓░░░░░░░░░░░░░░░  8.5% ( 35/120)
+[2026-08-22T01:34:54.166Z] Web Bundled 407ms index.js (420 modules)
+[2026-08-22T01:34:54.336Z] [ELIFECYCLE] Command failed.
+[2026-08-22T01:34:54.344Z] Dev server exited with code -1
+[2026-08-22T01:34:55.446Z] Starting dev server with command: pnpm run dev
+[2026-08-22T01:34:55.942Z] $ expo start
+[2026-08-22T01:34:56.184Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T01:34:56.815Z] Starting Metro Bundler
+[2026-08-22T01:35:00.455Z] [ELIFECYCLE] Command failed.
+[2026-08-22T01:35:00.461Z] Dev server exited with code -1
+[2026-08-22T01:35:01.566Z] Starting dev server with command: pnpm run dev
+[2026-08-22T01:35:02.082Z] $ expo start
+[2026-08-22T01:35:02.368Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T01:35:03.218Z] Starting Metro Bundler
+[2026-08-22T01:35:06.740Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T01:35:06.740Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T01:35:06.740Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T01:35:06.740Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T01:35:06.752Z] Waiting on http://localhost:8081
+[2026-08-22T01:35:06.752Z] Logs for your project will appear below.
+[2026-08-22T01:35:07.195Z] [ELIFECYCLE] Command failed.
+[2026-08-22T01:35:07.201Z] Dev server exited with code -1
+[2026-08-22T01:35:08.303Z] Starting dev server with command: pnpm run dev
+[2026-08-22T01:35:08.826Z] $ expo start
+[2026-08-22T01:35:09.132Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T01:35:09.948Z] Starting Metro Bundler
+[2026-08-22T01:35:10.057Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T01:35:10.057Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T01:35:10.057Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T01:35:10.057Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T01:35:10.058Z] Waiting on http://localhost:8081
+[2026-08-22T01:35:10.058Z] Logs for your project will appear below.
+[2026-08-22T01:35:13.559Z] Web ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 79.3% (130/146)
+[2026-08-22T01:35:14.456Z] Web Bundled 1072ms index.js (477 modules)
+[2026-08-22T01:35:16.951Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T01:35:32.931Z] [ELIFECYCLE] Command failed.
+[2026-08-22T01:35:32.937Z] Dev server exited with code -1
+[2026-08-22T01:35:34.043Z] Starting dev server with command: pnpm run dev
+[2026-08-22T01:35:34.562Z] $ expo start
+[2026-08-22T01:35:34.816Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T01:35:35.527Z] Starting Metro Bundler
+[2026-08-22T01:35:35.638Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T01:35:35.638Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T01:35:35.638Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T01:35:35.638Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T01:35:35.639Z] Waiting on http://localhost:8081
+[2026-08-22T01:35:35.639Z] Logs for your project will appear below.
+[2026-08-22T01:35:39.187Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T01:35:39.528Z] Web Bundled 379ms index.js (471 modules)
+[2026-08-22T01:35:40.729Z] LOG  [web] Logs will appear in the browser console

@@ -5,6 +5,7 @@ export const getLocalSaveLabel = (state) => ({ saving: 'Saving locally…', save
 export const getReportActionStatus = (action, outcome = 'working') => { const name = action === 'pdf' ? 'PDF report' : 'text report'; return outcome === 'success' ? `${name} ready` : outcome === 'error' ? `${name} unavailable` : `Preparing ${name}…`; };
 export const getProcessingLabel = (kind, state) => { const name = kind === 'photo' ? 'photo' : 'report'; return state === 'working' ? `Processing ${name}…` : state === 'success' ? `${name[0].toUpperCase()}${name.slice(1)} ready` : state === 'error' ? `${name[0].toUpperCase()}${name.slice(1)} unavailable` : ''; };
 export const getOperationStatusLabel = (operation, outcome = 'success') => { const name = ({ photo: 'Photo', backup: 'Backup', restore: 'Backup restore', delete: 'Inspection deletion', duplicate: 'Inspection duplicate' }[operation] || 'Local operation'); return outcome === 'working' ? `${name} in progress…` : outcome === 'error' ? `${name} needs attention` : `${name} complete`; };
+export const getRecoveryGuidance = (operation, outcome = 'error') => { const name = ({ photo: 'photo', backup: 'backup', restore: 'backup restore', report: 'report' }[operation] || 'action'); return outcome === 'error' ? `Could not complete ${name}. Try again when ready.` : `Your ${name} is ready.`; };
 
 export const formatPhotoEvidenceLabel = (photo = {}, index = 0) => {
   const name = photo.fileName ? ` · ${photo.fileName}` : '';
