@@ -138,3 +138,6 @@
 - [x] Add consistent report currency and issue-count formatting across summary and history
 - [x] Add report preview refresh feedback after inspection edits
 - [x] Add deterministic coverage for report display formatting
+- [x] Add explicit active-inspection dirty-state feedback
+- [x] Add safer report preview close and unsaved-change guidance
+- [x] Add deterministic coverage for dirty-state display helpers
