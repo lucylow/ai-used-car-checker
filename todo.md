@@ -538,3 +538,7 @@
 - [x] Add immediate Undo recovery after deleting a field note
 - [x] Add deterministic regression coverage for note deletion recovery
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add a chronological field-note timeline to the inspection summary
+- [x] Add deterministic regression coverage for timeline ordering and malformed dates
+- [x] Re-run full validation and save a new checkpoint
