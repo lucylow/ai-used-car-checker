@@ -1,13 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel } from '../src/services/reportUtils.js';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance } from '../src/services/reportUtils.js';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
 import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
+
+test('formats actionable AI failure guidance for each recovery path', () => {
+  assert.match(getAiErrorGuidance('analysis'), /existing findings are unchanged/i);
+  assert.match(getAiErrorGuidance('accept'), /existing issues are unchanged/i);
+  assert.match(getAiErrorGuidance('dismiss'), /Reopen the analysis/i);
+  assert.equal(getAiErrorGuidance('unknown'), getAiErrorGuidance('analysis'));
+});
 
 test('derives transparent AI analysis from inspection evidence', () => {
   const result = buildAiAnalysis({ vehicle: { asking: '$21,900', vin: '1HGCM82633A004352' }, issues: [{ name: 'Brake pad wear', severity: 'major', cost: 420 }], checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [{ uri: 'file://one.jpg' }, { uri: 'file://two.jpg' }] });

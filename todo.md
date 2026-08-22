@@ -449,3 +449,6 @@
 - [x] Implement targeted defensive fixes with actionable recovery feedback
 - [x] Add deterministic regression coverage for the new safeguards
 - [x] Re-run tests, type checks, lint, Expo web export, and Expo Doctor
+- [x] Fix remaining runtime errors and add additional user-facing error handling
+- [x] Add deterministic regression coverage for the new error paths
+- [x] Re-run full validation and save a hardened checkpoint
