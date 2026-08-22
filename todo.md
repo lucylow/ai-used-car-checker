@@ -285,3 +285,7 @@
 - [x] Add per-finding evidence and confidence explanations
 - [x] Add deterministic tests for AI evidence behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit current AI recommendations and decision-support outputs
+- [x] Add clearer AI recommendation tiers and next actions
+- [x] Add deterministic tests for AI recommendation behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

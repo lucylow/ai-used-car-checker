@@ -5,7 +5,7 @@ import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel
 import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiFindingExplanation, getAiReadinessMessage, mergeAiFindings } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiFindingExplanation, getAiReadinessMessage, getAiRecommendation, mergeAiFindings } from '../src/services/aiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
@@ -14,6 +14,13 @@ test('derives transparent AI analysis from inspection evidence', () => {
   assert.equal(result.confidence, 89);
   assert.equal(result.fairPrice, 21456);
   assert.match(result.negotiation, /repair estimate/);
+});
+
+test('tiers AI recommendations into actionable next steps', () => {
+  assert.equal(getAiRecommendation({ issues: [{ severity: 'critical' }], repairTotal: 850, confidence: 80, evidenceScore: 80 }).tier, 'PAUSE');
+  assert.equal(getAiRecommendation({ issues: [{ severity: 'major' }], repairTotal: 420, confidence: 80, evidenceScore: 80 }).tier, 'NEGOTIATE');
+  assert.equal(getAiRecommendation({ issues: [], repairTotal: 0, confidence: 40, evidenceScore: 40 }).tier, 'GATHER MORE');
+  assert.equal(getAiRecommendation({ issues: [], repairTotal: 0, confidence: 80, evidenceScore: 80 }).tier, 'PROCEED');
 });
 
 test('explains AI finding confidence and evidence drivers', () => {
