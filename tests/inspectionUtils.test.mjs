@@ -108,6 +108,11 @@ test('formats actionable local restore error guidance', () => {
   assert.match(getLocalRestoreErrorGuidance('storage'), /unavailable|retry/);
 });
 
+test('formats restore review notice states consistently', () => {
+  assert.equal(getRestoreSanitizationNotice(0), '');
+  assert.match(`Local data restored safely.${getRestoreSanitizationNotice(2)}`, /2 malformed saved records skipped/);
+});
+
 test('formats restore sanitization notices consistently', () => {
   assert.equal(getRestoreSanitizationNotice(0), '');
   assert.match(getRestoreSanitizationNotice(1), /1 malformed saved record skipped/);

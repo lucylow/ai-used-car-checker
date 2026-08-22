@@ -353,3 +353,7 @@
 - [x] Implement restore warnings and actionable local-data recovery feedback
 - [x] Add deterministic tests for restore-warning behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit restore-warning state and user-facing recovery surfaces
+- [x] Implement persistent restore notice and recovery actions
+- [x] Add deterministic tests for restore-notice behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
