@@ -13,6 +13,16 @@ export const getEvidenceAudit = ({ vehicle = {}, checklist = {}, photos = [], is
   return { confirmed, suggested, missing, usablePhotoCount };
 };
 
+export const getAiEvidenceActions = ({ missing = [] } = {}) => {
+  const gaps = Array.isArray(missing) ? missing : [];
+  return gaps.flatMap((gap) => {
+    if (/photo/i.test(gap)) return [{ key: 'photos', label: 'Add photos', target: 'photos' }];
+    if (/checklist/i.test(gap)) return [{ key: 'checklist', label: 'Complete checklist', target: 'checklist' }];
+    if (/asking price/i.test(gap)) return [{ key: 'asking', label: 'Add asking price', target: 'new' }];
+    return [];
+  }).filter((action, index, actions) => actions.findIndex((item) => item.key === action.key) === index);
+};
+
 export const getEvidenceCoverage = ({ checklist = {}, photos = [] } = {}) => {
   const completedSections = Object.values(checklist).filter(Boolean).length;
   const photoCount = Array.isArray(photos) ? photos.filter((photo) => photo?.uri).length : 0;

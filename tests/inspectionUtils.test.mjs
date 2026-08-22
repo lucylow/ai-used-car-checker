@@ -5,7 +5,7 @@ import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel
 import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiFindingExplanation, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings } from '../src/services/aiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
@@ -14,6 +14,12 @@ test('derives transparent AI analysis from inspection evidence', () => {
   assert.equal(result.confidence, 89);
   assert.equal(result.fairPrice, 21456);
   assert.match(result.negotiation, /repair estimate/);
+});
+
+test('maps missing AI evidence to direct completion actions', () => {
+  const actions = getAiEvidenceActions({ missing: ['clear photo evidence', '4 checklist sections', 'asking price', 'clear photo evidence'] });
+  assert.deepEqual(actions.map((action) => action.key), ['photos', 'checklist', 'asking']);
+  assert.deepEqual(actions.map((action) => action.target), ['photos', 'checklist', 'new']);
 });
 
 test('audits AI evidence into confirmed, suggested, and missing signals', () => {

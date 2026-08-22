@@ -305,3 +305,7 @@
 - [x] Implement evidence audit states and actionable verification guidance
 - [x] Add deterministic tests for AI evidence-audit behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit evidence-audit gaps and existing navigation targets
+- [x] Add direct evidence-completion actions and readiness feedback
+- [x] Add deterministic tests for AI readiness actions
+- [x] Re-run tests, type checks, lint, and Expo web export
