@@ -156,3 +156,6 @@
 - [x] Add a clearer active-inspection progress summary on the dashboard
 - [x] Improve checklist navigation feedback after completing sections
 - [x] Add deterministic coverage for progress summary labels
+- [x] Add clearer checklist completion percentage messaging on the checklist screen
+- [x] Improve navigation labels for active inspection actions
+- [x] Add deterministic coverage for checklist guidance helpers

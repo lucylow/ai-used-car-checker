@@ -1831,3 +1831,68 @@
 [2026-08-22T01:38:00.956Z] Your project may not work correctly until you install the expected versions of the packages.
 [2026-08-22T01:38:00.956Z] Waiting on http://localhost:8081
 [2026-08-22T01:38:00.956Z] Logs for your project will appear below.
+[2026-08-22T01:38:32.085Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T01:38:32.105Z] Web Bundled 20ms index.js (1 module)
+[2026-08-22T01:38:32.353Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T01:38:59.030Z] [ELIFECYCLE] Command failed.
+[2026-08-22T01:38:59.037Z] Dev server exited with code -1
+[2026-08-22T01:39:00.121Z] Starting dev server with command: pnpm run dev
+[2026-08-22T01:39:00.680Z] $ expo start
+[2026-08-22T01:39:00.985Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T01:39:01.880Z] Starting Metro Bundler
+[2026-08-22T01:39:05.386Z] Web ./index.js ▓░░░░░░░░░░░░░░░  7.5% ( 31/113)
+[2026-08-22T01:39:05.560Z] [ELIFECYCLE] Command failed.
+[2026-08-22T01:39:05.595Z] Dev server exited with code -1
+[2026-08-22T01:39:06.671Z] Starting dev server with command: pnpm run dev
+[2026-08-22T01:39:07.190Z] $ expo start
+[2026-08-22T01:39:07.447Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T01:39:08.082Z] Starting Metro Bundler
+[2026-08-22T01:39:14.528Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T01:39:14.528Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T01:39:14.528Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T01:39:14.528Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T01:39:14.529Z] Waiting on http://localhost:8081
+[2026-08-22T01:39:14.529Z] Logs for your project will appear below.
+[2026-08-22T01:39:15.160Z] [ELIFECYCLE] Command failed.
+[2026-08-22T01:39:15.170Z] Dev server exited with code -1
+[2026-08-22T01:39:16.271Z] Starting dev server with command: pnpm run dev
+[2026-08-22T01:39:16.776Z] $ expo start
+[2026-08-22T01:39:17.064Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T01:39:17.812Z] Starting Metro Bundler
+[2026-08-22T01:39:17.914Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T01:39:17.914Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T01:39:17.914Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T01:39:17.914Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T01:39:17.914Z] Waiting on http://localhost:8081
+[2026-08-22T01:39:17.915Z] Logs for your project will appear below.
+[2026-08-22T01:39:21.603Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T01:39:22.320Z] [ELIFECYCLE] Command failed.
+[2026-08-22T01:39:22.327Z] Dev server exited with code -1
+[2026-08-22T01:39:23.425Z] Starting dev server with command: pnpm run dev
+[2026-08-22T01:39:23.941Z] $ expo start
+[2026-08-22T01:39:24.221Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T01:39:24.996Z] Starting Metro Bundler
+[2026-08-22T01:39:25.126Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T01:39:25.126Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T01:39:25.126Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T01:39:25.126Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T01:39:25.127Z] Waiting on http://localhost:8081
+[2026-08-22T01:39:25.127Z] Logs for your project will appear below.
+[2026-08-22T01:39:30.427Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T01:39:31.504Z] Web Bundled 1078ms index.js (462 modules)
+[2026-08-22T01:39:33.510Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T01:39:51.880Z] [ELIFECYCLE] Command failed.
+[2026-08-22T01:39:51.893Z] Dev server exited with code -1
+[2026-08-22T01:39:52.990Z] Starting dev server with command: pnpm run dev
+[2026-08-22T01:39:53.505Z] $ expo start
+[2026-08-22T01:39:53.783Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T01:39:54.529Z] Starting Metro Bundler
+[2026-08-22T01:39:54.644Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T01:39:54.645Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T01:39:54.645Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T01:39:54.645Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T01:39:54.645Z] Waiting on http://localhost:8081
+[2026-08-22T01:39:54.646Z] Logs for your project will appear below.
+[2026-08-22T01:39:58.427Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T01:39:58.832Z] Web Bundled 405ms index.js (434 modules)
+[2026-08-22T01:39:59.758Z] LOG  [web] Logs will appear in the browser console
