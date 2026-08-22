@@ -6,7 +6,7 @@ import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspe
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
-import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset } from '../src/services/uiUtils.js';
+import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
@@ -285,6 +285,17 @@ test('compares saved inspections with safe AI confidence fallbacks', () => {
   assert.equal(comparison.left.confidence, null);
   assert.equal(comparison.right.confidence, 72);
   assert.equal(getInspectionComparison({ vehicle: {} }, null), null);
+});
+
+test('normalizes malformed persisted photos before rendering', () => {
+  const normalized = normalizePhotoAssets([{ uri: ' file://one.jpg ', width: '640' }, null, { id: 'bad-no-uri' }, { id: 'two', uri: 'file://two.jpg', reviewStatus: 'unknown', note: 'x'.repeat(300) }]);
+  assert.equal(normalized.length, 2);
+  assert.equal(normalized[0].uri, 'file://one.jpg');
+  assert.equal(normalized[0].id, 'restored-photo-1');
+  assert.equal(normalized[0].reviewStatus, 'needs-review');
+  assert.equal(normalized[1].id, 'two');
+  assert.equal(normalized[1].note.length, 240);
+  assert.equal(normalizePhotoAssets('invalid').length, 0);
 });
 
 test('reattaches replacement photo assets without changing evidence IDs', () => {

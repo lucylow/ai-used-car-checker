@@ -11,7 +11,7 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getMediaErrorGuidance, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getLocalRestoreErrorGuidance, getReportErrorGuidance, getReportActionStatus, getReportRetryLabel, getProcessingLabel, getDurablePhotoFileName, getErrorDetail, normalizeRecoveryLog } from './src/services/reportUtils';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from './src/services/backupUtils';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from './src/services/historyUtils';
-import { getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset } from './src/services/uiUtils';
+import { getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets } from './src/services/uiUtils';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import { Alert, Animated, Easing, Image, Modal as RNModal, PanResponder, Platform, SafeAreaView, ScrollView, Share, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -178,7 +178,7 @@ export default function App() {
         if (saved.vehicle) setVehicle(saved.vehicle);
         if (saved.issues) setIssues(saved.issues);
         if (saved.checklist) setChecklist(saved.checklist);
-        if (saved.photos) setPhotos(saved.photos);
+        if (saved.photos) { const normalizedPhotos = normalizePhotoAssets(saved.photos); setPhotos(normalizedPhotos); if (normalizedPhotos.length < saved.photos.length) { const skipped = saved.photos.length - normalizedPhotos.length; const notice = `Local photos restored safely. ${skipped} malformed photo${skipped === 1 ? '' : 's'} skipped.`; setRestoreNotice(notice); setSaveStatus(notice); } }
         if (saved.savedInspections) { const normalizedSaved = saved.savedInspections.map(normalizeSavedInspection).filter(Boolean); setSavedInspections(normalizedSaved); if (normalizedSaved.length < saved.savedInspections.length) { const notice = `Local data restored safely.${getRestoreSanitizationNotice(saved.savedInspections.length - normalizedSaved.length)}`; setRestoreNotice(notice); setSaveStatus(notice); } }
         if (saved.lastLocalAction) setLastLocalAction(saved.lastLocalAction);
         if (saved.recoveryLog) setRecoveryLog(normalizeRecoveryLog(saved.recoveryLog));

@@ -421,3 +421,7 @@
 - [x] Fix the highest-impact error and add actionable recovery feedback
 - [x] Add deterministic regression coverage for the new safeguards
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit remaining runtime, persistence, backup, and recovery error paths
+- [x] Implement the next targeted defensive fix with actionable feedback
+- [x] Add deterministic regression coverage for the new safeguards
+- [x] Re-run tests, type checks, lint, Expo web export, and Expo Doctor

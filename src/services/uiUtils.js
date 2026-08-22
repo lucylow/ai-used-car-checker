@@ -4,7 +4,10 @@ export const formatComparisonMetricValue = (row, value) => {
   return `${row.prefix || ''}${formatted}${row.suffix || ''}`;
 };
 
-export const replacePhotoAsset = (photos = [], photoId, replacement = {}) => { const list = Array.isArray(photos) ? photos : []; const found = list.some((photo) => photo?.id === photoId); return found ? list.map((photo) => photo?.id === photoId ? { ...photo, ...replacement, id: photo.id, reviewStatus: photo.reviewStatus || 'confirmed' } : photo) : [...list, { ...replacement, id: photoId, reviewStatus: 'confirmed' }]; };
+export const normalizePhotoAsset = (photo = {}, index = 0) => { if (!photo || typeof photo !== 'object') return null; const uri = typeof photo.uri === 'string' ? photo.uri.trim() : ''; if (!uri) return null; return { id: typeof photo.id === 'string' && photo.id ? photo.id : `restored-photo-${index + 1}`, uri, width: Number.isFinite(Number(photo.width)) ? Number(photo.width) : null, height: Number.isFinite(Number(photo.height)) ? Number(photo.height) : null, mimeType: typeof photo.mimeType === 'string' ? photo.mimeType : 'image/jpeg', fileName: typeof photo.fileName === 'string' && photo.fileName ? photo.fileName : `inspection-${index + 1}.jpg`, reviewStatus: ['needs-review', 'reviewed', 'confirmed'].includes(photo.reviewStatus) ? photo.reviewStatus : 'needs-review', note: typeof photo.note === 'string' ? photo.note.slice(0, 240) : '' }; };
+export const normalizePhotoAssets = (photos = []) => (Array.isArray(photos) ? photos : []).map(normalizePhotoAsset).filter(Boolean).slice(-12);
+
+export const replacePhotoAsset = (photos = [], photoId, replacement = {}) => { const list = normalizePhotoAssets(photos); const found = list.some((photo) => photo?.id === photoId); return found ? list.map((photo) => photo?.id === photoId ? { ...photo, ...replacement, id: photo.id, reviewStatus: photo.reviewStatus || 'confirmed' } : photo) : [...list, normalizePhotoAsset({ ...replacement, id: photoId, reviewStatus: 'confirmed' })].filter(Boolean).slice(-12); };
 
 export const getEvidenceHealth = (issues = [], photos = []) => {
   const linked = (Array.isArray(issues) ? issues : []).filter((issue) => issue?.photoId);
