@@ -604,3 +604,8 @@
 - [x] Keep system reduced-motion preference as the accessibility override
 - [x] Add deterministic motion-setting coverage
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Animate photo thumbnail insertion and removal
+- [x] Add a live motion-intensity preview in Profile
+- [x] Add deterministic coverage for photo-motion state behavior
+- [x] Re-run full validation and save a new checkpoint
