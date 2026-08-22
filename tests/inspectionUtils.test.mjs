@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance } from '../src/services/reportUtils.js';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance } from '../src/services/reportUtils.js';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
@@ -161,6 +161,16 @@ test('filters recovery logs by operation and outcome without exposing malformed 
   assert.equal(filterRecoveryLogEntries(entries, { outcome: 'error' }).length, 2);
   assert.equal(filterRecoveryLogEntries(entries, { operation: 'Backup restore', outcome: 'success' }).length, 0);
   assert.equal(filterRecoveryLogEntries(null).length, 0);
+});
+
+test('builds privacy-safe diagnostic exports from bounded operational data', () => {
+  const raw = buildDiagnosticExport({ appVersion: '1.0.0', recoveryLog: [{ operation: 'Local save', outcome: 'error', detail: 'Storage unavailable', at: '2026-01-01T00:00:00.000Z' }], retryDiagnostics: [{ key: 'save', attempts: 2, maxAttempts: 3, detail: 'retrying' }] });
+  const parsed = JSON.parse(raw);
+  assert.equal(parsed.recoveryLog.length, 1);
+  assert.equal(parsed.retryQueue[0].attempts, 2);
+  assert.match(parsed.privacy, /operational diagnostics only/i);
+  assert.doesNotMatch(raw, /1HGCM82633A004352|Honda|Accord|file:\/\/|inspection-photo/i);
+  assert.doesNotMatch(buildDiagnosticExport({ recoveryLog: [{ operation: 'x', detail: '1'.repeat(500) }] }), /1{201}/);
 });
 
 test('formats detailed recovery-log presentation states consistently', () => {
