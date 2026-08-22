@@ -349,3 +349,7 @@
 - [x] Implement safer saved-inspection restore and user feedback
 - [x] Add deterministic tests for saved-recovery behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit restore sanitization outcomes and user-facing status handling
+- [x] Implement restore warnings and actionable local-data recovery feedback
+- [x] Add deterministic tests for restore-warning behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
