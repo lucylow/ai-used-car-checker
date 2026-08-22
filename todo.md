@@ -523,3 +523,6 @@
 - [x] Include persisted market, history, and test-drive notes in text and PDF reports
 - [x] Add deterministic regression coverage for field-note report inclusion
 - [x] Re-run full validation and save a new checkpoint
+- [x] Add timestamps and provenance labels to persisted field notes
+- [x] Add deterministic regression coverage for field-note provenance
+- [x] Re-run full validation and save a new checkpoint

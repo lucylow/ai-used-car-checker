@@ -58,7 +58,7 @@ export function buildInspectionReport({ vehicle = {}, issues = [], checklist = {
   const repairTotal = safeIssues.reduce((sum, issue) => sum + Math.max(0, Number(issue.cost) || 0), 0);
   const completedSections = Object.values(safeChecklist).filter(Boolean).length;
   const criticalCount = safeIssues.filter((issue) => issue.severity === 'critical').length;
-  const safeToolNotes = toolNotes && typeof toolNotes === 'object' && !Array.isArray(toolNotes) ? [['market', 'Market comparison'], ['history', 'Vehicle history'], ['test', 'Test drive']].filter(([key]) => typeof toolNotes[key] === 'string' && toolNotes[key].trim()).map(([key, label]) => `${label}: ${toolNotes[key].trim().slice(0, 1000)}`) : [];
+  const safeToolNotes = toolNotes && typeof toolNotes === 'object' && !Array.isArray(toolNotes) ? [['market', 'Market comparison'], ['history', 'Vehicle history'], ['test', 'Test drive']].map(([key, label]) => { const entry = toolNotes[key]; const note = typeof entry === 'string' ? entry : entry && typeof entry.note === 'string' ? entry.note : ''; const source = entry && typeof entry === 'object' && typeof entry.source === 'string' ? entry.source.slice(0, 80) : 'User-entered observation'; const savedAt = entry && typeof entry === 'object' && typeof entry.savedAt === 'string' && !Number.isNaN(Date.parse(entry.savedAt)) ? ` · ${entry.savedAt}` : ''; return note.trim() ? `${label}: ${note.trim().slice(0, 1000)} · ${source}${savedAt}` : ''; }).filter(Boolean) : [];
   return [
     'CARWISE INSPECTION REPORT',
     `${safeVehicle.year || ''} ${safeVehicle.make || ''} ${safeVehicle.model || ''}`.trim() || 'Vehicle details unavailable',

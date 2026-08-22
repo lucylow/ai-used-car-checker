@@ -11,7 +11,7 @@ export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, 
   issues,
   checklist,
   photos,
-  toolNotes: toolNotes && typeof toolNotes === 'object' && !Array.isArray(toolNotes) ? Object.fromEntries(Object.entries(toolNotes).filter(([key, value]) => ['market', 'history', 'test'].includes(key) && typeof value === 'string').map(([key, value]) => [key, value.slice(0, 1000)])) : {},
+  toolNotes: toolNotes && typeof toolNotes === 'object' && !Array.isArray(toolNotes) ? Object.fromEntries(Object.entries(toolNotes).filter(([key, value]) => ['market', 'history', 'test'].includes(key) && (typeof value === 'string' || (value && typeof value === 'object'))).map(([key, value]) => { const note = typeof value === 'string' ? value : value.note; return [key, { note: typeof note === 'string' ? note.slice(0, 1000) : '', savedAt: typeof value === 'object' && typeof value.savedAt === 'string' ? value.savedAt : null, source: typeof value === 'object' && typeof value.source === 'string' ? value.source.slice(0, 80) : 'User-entered observation' }]; }).filter(([, value]) => value.note)) : {},
   savedInspections,
   aiHistory: Array.isArray(aiHistory) ? aiHistory.slice(-6) : [],
 }, null, 2);
@@ -26,7 +26,7 @@ export const parseInspectionBackup = (raw) => {
     issues: Array.isArray(parsed.issues) ? parsed.issues.filter(isRecord) : [],
     checklist: isRecord(parsed.checklist) ? parsed.checklist : {},
     photos: Array.isArray(parsed.photos) ? parsed.photos.filter(isRecord) : [],
-    toolNotes: isRecord(parsed.toolNotes) ? Object.fromEntries(Object.entries(parsed.toolNotes).filter(([key, value]) => ['market', 'history', 'test'].includes(key) && typeof value === 'string').map(([key, value]) => [key, value.slice(0, 1000)])) : {},
+    toolNotes: isRecord(parsed.toolNotes) ? Object.fromEntries(Object.entries(parsed.toolNotes).filter(([key, value]) => ['market', 'history', 'test'].includes(key) && (typeof value === 'string' || isRecord(value))).map(([key, value]) => { const note = typeof value === 'string' ? value : value.note; return [key, { note: typeof note === 'string' ? note.slice(0, 1000) : '', savedAt: isRecord(value) && typeof value.savedAt === 'string' ? value.savedAt : null, source: isRecord(value) && typeof value.source === 'string' ? value.source.slice(0, 80) : 'User-entered observation' }]; }).filter(([, value]) => value.note)) : {},
     savedInspections: Array.isArray(parsed.savedInspections) ? parsed.savedInspections.filter(isRecord) : [],
     aiHistory: Array.isArray(parsed.aiHistory) ? parsed.aiHistory.filter(isRecord).slice(-6) : [],
   };
