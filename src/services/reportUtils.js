@@ -3,6 +3,7 @@ const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, (character)
 export const formatCurrency = (value) => `$${(Number(value) || 0).toLocaleString('en-US')}`;
 export const getLocalSaveLabel = (state) => ({ saving: 'Saving locally…', saved: 'Saved locally', error: 'Save needs attention' }[state] || 'Local mode');
 export const getLocalSaveDelay = (restored) => restored ? 300 : 0;
+export const getReportErrorGuidance = (kind) => kind === 'pdf' ? 'Could not prepare the PDF report. Try again; the preview is still available.' : 'Could not prepare the shareable report. Try again; the preview is still available.';
 export const getReportRetryLabel = (kind) => kind === 'pdf' ? 'Retry PDF export' : 'Retry sharing';
 export const getReportActionStatus = (action, outcome = 'working') => { const name = action === 'pdf' ? 'PDF report' : 'text report'; return outcome === 'success' ? `${name} ready` : outcome === 'error' ? `${name} unavailable` : `Preparing ${name}…`; };
 export const getDurablePhotoFileName = (fileName = 'inspection.jpg', timestamp = Date.now()) => {

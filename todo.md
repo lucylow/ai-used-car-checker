@@ -265,3 +265,7 @@
 - [x] Add actionable recovery and safe fallbacks for remaining errors
 - [x] Add deterministic tests for new error states
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit remaining backup, photo-processing, and report-export failures
+- [x] Add defensive fallbacks and actionable recovery feedback for remaining errors
+- [x] Add deterministic tests for the new error states
+- [x] Re-run tests, type checks, lint, and Expo web export
