@@ -171,3 +171,6 @@
 - [x] Add accessibility labels to photo capture and AI analysis primary actions
 - [x] Improve photo-screen empty-state action copy
 - [x] Add deterministic coverage for photo-screen guidance labels
+- [x] Audit interactive controls for missing accessibility labels or dead-end actions
+- [x] Add fallback states for empty AI, saved-detail, and tool screens
+- [x] Add deterministic coverage for functional action-state helpers
