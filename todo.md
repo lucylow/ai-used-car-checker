@@ -554,3 +554,8 @@
 - [x] Surface field-note timelines and provenance in saved-inspection details
 - [x] Add deterministic regression coverage for saved-detail note normalization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add subtle animated screen and card transitions with reduced-motion safeguards
+- [x] Animate AI loading, progress feedback, and interactive button states
+- [x] Add deterministic animation behavior coverage
+- [x] Re-run full validation and save a new checkpoint
