@@ -6,6 +6,7 @@ import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspe
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
+import { formatComparisonMetricValue, getBackupPreviewRows } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
@@ -256,6 +257,12 @@ test('compares saved inspections with safe AI confidence fallbacks', () => {
   assert.equal(comparison.left.confidence, null);
   assert.equal(comparison.right.confidence, 72);
   assert.equal(getInspectionComparison({ vehicle: {} }, null), null);
+});
+
+test('formats extracted comparison and backup preview UI helpers', () => {
+  assert.equal(formatComparisonMetricValue({ key: 'repairs', prefix: '$' }, 1250), '$1,250');
+  assert.equal(formatComparisonMetricValue({ key: 'confidence', suffix: '%' }, null), '—');
+  assert.deepEqual(getBackupPreviewRows({ sizeLabel: '2.4 KB', savedInspections: 2, activePhotos: 3, aiSnapshots: 4 }), [['File size', '2.4 KB'], ['Saved inspections', 2], ['Active photos', 3], ['AI snapshots', 4]]);
 });
 
 test('builds bounded comparison bar rows and handles unavailable AI confidence', () => {

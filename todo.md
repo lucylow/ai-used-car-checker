@@ -369,3 +369,7 @@
 - [x] Add backup size and export metadata preview guidance
 - [x] Add deterministic tests for comparison visualization and backup metadata helpers
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Extract reusable comparison and backup preview components from App.js
+- [x] Preserve history comparison and backup export behavior during extraction
+- [x] Add deterministic regression coverage for extracted component helper inputs
+- [x] Re-run tests, type checks, lint, and Expo web export
