@@ -337,3 +337,7 @@
 - [x] Implement persistent status center and retry-all feedback
 - [x] Add deterministic tests for status-center behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit recovery status data and main inspection presentation
+- [x] Implement recovery banner and queued-operation details
+- [x] Add deterministic tests for recovery-banner behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
