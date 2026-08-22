@@ -452,3 +452,6 @@
 - [x] Fix remaining runtime errors and add additional user-facing error handling
 - [x] Add deterministic regression coverage for the new error paths
 - [x] Re-run full validation and save a hardened checkpoint
+- [x] Continue improving the React Native app with the next highest-impact functional or reliability improvement
+- [x] Add deterministic regression coverage for the improvement
+- [x] Re-run full validation and save a new checkpoint

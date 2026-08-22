@@ -322,6 +322,16 @@ test('normalizes malformed active inspection data before restore', () => {
   assert.deepEqual(normalized.photos, []);
 });
 
+test('coerces imported backup values before they reach active inspection calculations', () => {
+  const normalized = normalizeActiveInspection({ vehicle: { year: 2020, make: ' Honda ', model: ' Accord ', asking: 21900 }, issues: [{ name: 'Brake wear', severity: 'major', cost: '420' }, { name: 'Bad cost', cost: 'not-a-number' }], checklist: { Exterior: true, Tires: 'yes' }, photos: [{ id: 'photo-1', uri: 'file://brake.jpg' }] });
+  assert.equal(normalized.vehicle.year, '2020');
+  assert.equal(normalized.vehicle.make, 'Honda');
+  assert.equal(normalized.issues[0].cost, 420);
+  assert.equal(normalized.issues[1].cost, 0);
+  assert.deepEqual(normalized.checklist, { Exterior: true });
+  assert.equal(normalized.photos[0].uri, 'file://brake.jpg');
+});
+
 test('normalizes malformed persisted photos before rendering', () => {
   const normalized = normalizePhotoAssets([{ uri: ' file://one.jpg ', width: '640' }, null, { id: 'bad-no-uri' }, { id: 'two', uri: 'file://two.jpg', reviewStatus: 'unknown', note: 'x'.repeat(300) }]);
   assert.equal(normalized.length, 2);
