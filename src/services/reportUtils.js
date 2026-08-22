@@ -4,6 +4,7 @@ export const formatCurrency = (value) => `$${(Number(value) || 0).toLocaleString
 export const getLocalSaveLabel = (state) => ({ saving: 'Saving locally…', saved: 'Saved locally', error: 'Save needs attention' }[state] || 'Local mode');
 export const getReportActionStatus = (action, outcome = 'working') => { const name = action === 'pdf' ? 'PDF report' : 'text report'; return outcome === 'success' ? `${name} ready` : outcome === 'error' ? `${name} unavailable` : `Preparing ${name}…`; };
 export const getProcessingLabel = (kind, state) => { const name = kind === 'photo' ? 'photo' : 'report'; return state === 'working' ? `Processing ${name}…` : state === 'success' ? `${name[0].toUpperCase()}${name.slice(1)} ready` : state === 'error' ? `${name[0].toUpperCase()}${name.slice(1)} unavailable` : ''; };
+export const getOperationStatusLabel = (operation, outcome = 'success') => { const name = ({ photo: 'Photo', backup: 'Backup', restore: 'Backup restore', delete: 'Inspection deletion', duplicate: 'Inspection duplicate' }[operation] || 'Local operation'); return outcome === 'working' ? `${name} in progress…` : outcome === 'error' ? `${name} needs attention` : `${name} complete`; };
 
 export const formatPhotoEvidenceLabel = (photo = {}, index = 0) => {
   const name = photo.fileName ? ` · ${photo.fileName}` : '';

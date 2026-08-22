@@ -147,3 +147,6 @@
 - [x] Add clear loading feedback for photo processing and report preparation
 - [x] Improve empty-state actions for photos and saved inspections
 - [x] Add deterministic coverage for processing-state labels
+- [x] Add persistent action history for recent local operations
+- [x] Improve photo and report error recovery messaging
+- [x] Add deterministic coverage for local operation status helpers
