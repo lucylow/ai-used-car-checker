@@ -153,3 +153,6 @@
 - [x] Add clearer retry guidance after failed photo or backup actions
 - [x] Improve report preview readiness call-to-action copy
 - [x] Add deterministic coverage for recovery guidance labels
+- [x] Add a clearer active-inspection progress summary on the dashboard
+- [x] Improve checklist navigation feedback after completing sections
+- [x] Add deterministic coverage for progress summary labels

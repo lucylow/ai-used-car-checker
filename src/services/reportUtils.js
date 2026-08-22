@@ -6,6 +6,7 @@ export const getReportActionStatus = (action, outcome = 'working') => { const na
 export const getProcessingLabel = (kind, state) => { const name = kind === 'photo' ? 'photo' : 'report'; return state === 'working' ? `Processing ${name}…` : state === 'success' ? `${name[0].toUpperCase()}${name.slice(1)} ready` : state === 'error' ? `${name[0].toUpperCase()}${name.slice(1)} unavailable` : ''; };
 export const getOperationStatusLabel = (operation, outcome = 'success') => { const name = ({ photo: 'Photo', backup: 'Backup', restore: 'Backup restore', delete: 'Inspection deletion', duplicate: 'Inspection duplicate' }[operation] || 'Local operation'); return outcome === 'working' ? `${name} in progress…` : outcome === 'error' ? `${name} needs attention` : `${name} complete`; };
 export const getRecoveryGuidance = (operation, outcome = 'error') => { const name = ({ photo: 'photo', backup: 'backup', restore: 'backup restore', report: 'report' }[operation] || 'action'); return outcome === 'error' ? `Could not complete ${name}. Try again when ready.` : `Your ${name} is ready.`; };
+export const getProgressSummaryLabel = (completed, total) => { const safeCompleted = Math.max(0, Number(completed) || 0); const safeTotal = Math.max(0, Number(total) || 0); if (!safeTotal) return 'No sections yet'; if (safeCompleted >= safeTotal) return `All ${safeTotal} sections complete`; return `${safeCompleted} of ${safeTotal} sections complete`; };
 
 export const formatPhotoEvidenceLabel = (photo = {}, index = 0) => {
   const name = photo.fileName ? ` · ${photo.fileName}` : '';
