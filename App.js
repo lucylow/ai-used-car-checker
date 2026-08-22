@@ -88,11 +88,8 @@ const VinTool = ({ onHome, onUse }) => {
 export default function App() {
   const [tab, setTab] = useState('Home');
   const [screen, setScreen] = useState('home');
-  const [vehicle, setVehicle] = useState({ year: '2020', make: 'Honda', model: 'Accord', mileage: '48,200', vin: '', asking: '21,900' });
-  const [issues, setIssues] = useState([
-    { name: 'Brake pad wear', severity: 'major', cost: 420 },
-    { name: 'Door paint scratch', severity: 'minor', cost: 180 },
-  ]);
+  const [vehicle, setVehicle] = useState(() => createNewInspectionState().vehicle);
+  const [issues, setIssues] = useState(() => createNewInspectionState().issues);
   const [ranAI, setRanAI] = useState(false);
   const [aiResult, setAiResult] = useState(null);
   const [aiPendingFindings, setAiPendingFindings] = useState([]);
