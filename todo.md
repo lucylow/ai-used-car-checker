@@ -241,3 +241,7 @@
 - [x] Prevent late VIN responses from updating an unmounted screen
 - [x] Add deterministic coverage for timeout fallback behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit live VIN result autofill and active inspection state transitions
+- [x] Improve VIN autofill data integrity and user feedback
+- [x] Add deterministic tests for the new behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

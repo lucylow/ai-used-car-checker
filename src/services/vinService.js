@@ -5,6 +5,14 @@ const vinCache = new Map();
 
 export const clearVinCache = () => vinCache.clear();
 
+export const applyDecodedVehicle = (currentVehicle = {}, decodedVehicle = {}, vin = '') => ({
+  ...currentVehicle,
+  year: String(decodedVehicle.year || currentVehicle.year || '').trim(),
+  make: String(decodedVehicle.make || currentVehicle.make || '').trim(),
+  model: String(decodedVehicle.model || currentVehicle.model || '').trim(),
+  vin: normalizeVin(vin || currentVehicle.vin || ''),
+});
+
 export const getVinFallback = (vin, message = 'Live VIN lookup unavailable. Review the VIN manually or try again when connected.') => ({
   vin: normalizeVin(vin),
   status: 'fallback',
