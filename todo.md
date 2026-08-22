@@ -117,3 +117,6 @@
 - [x] Add explicit persistence recovery and retry feedback
 - [x] Add repair-priority guidance to the report preview and PDF
 - [x] Add deterministic coverage for report guidance formatting
+- [x] Add explicit local-save retry and recovery feedback
+- [x] Add clearer checklist completion guidance before saving
+- [x] Add deterministic coverage for completion and retry helpers
