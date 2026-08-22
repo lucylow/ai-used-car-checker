@@ -249,3 +249,7 @@
 - [x] Add a small offline retry queue for failed local persistence operations
 - [x] Add deterministic tests for retry queue ordering and recovery
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit retry behavior across app restarts
+- [x] Persist failed local-save payloads for recovery on next launch
+- [x] Add deterministic coverage for persisted retry metadata
+- [x] Re-run tests, type checks, lint, and Expo web export

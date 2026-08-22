@@ -8,7 +8,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getReportActionStatus, getProcessingLabel, getDurablePhotoFileName } from './src/services/reportUtils';
-import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from './src/services/backupUtils';
+import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from './src/services/backupUtils';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from './src/services/historyUtils';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
@@ -137,10 +137,12 @@ export default function App() {
   const photoPanResponder = useMemo(() => PanResponder.create({ onMoveShouldSetPanResponder: (_, gesture) => isPhotoZoomed.current || (Math.abs(gesture.dx) > 18 && Math.abs(gesture.dx) > Math.abs(gesture.dy)), onPanResponderGrant: () => { panX.setOffset(panX.__getValue()); panY.setOffset(panY.__getValue()); panX.setValue(0); panY.setValue(0); }, onPanResponderMove: (_, gesture) => { if (isPhotoZoomed.current) { panX.setValue(clamp(gesture.dx, -220, 220)); panY.setValue(clamp(gesture.dy, -180, 180)); } }, onPanResponderRelease: (_, gesture) => { panX.flattenOffset(); panY.flattenOffset(); if (isPhotoZoomed.current) { Animated.parallel([Animated.timing(panX, { toValue: clamp(panX.__getValue() + gesture.vx * 90, -220, 220), duration: 220, useNativeDriver: true }), Animated.timing(panY, { toValue: clamp(panY.__getValue() + gesture.vy * 90, -180, 180), duration: 220, useNativeDriver: true })]).start(); return; } if (gesture.dx < -40 && selectedPhotoIndex < viewerPhotos.length - 1) selectViewerPhoto(viewerPhotos[selectedPhotoIndex + 1]); if (gesture.dx > 40 && selectedPhotoIndex > 0) selectViewerPhoto(viewerPhotos[selectedPhotoIndex - 1]); const now = Date.now(); if (now - lastPhotoTap.current < 280 && Math.abs(gesture.dx) < 12 && Math.abs(gesture.dy) < 12) togglePhotoZoom(gesture.x0, gesture.y0); lastPhotoTap.current = now; } }), [selectedPhotoIndex, viewerPhotos]);
 
   useEffect(() => {
-    AsyncStorage.getItem('carwise-inspection').then((raw) => {
+    Promise.all([AsyncStorage.getItem('carwise-inspection'), AsyncStorage.getItem('carwise-pending-inspection')]).then(([raw, pending]) => {
       try {
-        if (!raw) return;
-        const saved = JSON.parse(raw);
+        const recoveryRaw = selectInspectionRestorePayload(raw, pending);
+        if (!recoveryRaw) return;
+        const saved = JSON.parse(recoveryRaw);
+        if (pending) setLastLocalAction('Recovered a pending local save; retrying automatically');
         if (saved.vehicle) setVehicle(saved.vehicle);
         if (saved.issues) setIssues(saved.issues);
         if (saved.checklist) setChecklist(saved.checklist);
@@ -165,12 +167,16 @@ export default function App() {
     if (payload.length > 250000) setSaveStatus('Inspection is large — keeping a compact local copy');
     try {
       await AsyncStorage.setItem('carwise-inspection', payload);
+      await AsyncStorage.removeItem('carwise-pending-inspection').catch(() => {});
       setSaveRetry(false);
       setSaveState('saved');
       setSaveStatus(payload.length > 250000 ? 'Compact copy saved locally' : 'Saved locally');
       return true;
     } catch (_) {
-      if (queueOnFailure) enqueueRetry({ key: 'active-inspection', run: () => persistLocalCopy({ queueOnFailure: false }) });
+      if (queueOnFailure) {
+        enqueueRetry({ key: 'active-inspection', run: () => persistLocalCopy({ queueOnFailure: false }) });
+        AsyncStorage.setItem('carwise-pending-inspection', payload).catch(() => {});
+      }
       setSaveRetry(true);
       setSaveState('error');
       setSaveStatus('Local save unavailable — tap Retry');

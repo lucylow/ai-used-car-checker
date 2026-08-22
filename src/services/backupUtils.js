@@ -1,4 +1,6 @@
 const BACKUP_VERSION = 1;
+
+export const selectInspectionRestorePayload = (primaryPayload, pendingPayload) => pendingPayload || primaryPayload || null;
 const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 
 export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, savedInspections }) => JSON.stringify({
