@@ -373,3 +373,7 @@
 - [x] Preserve history comparison and backup export behavior during extraction
 - [x] Add deterministic regression coverage for extracted component helper inputs
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Add a detailed local recovery log view with timestamps and operation outcomes
+- [x] Add clear recovery-log empty and queued-state guidance
+- [x] Add deterministic tests for recovery-log presentation helpers
+- [x] Re-run tests, type checks, lint, and Expo web export
