@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getReportActionStatus, getProcessingLabel, getDurablePhotoFileName } from './src/services/reportUtils';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getReportActionStatus, getProcessingLabel, getDurablePhotoFileName } from './src/services/reportUtils';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from './src/services/backupUtils';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness } from './src/services/historyUtils';
 import * as Print from 'expo-print';
@@ -80,6 +80,7 @@ export default function App() {
   const isPhotoZoomed = useRef(false);
   const undoTimer = useRef(null);
   const reportActionTimer = useRef(null);
+  const persistTimer = useRef(null);
   const repairTotal = useMemo(() => issues.reduce((sum, issue) => sum + issue.cost, 0), [issues]);
   const checklistComplete = Object.values(checklist).filter(Boolean).length;
   const riskScore = Math.min(100, issues.reduce((score, issue) => score + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0));
@@ -138,10 +139,21 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (restored) persistLocalCopy();
+    if (!restored) return undefined;
+    if (persistTimer.current) clearTimeout(persistTimer.current);
+    persistTimer.current = setTimeout(() => {
+      persistTimer.current = null;
+      persistLocalCopy();
+    }, getLocalSaveDelay(restored));
+    return () => {
+      if (persistTimer.current) {
+        clearTimeout(persistTimer.current);
+        persistTimer.current = null;
+      }
+    };
   }, [vehicle, issues, checklist, photos, savedInspections, restored]);
 
-  useEffect(() => () => { if (undoTimer.current) clearTimeout(undoTimer.current); if (reportActionTimer.current) clearTimeout(reportActionTimer.current); }, []);
+  useEffect(() => () => { if (undoTimer.current) clearTimeout(undoTimer.current); if (reportActionTimer.current) clearTimeout(reportActionTimer.current); if (persistTimer.current) clearTimeout(persistTimer.current); }, []);
 
   const exportLocalBackup = async () => { const backup = serializeInspectionBackup({ vehicle, issues, checklist, photos, savedInspections }); const uri = `${FileSystem.cacheDirectory}carwise-backup-${Date.now()}.json`; try { await FileSystem.writeAsStringAsync(uri, backup, { encoding: FileSystem.EncodingType.UTF8 }); if (await Sharing.isAvailableAsync()) { await Sharing.shareAsync(uri, { mimeType: 'application/json', dialogTitle: 'Export Carwise backup' }); setLastLocalAction(getOperationStatusLabel('backup')); setSaveStatus('Backup ready to share'); } else { await Share.share({ message: backup, title: 'Carwise backup' }); setLastLocalAction(getOperationStatusLabel('backup')); setSaveStatus('Backup opened for sharing'); } } catch (_) { setLastLocalAction(getOperationStatusLabel('backup', 'error')); setSaveStatus(getRecoveryGuidance('backup')); } };
   const importLocalBackup = async () => { try { const result = await DocumentPicker.getDocumentAsync({ type: 'application/json', copyToCacheDirectory: true }); if (result.canceled || !result.assets?.[0]) { setSaveStatus(getCanceledFlowGuidance('backup')); return; } const raw = await FileSystem.readAsStringAsync(result.assets[0].uri, { encoding: FileSystem.EncodingType.UTF8 }); const backup = parseInspectionBackup(raw); if (backup.vehicle) setVehicle(backup.vehicle); setIssues(backup.issues); setChecklist(backup.checklist); setPhotos(backup.photos); setSavedInspections(backup.savedInspections); setLastLocalAction(getOperationStatusLabel('restore')); setSaveStatus(`Backup restored · ${getBackupSummary(backup)}`); } catch (_) { setLastLocalAction(getOperationStatusLabel('restore', 'error')); setSaveStatus(getRecoveryGuidance('restore')); } };

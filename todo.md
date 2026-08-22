@@ -191,3 +191,7 @@
 - [x] Improve the highest-impact vehicle-data or media reliability gap
 - [x] Add deterministic tests for the new behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit local save and backup flows for retry and consistency gaps
+- [x] Improve the highest-impact local reliability gap
+- [x] Add deterministic tests for the new reliability behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
