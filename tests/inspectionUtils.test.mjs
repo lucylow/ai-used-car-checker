@@ -4,7 +4,36 @@ import { createNewInspectionState, getDerivedInspectionResetState, getRepairTota
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
+import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
+
+test('flushes retry work in insertion order and removes successful entries', async () => {
+  clearRetryQueue();
+  const order = [];
+  enqueueRetry({ key: 'first', run: async () => { order.push('first'); } });
+  enqueueRetry({ key: 'second', run: async () => { order.push('second'); } });
+  const result = await flushRetryQueue();
+  assert.deepEqual(order, ['first', 'second']);
+  assert.deepEqual(result, { succeeded: 2, failed: 0, dropped: 0 });
+  assert.equal(getRetryQueueSize(), 0);
+});
+
+test('replaces duplicate retry keys and drops repeatedly failing work at its limit', async () => {
+  clearRetryQueue();
+  let value = '';
+  enqueueRetry({ key: 'same', run: async () => { value = 'old'; } });
+  enqueueRetry({ key: 'same', run: async () => { value = 'new'; } });
+  await flushRetryQueue();
+  assert.equal(value, 'new');
+  let attempts = 0;
+  enqueueRetry({ key: 'failing', maxAttempts: 2, run: async () => { attempts += 1; throw new Error('offline'); } });
+  const first = await flushRetryQueue();
+  const second = await flushRetryQueue();
+  assert.deepEqual(first, { succeeded: 0, failed: 1, dropped: 0 });
+  assert.deepEqual(second, { succeeded: 0, failed: 1, dropped: 1 });
+  assert.equal(attempts, 2);
+  clearRetry('failing');
+});
 
 test('serializes and restores a versioned local backup', () => {
   const raw = serializeInspectionBackup({ vehicle: { year: '2020' }, issues: [{ name: 'Brake wear' }], checklist: { Exterior: true }, photos: [{ id: 'p1' }], savedInspections: [{ id: 's1' }] });

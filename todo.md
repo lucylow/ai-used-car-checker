@@ -245,3 +245,7 @@
 - [x] Improve VIN autofill data integrity and user feedback
 - [x] Add deterministic tests for the new behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit local-operation failures for repeatable retry behavior
+- [x] Add a small offline retry queue for failed local persistence operations
+- [x] Add deterministic tests for retry queue ordering and recovery
+- [x] Re-run tests, type checks, lint, and Expo web export
