@@ -253,3 +253,7 @@
 - [x] Persist failed local-save payloads for recovery on next launch
 - [x] Add deterministic coverage for persisted retry metadata
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit report-export failures for actionable retry behavior
+- [x] Add retryable report action state without duplicate concurrent exports
+- [x] Add deterministic tests for report retry guidance
+- [x] Re-run tests, type checks, lint, and Expo web export
