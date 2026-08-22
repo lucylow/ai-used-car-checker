@@ -261,3 +261,7 @@
 - [x] Add defensive error handling and actionable recovery feedback
 - [x] Add deterministic tests for new error states
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit remaining asynchronous and media failure paths
+- [x] Add actionable recovery and safe fallbacks for remaining errors
+- [x] Add deterministic tests for new error states
+- [x] Re-run tests, type checks, lint, and Expo web export
