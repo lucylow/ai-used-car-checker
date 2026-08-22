@@ -644,6 +644,7 @@ test('builds a share-ready report with key inspection facts', () => {
   assert.match(report, /2020 Honda Accord/);
   assert.match(report, /Estimated repairs: \$600/);
   assert.match(report, /Checklist: 1\/5 sections complete/);
+  assert.match(buildInspectionReport({ vehicle: { year: '2020' } }), /AI fair price: Unavailable until AI analysis is completed/);
 });
 
 test('formats repair priorities with critical issues first and escaped names', () => {

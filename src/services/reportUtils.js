@@ -64,7 +64,7 @@ export function buildInspectionReport({ vehicle = {}, issues = [], checklist = {
     `Risk score: ${riskScore}/100`,
     `Issues found: ${safeIssues.length} (${criticalCount} critical)`,
     `Estimated repairs: ${formatCurrency(repairTotal)}`,
-    `AI fair price: ${formatCurrency(fairPrice)}`,
+    `AI fair price: ${fairPrice ? formatCurrency(fairPrice) : 'Unavailable until AI analysis is completed'}`,
     `Checklist: ${completedSections}/5 sections complete`,
     `Photo evidence: ${safePhotos.length} item(s)`,
     '',
