@@ -177,3 +177,6 @@
 - [x] Add stronger vehicle-form validation before entering the checklist
 - [x] Add safe guards for AI analysis and report export when required data is missing
 - [x] Add deterministic coverage for main-flow readiness helpers
+- [x] Add permission-denied feedback for camera and photo-library actions
+- [x] Add validation feedback for prototype tool inputs
+- [x] Add deterministic coverage for permission and input guidance helpers
