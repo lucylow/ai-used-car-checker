@@ -174,3 +174,6 @@
 - [x] Audit interactive controls for missing accessibility labels or dead-end actions
 - [x] Add fallback states for empty AI, saved-detail, and tool screens
 - [x] Add deterministic coverage for functional action-state helpers
+- [x] Add stronger vehicle-form validation before entering the checklist
+- [x] Add safe guards for AI analysis and report export when required data is missing
+- [x] Add deterministic coverage for main-flow readiness helpers

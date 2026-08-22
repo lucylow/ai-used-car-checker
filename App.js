@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getReportActionStatus } from './src/services/reportUtils';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getReportActionStatus } from './src/services/reportUtils';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from './src/services/backupUtils';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness } from './src/services/historyUtils';
 import * as Print from 'expo-print';
@@ -163,7 +163,7 @@ export default function App() {
     setSavedInspections((current) => [snapshot, ...current.filter((item) => item.vehicle?.vin !== vehicle.vin)].slice(0, 10));
     setScreen('summary');
   };
-  const runAnalysis = () => { setRanAI(true); setIssues((current) => current.some((i) => i.name === 'Rust underneath') ? current : [...current, { name: 'Rust underneath', severity: 'critical', cost: 850, note: 'Detected from inspection imagery' }]); setScreen('ai'); };
+  const runAnalysis = () => { const flow = getMainFlowReadiness({ vehicle, checklist, photos }); if (!vehicle.make.trim() || !vehicle.model.trim()) { setFormError(`Add ${flow.missing.includes('vehicle details') ? 'the vehicle make and model' : 'vehicle details'} before running analysis.`); setScreen('new'); return; } if (!photos.length) setSaveStatus('Analysis uses vehicle details only; add photos for stronger evidence.'); setRanAI(true); setIssues((current) => current.some((i) => i.name === 'Rust underneath') ? current : [...current, { name: 'Rust underneath', severity: 'critical', cost: 850, note: 'Detected from inspection imagery' }]); setScreen('ai'); };
   const openIssueEditor = (issue) => { setEditingIssue(issue); setIssueDraft({ severity: issue.severity, cost: String(issue.cost), note: issue.note || '' }); };
   const saveIssueEdit = () => { if (!editingIssue) return; setIssues((current) => current.map((item) => item.name === editingIssue.name ? { ...item, severity: issueDraft.severity, cost: Math.max(0, Number(issueDraft.cost) || 0), note: issueDraft.note } : item)); setEditingIssue(null); };
   const addPickedPhoto = async (asset) => { setPhotoBusy(true); setSaveStatus(getProcessingLabel('photo', 'working')); setLastLocalAction(getOperationStatusLabel('photo', 'working')); let normalized = asset; try { if (asset.uri && !asset.uri.startsWith('data:')) { const compressed = await ImageManipulator.manipulateAsync(asset.uri, [{ resize: { width: 1200 } }], { compress: 0.72, format: ImageManipulator.SaveFormat.JPEG }); normalized = { ...asset, uri: compressed.uri, width: compressed.width, height: compressed.height, mimeType: 'image/jpeg', fileName: asset.fileName || `inspection-${Date.now()}.jpg` }; } setPhotos((current) => [...current, { id: `${Date.now()}-${current.length}`, uri: normalized.uri, width: normalized.width || null, height: normalized.height || null, mimeType: normalized.mimeType || 'image/jpeg', fileName: normalized.fileName || `inspection-${current.length + 1}.jpg` }]); setSaveStatus(getProcessingLabel('photo', 'success')); setLastLocalAction(getOperationStatusLabel('photo')); } catch (_) { setSaveStatus(getRecoveryGuidance('photo')); setLastLocalAction(getOperationStatusLabel('photo', 'error')); } finally { setPhotoBusy(false); } };
@@ -184,6 +184,8 @@ export default function App() {
     }
   };
   const exportReportPdf = async () => {
+    const flow = getMainFlowReadiness({ vehicle, checklist, photos });
+    if (!vehicle.make.trim() || !vehicle.model.trim()) { setSaveStatus(`Add ${flow.missing.includes('vehicle details') ? 'vehicle details' : 'the missing inspection details'} before exporting a PDF report.`); setScreen('new'); return; }
     const generatedAt = new Date().toLocaleString();
     const report = `${buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice: 19400, riskScore })}\nGenerated: ${generatedAt}`;
     const issueRows = issues.map((issue) => `<li><strong>${issue.severity.toUpperCase()}</strong> · ${issue.name} · $${issue.cost}</li>`).join('');
