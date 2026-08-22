@@ -695,3 +695,18 @@ test('restores a removed finding through the same merge path used by Undo', () =
   const restored = mergeAiFindings([], [removed]);
   assert.deepEqual(restored, [removed]);
 });
+
+test('preserves bounded local tool observations through backup round-trip', () => {
+  const serialized = serializeInspectionBackup({ vehicle: {}, issues: [], checklist: {}, photos: [], toolNotes: { market: 'Seller has two comparable listings.', history: 'Title report reviewed.', test: 'Steering stayed centered.' }, savedInspections: [] });
+  const parsed = parseInspectionBackup(serialized);
+  assert.deepEqual(parsed.toolNotes, { market: 'Seller has two comparable listings.', history: 'Title report reviewed.', test: 'Steering stayed centered.' });
+});
+
+test('filters invalid or oversized local tool observations during backup parsing', () => {
+  const raw = JSON.stringify({ app: 'carwise', version: 1, toolNotes: { market: 'ok', history: 42, test: 'x'.repeat(1200), ignored: 'nope' } });
+  const parsed = parseInspectionBackup(raw);
+  assert.equal(parsed.toolNotes.market, 'ok');
+  assert.equal(parsed.toolNotes.history, undefined);
+  assert.equal(parsed.toolNotes.test.length, 1000);
+  assert.equal(parsed.toolNotes.ignored, undefined);
+});

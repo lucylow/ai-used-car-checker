@@ -517,3 +517,6 @@
 - [x] Add immediate finding-removal toast with Undo recovery
 - [x] Add deterministic regression coverage for the three requested flows
 - [x] Re-run full validation and save a new checkpoint
+- [x] Continue improving Carwise functionality with the next highest-impact product improvement
+- [x] Add deterministic regression coverage for the improvement
+- [x] Re-run full validation and save a new checkpoint

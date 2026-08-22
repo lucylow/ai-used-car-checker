@@ -3,7 +3,7 @@ const BACKUP_VERSION = 1;
 export const selectInspectionRestorePayload = (primaryPayload, pendingPayload) => pendingPayload || primaryPayload || null;
 const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 
-export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, savedInspections, aiHistory = [] }) => JSON.stringify({
+export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, toolNotes = {}, savedInspections, aiHistory = [] }) => JSON.stringify({
   app: 'carwise',
   version: BACKUP_VERSION,
   exportedAt: new Date().toISOString(),
@@ -11,6 +11,7 @@ export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, 
   issues,
   checklist,
   photos,
+  toolNotes: toolNotes && typeof toolNotes === 'object' && !Array.isArray(toolNotes) ? Object.fromEntries(Object.entries(toolNotes).filter(([key, value]) => ['market', 'history', 'test'].includes(key) && typeof value === 'string').map(([key, value]) => [key, value.slice(0, 1000)])) : {},
   savedInspections,
   aiHistory: Array.isArray(aiHistory) ? aiHistory.slice(-6) : [],
 }, null, 2);
@@ -25,6 +26,7 @@ export const parseInspectionBackup = (raw) => {
     issues: Array.isArray(parsed.issues) ? parsed.issues.filter(isRecord) : [],
     checklist: isRecord(parsed.checklist) ? parsed.checklist : {},
     photos: Array.isArray(parsed.photos) ? parsed.photos.filter(isRecord) : [],
+    toolNotes: isRecord(parsed.toolNotes) ? Object.fromEntries(Object.entries(parsed.toolNotes).filter(([key, value]) => ['market', 'history', 'test'].includes(key) && typeof value === 'string').map(([key, value]) => [key, value.slice(0, 1000)])) : {},
     savedInspections: Array.isArray(parsed.savedInspections) ? parsed.savedInspections.filter(isRecord) : [],
     aiHistory: Array.isArray(parsed.aiHistory) ? parsed.aiHistory.filter(isRecord).slice(-6) : [],
   };
