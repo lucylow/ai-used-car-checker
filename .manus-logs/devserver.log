@@ -4547,3 +4547,31 @@
 [2026-08-22T16:09:47.713Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
 [2026-08-22T16:09:48.124Z] Web Bundled 456ms index.js (485 modules)
 [2026-08-22T16:09:48.887Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T16:10:42.923Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T16:10:42.945Z] Web Bundled 22ms index.js (1 module)
+[2026-08-22T16:10:43.241Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T16:11:36.572Z] [ELIFECYCLE] Command failed.
+[2026-08-22T16:11:36.578Z] Dev server exited with code -1
+[2026-08-22T16:11:37.686Z] Starting dev server with command: pnpm run dev
+[2026-08-22T16:11:38.230Z] $ expo start
+[2026-08-22T16:11:38.574Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T16:11:39.577Z] Starting Metro Bundler
+[2026-08-22T16:11:46.260Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T16:11:46.276Z] Waiting on http://localhost:8081
+[2026-08-22T16:11:46.276Z] Logs for your project will appear below.
+[2026-08-22T16:11:46.276Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T16:11:47.721Z] Web Bundled 1511ms index.js (442 modules)
+[2026-08-22T16:11:48.476Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T16:12:36.944Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T16:12:36.967Z] Web Bundled 23ms index.js (1 module)
+[2026-08-22T16:12:37.133Z] [ELIFECYCLE] Command failed.
+[2026-08-22T16:12:37.140Z] Dev server exited with code -1
+[2026-08-22T16:12:38.244Z] Starting dev server with command: pnpm run dev
+[2026-08-22T16:12:38.758Z] $ expo start
+[2026-08-22T16:12:39.070Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T16:12:40.017Z] Starting Metro Bundler
+[2026-08-22T16:12:40.222Z] Waiting on http://localhost:8081
+[2026-08-22T16:12:40.222Z] Logs for your project will appear below.
+[2026-08-22T16:12:46.743Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T16:12:47.152Z] Web Bundled 457ms index.js (483 modules)
+[2026-08-22T16:12:47.584Z] LOG  [web] Logs will appear in the browser console
