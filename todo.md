@@ -433,3 +433,7 @@
 - [x] Implement targeted fixes with actionable recovery feedback
 - [x] Add deterministic regression coverage for the new safeguards
 - [x] Re-run tests, type checks, lint, Expo web export, and Expo Doctor
+- [x] Audit source, logs, and dependency health for active errors
+- [x] Implement targeted fixes with actionable recovery feedback
+- [x] Add deterministic regression coverage for the new safeguards
+- [x] Re-run tests, type checks, lint, Expo web export, and Expo Doctor
