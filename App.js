@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createNewInspectionState } from './src/services/inspectionUtils';
+import { createNewInspectionState, isSameIssue } from './src/services/inspectionUtils';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -177,7 +177,7 @@ export default function App() {
   };
   const runAnalysis = () => { const flow = getMainFlowReadiness({ vehicle, checklist, photos }); if (flow.missing.includes('vehicle details')) { setFormError('Add a four-digit year, make, and model before running analysis.'); setScreen('new'); return; } if (!photos.length) setSaveStatus('Analysis uses vehicle details only; add photos for stronger evidence.'); setRanAI(true); setIssues((current) => current.some((i) => i.name === 'Rust underneath') ? current : [...current, { name: 'Rust underneath', severity: 'critical', cost: 850, note: 'Detected from inspection imagery' }]); setScreen('ai'); };
   const openIssueEditor = (issue) => { setEditingIssue(issue); setIssueDraft({ severity: issue.severity, cost: String(issue.cost), note: issue.note || '' }); };
-  const saveIssueEdit = () => { if (!editingIssue) return; setIssues((current) => current.map((item) => item.name === editingIssue.name ? { ...item, severity: issueDraft.severity, cost: Math.max(0, Number(issueDraft.cost) || 0), note: issueDraft.note } : item)); setEditingIssue(null); };
+  const saveIssueEdit = () => { if (!editingIssue) return; setIssues((current) => current.map((item) => isSameIssue(item, editingIssue) ? { ...item, severity: issueDraft.severity, cost: Math.max(0, Number(issueDraft.cost) || 0), note: issueDraft.note } : item)); setEditingIssue(null); };
   const addPickedPhoto = async (asset) => { setPhotoBusy(true); setSaveStatus(getProcessingLabel('photo', 'working')); setLastLocalAction(getOperationStatusLabel('photo', 'working')); let normalized = asset; try { if (asset.uri && !asset.uri.startsWith('data:')) { const compressed = await ImageManipulator.manipulateAsync(asset.uri, [{ resize: { width: 1200 } }], { compress: 0.72, format: ImageManipulator.SaveFormat.JPEG });
       const fileName = asset.fileName || `inspection-${Date.now()}.jpg`;
       let durableUri = compressed.uri;

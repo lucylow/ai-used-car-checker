@@ -7,6 +7,11 @@ export function createNewInspectionState() {
   };
 }
 
+export function isSameIssue(issue = {}, target = {}) {
+  if (issue === target) return true;
+  return Boolean(issue.id && target.id && issue.id === target.id);
+}
+
 export function normalizeVin(value = '') {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 17);
 }

@@ -211,3 +211,7 @@
 - [x] Improve the highest-impact checklist or save-flow reliability gap
 - [x] Add deterministic tests for the new behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit issue editing and active report consistency for remaining edge cases
+- [x] Improve the highest-impact issue/report workflow gap
+- [x] Add deterministic tests for the new behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
