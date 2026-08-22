@@ -20,6 +20,13 @@ export const getInspectionCompletion = (item = {}) => { const complete = Object.
 export const getInspectionRepairTotal = (item = {}) => repairTotal(item);
 export const getReportReadiness = ({ vehicle = {}, checklist = {}, photos = [] } = {}) => { const missing = []; if (!/^\d{4}$/.test(String(vehicle.year || '').trim()) || !vehicle.make?.trim() || !vehicle.model?.trim()) missing.push('vehicle details'); if (Object.values(checklist).filter(Boolean).length < 5) missing.push('checklist'); if (!photos.length) missing.push('photo evidence'); return { ready: missing.length === 0, missing }; };
 export const getHistoryActionMessage = (action) => action === 'delete' ? 'Inspection deleted · Undo available' : 'Inspection duplicated · New copy added';
+export const getInspectionComparison = (left = {}, right = {}) => {
+  const first = normalizeSavedInspection(left);
+  const second = normalizeSavedInspection(right);
+  if (!first || !second) return null;
+  const metric = (item) => ({ risk: riskScore(item), repairs: repairTotal(item), checklist: Object.values(item.checklist).filter(Boolean).length, photos: item.photos.length, confidence: item.aiHistory.at(-1)?.confidence || null });
+  return { left: { id: first.id, label: `${first.vehicle.year} ${first.vehicle.make} ${first.vehicle.model}`, ...metric(first) }, right: { id: second.id, label: `${second.vehicle.year} ${second.vehicle.make} ${second.vehicle.model}`, ...metric(second) } };
+};
 export const shouldClearSavedSelection = (selectedId, deletedId) => Boolean(selectedId && deletedId && String(selectedId) === String(deletedId));
 export const shouldReplaceSavedInspection = (existingVehicle = {}, nextVehicle = {}) => {
   const nextVin = String(nextVehicle.vin || '').replace(/\s/g, '').toUpperCase();

@@ -361,3 +361,7 @@
 - [x] Implement AI timeline details in inspection history
 - [x] Add deterministic tests for history AI timeline behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit saved history data and existing detail navigation
+- [x] Implement saved-inspection comparison guidance
+- [x] Add deterministic tests for history-comparison behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

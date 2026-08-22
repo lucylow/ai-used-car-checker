@@ -6,7 +6,7 @@ import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
-import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
+import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
   const result = buildAiAnalysis({ vehicle: { asking: '$21,900', vin: '1HGCM82633A004352' }, issues: [{ name: 'Brake pad wear', severity: 'major', cost: 420 }], checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [{ uri: 'file://one.jpg' }, { uri: 'file://two.jpg' }] });
@@ -248,6 +248,14 @@ test('returns actionable fallback feedback when VIN lookup times out', async () 
 
 test('rejects invalid VINs before calling the service', async () => {
   await assert.rejects(() => decodeVin('not-a-vin'), /valid 17-character VIN/);
+});
+
+test('compares saved inspections with safe AI confidence fallbacks', () => {
+  const comparison = getInspectionComparison({ id: 'one', vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, issues: [{ severity: 'major', cost: 500 }], checklist: { Exterior: true }, photos: [], aiHistory: [] }, { id: 'two', vehicle: { year: '2019', make: 'Toyota', model: 'Camry' }, issues: [], checklist: {}, photos: [{ id: 'p1' }], aiHistory: [{ confidence: 72 }] });
+  assert.equal(comparison.left.risk, 20);
+  assert.equal(comparison.left.confidence, null);
+  assert.equal(comparison.right.confidence, 72);
+  assert.equal(getInspectionComparison({ vehicle: {} }, null), null);
 });
 
 test('normalizes saved inspections without allowing malformed nested data to crash screens', () => {
