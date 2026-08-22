@@ -588,3 +588,8 @@
 - [x] Add a Profile action to replay onboarding
 - [x] Add deterministic onboarding transition coverage
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add reduced-motion-aware directional transitions to checklist sections
+- [x] Add reduced-motion-aware transitions to report sections
+- [x] Add deterministic section-transition coverage
+- [x] Re-run full validation and save a new checkpoint
