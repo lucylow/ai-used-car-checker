@@ -113,3 +113,7 @@
 - [x] Improve PDF/share error feedback and prevent duplicate report actions
 - [x] Add deterministic coverage for report amount and HTML escaping
 - [x] Improve report preview accessibility and action-state reset
+- [x] Add stronger inspection form and checklist validation feedback
+- [x] Add explicit persistence recovery and retry feedback
+- [x] Add repair-priority guidance to the report preview and PDF
+- [x] Add deterministic coverage for report guidance formatting

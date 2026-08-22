@@ -15,6 +15,10 @@ export const buildPhotoEvidenceHtml = (photos = []) => photos.map((photo, index)
   return `<span style="display:inline-block; padding:8px 10px; margin:3px; border:1px solid #D0D5DD; border-radius:8px; color:#475467; font-size:11px">${label}</span>`;
 }).join('');
 
+export const getRepairPriority = (issue = {}) => ({ critical: 3, major: 2, minor: 1 }[issue.severity] || 0);
+
+export const formatRepairPriorityHtml = (issues = []) => [...issues].sort((a, b) => getRepairPriority(b) - getRepairPriority(a) || (Number(b.cost) || 0) - (Number(a.cost) || 0)).map((issue, index) => `<li><strong>${escapeHtml(issue.severity || 'review').toUpperCase()}</strong> · ${escapeHtml(issue.name || 'Unspecified issue')} · $${Number(issue.cost) || 0}${index === 0 ? ' · address first' : ''}</li>`).join('');
+
 export function buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice, riskScore }) {
   const repairTotal = issues.reduce((sum, issue) => sum + (Number(issue.cost) || 0), 0);
   const completedSections = Object.values(checklist).filter(Boolean).length;
