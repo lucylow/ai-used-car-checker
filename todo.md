@@ -159,3 +159,6 @@
 - [x] Add clearer checklist completion percentage messaging on the checklist screen
 - [x] Improve navigation labels for active inspection actions
 - [x] Add deterministic coverage for checklist guidance helpers
+- [x] Add accessible back-navigation labels across inspection screens
+- [x] Add a clear resume-inspection action from the dashboard
+- [x] Add deterministic coverage for navigation guidance helpers
