@@ -341,3 +341,7 @@
 - [x] Implement recovery banner and queued-operation details
 - [x] Add deterministic tests for recovery-banner behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit local operation status data and available failure metadata
+- [x] Implement a bounded recovery log and actionable status details
+- [x] Add deterministic tests for recovery-log behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
