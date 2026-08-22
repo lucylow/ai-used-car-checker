@@ -227,3 +227,8 @@
 - [x] Improve the highest-impact backup or recovery workflow gap
 - [x] Add deterministic tests for the new behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+
+- [x] Audit prototype vehicle tools for functional gaps
+- [x] Integrate live NHTSA vPIC VIN decoding with validation and fallback
+- [x] Add deterministic VIN service tests
+- [x] Re-run tests, type checks, lint, and Expo web export

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
+import { decodeVin } from '../src/services/vinService.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('serializes and restores a versioned local backup', () => {
@@ -18,6 +19,26 @@ test('serializes and restores a versioned local backup', () => {
   assert.deepEqual(sanitized.photos, [{ id: 'kept' }]);
   assert.deepEqual(sanitized.savedInspections, [{ id: 'kept' }]);
   assert.throws(() => parseInspectionBackup('{"app":"other","version":1}'), /Unsupported Carwise backup/);
+});
+
+test('decodes VIN response fields and normalizes the submitted VIN', async () => {
+  let requestedUrl = '';
+  const result = await decodeVin('1hg cm82633a004352', { fetchImpl: async (url) => { requestedUrl = url; return { ok: true, async json() { return { Results: [{ ModelYear: '2003', Make: 'Honda', Model: 'Accord', Trim: 'EX', BodyClass: 'Sedan', DisplacementL: '2.4', EngineCylinders: '4' }] }; } }; } });
+  assert.equal(result.status, 'decoded');
+  assert.equal(result.vin, '1HGCM82633A004352');
+  assert.equal(result.vehicle.model, 'Accord');
+  assert.match(requestedUrl, /DecodeVinValuesExtended\/1HGCM82633A004352/);
+});
+
+test('returns a fallback result when the VIN service fails', async () => {
+  const result = await decodeVin('1HGCM82633A004352', { fetchImpl: async () => { throw new Error('offline'); } });
+  assert.equal(result.status, 'fallback');
+  assert.equal(result.vehicle, null);
+  assert.match(result.message, /unavailable/i);
+});
+
+test('rejects invalid VINs before calling the service', async () => {
+  await assert.rejects(() => decodeVin('not-a-vin'), /valid 17-character VIN/);
 });
 
 test('clears saved selection only for the deleted record', () => {
