@@ -17,7 +17,7 @@ export const buildAiAnalysis = ({ vehicle = {}, issues = [], checklist = {}, pho
   const asking = Number(String(vehicle.asking || '').replace(/[^0-9.]/g, '')) || 0;
   const fairPrice = asking ? Math.max(0, Math.round(asking - repairTotal * 0.35)) : null;
   const recommendation = getAiRecommendation({ issues: combinedIssues, repairTotal, confidence, evidenceScore: evidence.score });
-  const priorityPlan = getAiPriorityPlan({ issues: combinedIssues, evidenceScore: evidence.score });
+  const priorityPlan = getAiPriorityPlan({ issues: combinedIssues, evidenceScore: evidence.score, photos });
   return {
     findings,
     issues: combinedIssues,
@@ -38,15 +38,17 @@ export const mergeAiFindings = (existingIssues = [], pendingFindings = []) => {
   return [...existing, ...pending.filter((finding) => finding?.name && !existing.some((issue) => issue?.name === finding.name))];
 };
 
-export const getAiPriorityPlan = ({ issues = [], evidenceScore = 0 } = {}) => {
+export const getAiPriorityPlan = ({ issues = [], evidenceScore = 0, photos = [] } = {}) => {
   const list = Array.isArray(issues) ? issues : [];
+  const usablePhotos = Array.isArray(photos) ? photos.filter((photo) => photo?.uri) : [];
   const severityWeight = { critical: 3, major: 2, minor: 1 };
   return list.map((issue, index) => {
     const severity = issue?.severity || 'minor';
     const cost = Math.max(0, Number(issue?.cost) || 0);
     const priorityScore = (severityWeight[severity] || 1) * 100 + Math.min(cost, 5000) / 50;
     const nextAction = severity === 'critical' ? 'Stop and arrange an independent mechanic inspection.' : severity === 'major' ? 'Request service records and obtain a repair estimate.' : 'Document the condition and include it in negotiation notes.';
-    return { ...issue, priority: index + 1, priorityScore, why: `${severity[0].toUpperCase() + severity.slice(1)} concern${cost ? ` with an estimated $${cost.toLocaleString('en-US')} reserve` : ''}; evidence coverage is ${evidenceScore}%.`, nextAction };
+    const photo = usablePhotos[index % Math.max(usablePhotos.length, 1)];
+    return { ...issue, priority: index + 1, priorityScore, photoId: photo?.id || null, why: `${severity[0].toUpperCase() + severity.slice(1)} concern${cost ? ` with an estimated $${cost.toLocaleString('en-US')} reserve` : ''}; evidence coverage is ${evidenceScore}%.`, nextAction };
   }).sort((a, b) => b.priorityScore - a.priorityScore).map((issue, index) => ({ ...issue, priority: index + 1 }));
 };
 

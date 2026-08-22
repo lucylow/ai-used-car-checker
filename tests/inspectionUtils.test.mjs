@@ -16,6 +16,13 @@ test('derives transparent AI analysis from inspection evidence', () => {
   assert.match(result.negotiation, /repair estimate/);
 });
 
+test('links AI priorities to usable evidence photos when available', () => {
+  const withPhoto = getAiPriorityPlan({ issues: [{ name: 'Brake issue', severity: 'major', cost: 420 }], evidenceScore: 70, photos: [{ id: 'photo-1', uri: 'file://brake.jpg' }] });
+  const withoutPhoto = getAiPriorityPlan({ issues: [{ name: 'Brake issue', severity: 'major', cost: 420 }], evidenceScore: 40, photos: [] });
+  assert.equal(withPhoto[0].photoId, 'photo-1');
+  assert.equal(withoutPhoto[0].photoId, null);
+});
+
 test('builds a severity-first explainable AI action plan', () => {
   const plan = getAiPriorityPlan({ issues: [{ name: 'Cosmetic scratch', severity: 'minor', cost: 150 }, { name: 'Brake issue', severity: 'major', cost: 420 }], evidenceScore: 60 });
   assert.deepEqual(plan.map((item) => item.name), ['Brake issue', 'Cosmetic scratch']);

@@ -297,3 +297,7 @@
 - [x] Implement explainable priority ranking and action plan
 - [x] Add deterministic tests for AI prioritization behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit AI priority data and photo evidence availability
+- [x] Implement photo-linked evidence and follow-up actions
+- [x] Add deterministic tests for photo-evidence AI behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
