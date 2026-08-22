@@ -295,6 +295,15 @@ test('compares saved inspections with safe AI confidence fallbacks', () => {
   assert.equal(getInspectionComparison({ vehicle: {} }, null), null);
 });
 
+test('guards primitive VIN and malformed issue inputs', () => {
+  assert.equal(normalizeVin(12345), '12345');
+  assert.equal(isValidVin(null), false);
+  assert.equal(getRepairTotal(null), 0);
+  assert.equal(getRepairTotal([{ cost: 50 }, null, { cost: 'bad' }]), 50);
+  assert.equal(getRiskScore(null), 0);
+  assert.equal(getRiskScore([{ severity: 'major' }, null]), 20);
+});
+
 test('normalizes malformed active inspection data before restore', () => {
   const normalized = normalizeActiveInspection({ vehicle: ['bad'], issues: [{ name: ' Brake ', severity: 'unknown', cost: '-5' }, null, { cost: 20 }], checklist: { Exterior: true, bad: 'yes' }, photos: 'bad' });
   assert.equal(normalized.vehicle.year, '');
