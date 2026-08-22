@@ -168,3 +168,6 @@
 - [x] Add explicit photo-removal feedback and accessible labels
 - [x] Improve AI analysis action readiness messaging when no photos exist
 - [x] Add deterministic coverage for photo-action guidance
+- [x] Add accessibility labels to photo capture and AI analysis primary actions
+- [x] Improve photo-screen empty-state action copy
+- [x] Add deterministic coverage for photo-screen guidance labels
