@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createNewInspectionState, getDerivedInspectionResetState, isSameIssue } from './src/services/inspectionUtils';
+import { createNewInspectionState, getDerivedInspectionResetState, isSameIssue, normalizeActiveInspection } from './src/services/inspectionUtils';
 import { applyDecodedVehicle, decodeVin } from './src/services/vinService';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiFindingExplanation, getAiReadinessMessage, getAiEvidenceActions, getPhotoEvidenceReview, buildPhotoFindingDraft, updatePhotoReview, mergeAiFindings, resetAiHistory } from './src/services/aiUtils';
 import { enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from './src/services/retryQueue';
@@ -175,10 +175,11 @@ export default function App() {
         if (!recoveryRaw) return;
         const saved = JSON.parse(recoveryRaw);
         if (pending) setLastLocalAction('Recovered a pending local save; retrying automatically');
-        if (saved.vehicle) setVehicle(saved.vehicle);
-        if (saved.issues) setIssues(saved.issues);
-        if (saved.checklist) setChecklist(saved.checklist);
-        if (saved.photos) { const normalizedPhotos = normalizePhotoAssets(saved.photos); setPhotos(normalizedPhotos); if (normalizedPhotos.length < saved.photos.length) { const skipped = saved.photos.length - normalizedPhotos.length; const notice = `Local photos restored safely. ${skipped} malformed photo${skipped === 1 ? '' : 's'} skipped.`; setRestoreNotice(notice); setSaveStatus(notice); } }
+        const activeRestore = normalizeActiveInspection(saved);
+        if (saved.vehicle) setVehicle(activeRestore.vehicle);
+        if (saved.issues) setIssues(activeRestore.issues);
+        if (saved.checklist) setChecklist(activeRestore.checklist);
+        if (saved.photos) { const normalizedPhotos = normalizePhotoAssets(activeRestore.photos); setPhotos(normalizedPhotos); if (normalizedPhotos.length < saved.photos.length) { const skipped = saved.photos.length - normalizedPhotos.length; const notice = `Local photos restored safely. ${skipped} malformed photo${skipped === 1 ? '' : 's'} skipped.`; setRestoreNotice(notice); setSaveStatus(notice); } }
         if (saved.savedInspections) { const normalizedSaved = saved.savedInspections.map(normalizeSavedInspection).filter(Boolean); setSavedInspections(normalizedSaved); if (normalizedSaved.length < saved.savedInspections.length) { const notice = `Local data restored safely.${getRestoreSanitizationNotice(saved.savedInspections.length - normalizedSaved.length)}`; setRestoreNotice(notice); setSaveStatus(notice); } }
         if (saved.lastLocalAction) setLastLocalAction(saved.lastLocalAction);
         if (saved.recoveryLog) setRecoveryLog(normalizeRecoveryLog(saved.recoveryLog));

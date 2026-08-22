@@ -429,3 +429,7 @@
 - [x] Implement the next targeted data-integrity fix with actionable feedback
 - [x] Add deterministic regression coverage for the new safeguards
 - [x] Re-run tests, type checks, lint, Expo web export, and Expo Doctor
+- [x] Inspect the newly provided error content and active restore/backup paths
+- [x] Implement targeted fixes with actionable recovery feedback
+- [x] Add deterministic regression coverage for the new safeguards
+- [x] Re-run tests, type checks, lint, Expo web export, and Expo Doctor

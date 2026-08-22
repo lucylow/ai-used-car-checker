@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
+import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel } from '../src/services/reportUtils.js';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
@@ -293,6 +293,17 @@ test('compares saved inspections with safe AI confidence fallbacks', () => {
   assert.equal(comparison.left.confidence, null);
   assert.equal(comparison.right.confidence, 72);
   assert.equal(getInspectionComparison({ vehicle: {} }, null), null);
+});
+
+test('normalizes malformed active inspection data before restore', () => {
+  const normalized = normalizeActiveInspection({ vehicle: ['bad'], issues: [{ name: ' Brake ', severity: 'unknown', cost: '-5' }, null, { cost: 20 }], checklist: { Exterior: true, bad: 'yes' }, photos: 'bad' });
+  assert.equal(normalized.vehicle.year, '');
+  assert.equal(normalized.issues.length, 2);
+  assert.equal(normalized.issues[0].severity, 'minor');
+  assert.equal(normalized.issues[0].cost, 0);
+  assert.equal(normalized.issues[1].name, 'Unnamed finding');
+  assert.deepEqual(normalized.checklist, { Exterior: true });
+  assert.deepEqual(normalized.photos, []);
 });
 
 test('normalizes malformed persisted photos before rendering', () => {
