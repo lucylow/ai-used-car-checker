@@ -4330,3 +4330,33 @@
 [2026-08-22T15:15:57.451Z] Logs for your project will appear below.
 [2026-08-22T15:16:01.463Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
 [2026-08-22T15:16:01.939Z] Web Bundled 477ms index.js (487 modules)
+[2026-08-22T15:16:05.489Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T15:16:49.697Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T15:16:49.722Z] Web Bundled 25ms index.js (1 module)
+[2026-08-22T15:16:50.023Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T15:17:23.312Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T15:17:23.332Z] Web Bundled 20ms index.js (1 module)
+[2026-08-22T15:17:23.734Z] [ELIFECYCLE] Command failed.
+[2026-08-22T15:17:23.741Z] Dev server exited with code -1
+[2026-08-22T15:17:24.836Z] Starting dev server with command: pnpm run dev
+[2026-08-22T15:17:25.414Z] $ expo start
+[2026-08-22T15:17:25.774Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T15:17:26.930Z] Starting Metro Bundler
+[2026-08-22T15:17:33.662Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T15:17:33.710Z] Waiting on http://localhost:8081
+[2026-08-22T15:17:33.710Z] Logs for your project will appear below.
+[2026-08-22T15:17:33.710Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T15:17:34.131Z] Web Bundled 510ms index.js (478 modules)
+[2026-08-22T15:17:35.829Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T15:18:04.682Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T15:18:04.791Z] [ELIFECYCLE] Command failed.
+[2026-08-22T15:18:04.802Z] Dev server exited with code -1
+[2026-08-22T15:18:05.903Z] Starting dev server with command: pnpm run dev
+[2026-08-22T15:18:06.434Z] $ expo start
+[2026-08-22T15:18:06.786Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T15:18:07.753Z] Starting Metro Bundler
+[2026-08-22T15:18:14.720Z] Waiting on http://localhost:8081
+[2026-08-22T15:18:14.720Z] Logs for your project will appear below.
+[2026-08-22T15:18:14.720Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T15:18:16.373Z] Web Bundled 1682ms index.js (415 modules)
+[2026-08-22T15:18:17.095Z] LOG  [web] Logs will appear in the browser console

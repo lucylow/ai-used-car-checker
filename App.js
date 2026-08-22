@@ -191,11 +191,17 @@ export default function App() {
       }
       ImagePicker.getPendingResultAsync().then((result) => {
         if (result && !result.canceled && result.assets?.[0]) addPickedPhoto(result.assets[0]);
-      }).catch(() => setSaveStatus('Could not restore a pending camera result; you can choose a photo again.'));
-    }).catch(() => {
+      }).catch((error) => {
+        const detail = getErrorDetail(error, 'pending camera result could not be restored');
+        recordRecoveryEvent('Pending camera restore', 'error', detail);
+        setSaveStatus(`Could not restore a pending camera result; you can choose a photo again. Detail: ${detail}`);
+      });
+    }).catch((error) => {
+      const detail = getErrorDetail(error, 'local storage could not be read');
+      recordRecoveryEvent('Local restore', 'error', detail);
       setRestored(true);
       setSaveState('error');
-      setSaveStatus(getLocalRestoreErrorGuidance('storage'));
+      setSaveStatus(`${getLocalRestoreErrorGuidance('storage')} Detail: ${detail}`);
     });
   }, []);
 
