@@ -25,6 +25,14 @@ test('summarizes AI quality from evidence and vehicle identity', () => {
   assert.match(strong.nextStep, /Verify critical findings/i);
 });
 
+test('keeps AI evidence changes interpretable for a confidence timeline', () => {
+  const early = buildAiAnalysis({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: {}, photos: [] });
+  const later = buildAiAnalysis({ vehicle: { year: '2020', make: 'Honda', model: 'Accord', vin: '1HGCM82633A004352' }, checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [{ uri: 'file://one.jpg' }] });
+  assert.ok(later.confidence > early.confidence);
+  assert.ok(later.quality.score > early.quality.score);
+  assert.equal(later.quality.drivers.length, 3);
+});
+
 test('maps missing AI evidence to direct completion actions', () => {
   const actions = getAiEvidenceActions({ missing: ['clear photo evidence', '4 checklist sections', 'asking price', 'clear photo evidence'] });
   assert.deepEqual(actions.map((action) => action.key), ['photos', 'checklist', 'asking']);

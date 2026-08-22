@@ -317,3 +317,7 @@
 - [x] Implement analysis-quality scoring and evidence impact explanations
 - [x] Add deterministic tests for AI quality behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit current AI result state and evidence-change tracking
+- [x] Implement AI confidence history and change explanations
+- [x] Add deterministic tests for AI confidence-history behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
