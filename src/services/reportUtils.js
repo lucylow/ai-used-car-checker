@@ -48,3 +48,5 @@ export function buildInspectionReport({ vehicle, issues, checklist, photos, fair
     'This report is informational and should be confirmed by a qualified mechanic.'
   ].join('\n');
 }
+
+export const getPhotoActionGuidance = (photoCount = 0) => { const count = Math.max(0, Number(photoCount) || 0); return count ? `${count} photo${count === 1 ? '' : 's'} ready for AI analysis.` : 'No photos yet. Add at least one photo for stronger AI evidence.' };

@@ -165,3 +165,6 @@
 - [x] Add a clearer photo evidence count and next-step prompt on the checklist
 - [x] Improve summary action labels for incomplete inspections
 - [x] Add deterministic coverage for inspection action guidance
+- [x] Add explicit photo-removal feedback and accessible labels
+- [x] Improve AI analysis action readiness messaging when no photos exist
+- [x] Add deterministic coverage for photo-action guidance
