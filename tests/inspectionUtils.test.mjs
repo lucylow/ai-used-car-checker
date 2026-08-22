@@ -746,6 +746,13 @@ test('filters field-note timeline by provenance source without mutating order', 
   assert.deepEqual(filterToolNoteTimelineBySource(null, 'Seller'), []);
 });
 
+test('preserves field-note provenance when normalizing saved inspections', () => {
+  const saved = normalizeSavedInspection({ id: 'saved-1', vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, issues: [], checklist: {}, photos: [], toolNotes: { market: { note: 'Seller price', source: 'Seller', savedAt: '2026-08-22T10:00:00.000Z' } } });
+  assert.equal(saved.toolNotes.market.note, 'Seller price');
+  assert.equal(saved.toolNotes.market.source, 'Seller');
+  assert.equal(saved.toolNotes.market.savedAt, '2026-08-22T10:00:00.000Z');
+});
+
 test('filters invalid or oversized local tool observations during backup parsing', () => {
   const raw = JSON.stringify({ app: 'carwise', version: 1, toolNotes: { market: 'ok', history: 42, test: 'x'.repeat(1200), ignored: 'nope' } });
   const parsed = parseInspectionBackup(raw);

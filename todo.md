@@ -550,3 +550,7 @@
 - [x] Add accessible provenance-source filters to the chronological field-note timeline
 - [x] Add deterministic regression coverage for source filtering
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Surface field-note timelines and provenance in saved-inspection details
+- [x] Add deterministic regression coverage for saved-detail note normalization
+- [x] Re-run full validation and save a new checkpoint
