@@ -381,3 +381,7 @@
 - [x] Add user-controlled photo analysis trigger and review state
 - [x] Add deterministic tests for photo-analysis normalization and fallback behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Add confirmable photo findings with linked evidence IDs
+- [x] Persist photo review status and notes safely in saved inspections and backups
+- [x] Add deterministic tests for photo finding confirmation and deduplication
+- [x] Re-run tests, type checks, lint, and Expo web export

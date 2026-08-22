@@ -5,7 +5,7 @@ import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, updatePhotoReview, buildPhotoFindingDraft, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
 import { formatComparisonMetricValue, getBackupPreviewRows } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
@@ -266,6 +266,18 @@ test('compares saved inspections with safe AI confidence fallbacks', () => {
   assert.equal(comparison.left.confidence, null);
   assert.equal(comparison.right.confidence, 72);
   assert.equal(getInspectionComparison({ vehicle: {} }, null), null);
+});
+
+test('persists photo review status and creates linked finding drafts', () => {
+  const photos = [{ id: 'photo-1', uri: 'file://one.jpg' }];
+  const review = getPhotoEvidenceReview(photos)[0];
+  const updated = updatePhotoReview(photos, review.id, 'confirmed', 'Visible panel concern');
+  assert.equal(updated[0].reviewStatus, 'confirmed');
+  assert.equal(updated[0].reviewNote, 'Visible panel concern');
+  const finding = buildPhotoFindingDraft({ ...review, note: 'Visible panel concern' });
+  assert.equal(finding.photoId, 'photo-1');
+  assert.equal(finding.source, 'user-confirmed photo evidence');
+  assert.match(finding.name, /Photo evidence/);
 });
 
 test('creates transparent per-photo evidence review prompts', () => {

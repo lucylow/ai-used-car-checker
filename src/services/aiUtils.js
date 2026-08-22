@@ -15,8 +15,11 @@ export const getEvidenceAudit = ({ vehicle = {}, checklist = {}, photos = [], is
 
 export const getPhotoEvidenceReview = (photos = []) => {
   const prompts = ['Check exterior panels, glass, and lights for visible damage.', 'Check tires and brake area for wear, leaks, or warning signs.', 'Check the engine bay for leaks, corrosion, or missing components.', 'Check the interior controls, warning lights, and upholstery condition.'];
-  return (Array.isArray(photos) ? photos : []).filter((photo) => photo?.uri).map((photo, index) => ({ id: photo.id || `photo-${index + 1}`, label: photo.fileName || `Photo ${index + 1}`, status: 'needs-confirmation', provider: 'local evidence checklist', guidance: prompts[index] || 'Review this image for visible condition changes and document anything unusual.', limitation: 'This review uses photo metadata and a structured prompt only; it is not a visual diagnosis.' }));
+  return (Array.isArray(photos) ? photos : []).filter((photo) => photo?.uri).map((photo, index) => ({ id: photo.id || `photo-${index + 1}`, label: photo.fileName || `Photo ${index + 1}`, status: photo.reviewStatus || 'needs-confirmation', note: photo.reviewNote || '', provider: 'local evidence checklist', guidance: prompts[index] || 'Review this image for visible condition changes and document anything unusual.', limitation: 'This review uses photo metadata and a structured prompt only; it is not a visual diagnosis.' }));
 };
+
+export const updatePhotoReview = (photos = [], photoId, status, note = '') => (Array.isArray(photos) ? photos : []).map((photo) => photo?.id === photoId ? { ...photo, reviewStatus: status, reviewNote: note } : photo);
+export const buildPhotoFindingDraft = (review = {}) => ({ name: `Photo evidence · ${review.label || 'Inspection photo'}`, severity: 'minor', cost: 0, note: review.note || review.guidance || 'User-confirmed photo evidence requires in-person verification.', photoId: review.id || null, source: 'user-confirmed photo evidence' });
 
 export const resetAiHistory = () => [];
 
