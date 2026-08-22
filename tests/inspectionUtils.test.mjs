@@ -44,6 +44,18 @@ test('returns a fallback result when the VIN service fails', async () => {
   assert.match(result.message, /unavailable/i);
 });
 
+test('returns actionable fallback feedback when VIN lookup times out', async () => {
+  clearVinCache();
+  const result = await decodeVin('2HGCM82633A004352', {
+    timeoutMs: 5,
+    fetchImpl: async (_url, { signal }) => await new Promise((resolve, reject) => {
+      signal.addEventListener('abort', () => { const error = new Error('aborted'); error.name = 'AbortError'; reject(error); });
+    }),
+  });
+  assert.equal(result.status, 'fallback');
+  assert.match(result.message, /timed out/i);
+});
+
 test('rejects invalid VINs before calling the service', async () => {
   await assert.rejects(() => decodeVin('not-a-vin'), /valid 17-character VIN/);
 });

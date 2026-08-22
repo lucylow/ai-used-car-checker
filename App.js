@@ -46,17 +46,20 @@ const VinTool = ({ onHome, onUse }) => {
   const [value, setValue] = useState('');
   const [result, setResult] = useState(null);
   const [busy, setBusy] = useState(false);
+  const mountedRef = useRef(true);
+  useEffect(() => () => { mountedRef.current = false; }, []);
   const runDecode = async () => {
     setBusy(true);
     setResult(null);
     try {
       const decoded = await decodeVin(value);
+      if (!mountedRef.current) return;
       setValue(decoded.vin);
       setResult(decoded);
     } catch (error) {
-      setResult({ status: 'error', message: error?.message || 'Enter a valid 17-character VIN before decoding.', vehicle: null });
+      if (mountedRef.current) setResult({ status: 'error', message: error?.message || 'Enter a valid 17-character VIN before decoding.', vehicle: null });
     } finally {
-      setBusy(false);
+      if (mountedRef.current) setBusy(false);
     }
   };
   const vehicleLabel = result?.vehicle ? [result.vehicle.year, result.vehicle.make, result.vehicle.model].filter(Boolean).join(' ') : '';
