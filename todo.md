@@ -569,3 +569,7 @@
 - [x] Animate timeline filter selection changes
 - [x] Add deterministic motion helper coverage
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Apply reduced-motion-aware press feedback to save, report, photo, and recovery actions
+- [x] Verify animation behavior does not block or change action semantics
+- [x] Re-run full validation and save a new checkpoint
