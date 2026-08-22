@@ -29,6 +29,17 @@ export const getEvidenceCoverage = ({ checklist = {}, photos = [] } = {}) => {
   return { completedSections, photoCount, totalSections: 5, score: clamp(Math.round((completedSections / 5) * 70 + Math.min(photoCount, 6) / 6 * 30), 0, 100) };
 };
 
+export const getAiQualitySummary = ({ evidence = {}, vehicle = {} } = {}) => {
+  const evidenceScore = clamp(Number(evidence.score) || 0, 0, 100);
+  const identityBonus = vehicle.vin ? 10 : 0;
+  const score = clamp(Math.round(evidenceScore * 0.8 + Math.min(identityBonus, 10)), 0, 100);
+  const label = score >= 80 ? 'Strong first-pass signal' : score >= 60 ? 'Usable with verification' : 'Early signal only';
+  const drivers = [`${evidence.completedSections || 0}/5 checklist sections`, `${evidence.photoCount || 0} usable photos`];
+  if (vehicle.vin) drivers.push('VIN identified');
+  const nextStep = score >= 80 ? 'Verify critical findings with service records or a qualified mechanic.' : 'Add the missing evidence shown below before relying on price or risk guidance.';
+  return { score, label, drivers, nextStep };
+};
+
 export const buildAiAnalysis = ({ vehicle = {}, issues = [], checklist = {}, photos = [] } = {}) => {
   const evidence = getEvidenceCoverage({ checklist, photos });
   const existingIssues = Array.isArray(issues) ? issues : [];
@@ -42,6 +53,7 @@ export const buildAiAnalysis = ({ vehicle = {}, issues = [], checklist = {}, pho
   const recommendation = getAiRecommendation({ issues: combinedIssues, repairTotal, confidence, evidenceScore: evidence.score });
   const priorityPlan = getAiPriorityPlan({ issues: combinedIssues, evidenceScore: evidence.score, photos });
   const evidenceAudit = getEvidenceAudit({ vehicle, checklist, photos, issues: existingIssues, pendingFindings: findings });
+  const quality = getAiQualitySummary({ evidence, vehicle });
   return {
     findings,
     issues: combinedIssues,
@@ -52,6 +64,7 @@ export const buildAiAnalysis = ({ vehicle = {}, issues = [], checklist = {}, pho
     recommendation,
     priorityPlan,
     evidenceAudit,
+    quality,
     limitations: evidence.score < 60 ? 'Add more checklist results and clear photos before relying on this analysis.' : 'AI findings are screening signals, not a mechanical diagnosis. Confirm safety items with a qualified mechanic.',
     negotiation: repairTotal ? `Use the ${repairTotal.toLocaleString('en-US')} repair estimate as an evidence-backed negotiation reserve; confirm each item before making an offer.` : 'No repair reserve is calculated yet. Add confirmed issues and costs before negotiating.'
   };

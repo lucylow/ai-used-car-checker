@@ -5,7 +5,7 @@ import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel
 import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings } from '../src/services/aiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
@@ -14,6 +14,15 @@ test('derives transparent AI analysis from inspection evidence', () => {
   assert.equal(result.confidence, 89);
   assert.equal(result.fairPrice, 21456);
   assert.match(result.negotiation, /repair estimate/);
+});
+
+test('summarizes AI quality from evidence and vehicle identity', () => {
+  const early = getAiQualitySummary({ evidence: { score: 40, completedSections: 1, photoCount: 0 }, vehicle: {} });
+  const strong = getAiQualitySummary({ evidence: { score: 100, completedSections: 5, photoCount: 4 }, vehicle: { vin: '1HGCM82633A004352' } });
+  assert.ok(strong.score > early.score);
+  assert.equal(early.label, 'Early signal only');
+  assert.match(strong.drivers.join(' '), /5\/5|4 usable photos|VIN identified/);
+  assert.match(strong.nextStep, /Verify critical findings/i);
 });
 
 test('maps missing AI evidence to direct completion actions', () => {

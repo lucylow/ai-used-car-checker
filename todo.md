@@ -309,3 +309,11 @@
 - [x] Add direct evidence-completion actions and readiness feedback
 - [x] Add deterministic tests for AI readiness actions
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit current AI confidence and evidence presentation
+- [x] Implement analysis-quality scoring and evidence impact explanations
+- [x] Add deterministic tests for AI quality behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit current AI confidence and evidence presentation
+- [x] Implement analysis-quality scoring and evidence impact explanations
+- [x] Add deterministic tests for AI quality behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
