@@ -281,3 +281,7 @@
 - [x] Add user-confirmed AI finding review with evidence explanations
 - [x] Add deterministic tests for AI review and guidance behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit current AI finding, confidence, and report data flow
+- [x] Add per-finding evidence and confidence explanations
+- [x] Add deterministic tests for AI evidence behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

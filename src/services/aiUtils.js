@@ -10,12 +10,12 @@ export const buildAiAnalysis = ({ vehicle = {}, issues = [], checklist = {}, pho
   const evidence = getEvidenceCoverage({ checklist, photos });
   const existingIssues = Array.isArray(issues) ? issues : [];
   const hasSafetyIssue = existingIssues.some((issue) => issue?.severity === 'critical');
-  const findings = hasSafetyIssue ? [] : [{ name: 'Rust underneath', severity: 'critical', cost: 850, note: 'Needs in-person confirmation beneath the vehicle.', source: evidence.photoCount ? 'photo-assisted heuristic' : 'inspection checklist heuristic' }];
+  const confidence = clamp(Math.round(35 + evidence.score * 0.55 + (vehicle.vin ? 10 : 0)), 35, 95);
+  const findings = hasSafetyIssue ? [] : [{ name: 'Rust underneath', severity: 'critical', cost: 850, note: 'Needs in-person confirmation beneath the vehicle.', source: evidence.photoCount ? 'photo-assisted heuristic' : 'inspection checklist heuristic', confidence: clamp(confidence - 8, 25, 95), evidence: evidence.photoCount ? `${evidence.photoCount} usable photo${evidence.photoCount === 1 ? '' : 's'} plus ${evidence.completedSections}/5 checklist sections` : `${evidence.completedSections}/5 checklist sections; no usable photo attached` }];
   const combinedIssues = [...existingIssues, ...findings.filter((finding) => !existingIssues.some((issue) => issue?.name === finding.name))];
   const repairTotal = combinedIssues.reduce((sum, issue) => sum + Math.max(0, Number(issue?.cost) || 0), 0);
   const asking = Number(String(vehicle.asking || '').replace(/[^0-9.]/g, '')) || 0;
   const fairPrice = asking ? Math.max(0, Math.round(asking - repairTotal * 0.35)) : null;
-  const confidence = clamp(Math.round(35 + evidence.score * 0.55 + (vehicle.vin ? 10 : 0)), 35, 95);
   return {
     findings,
     issues: combinedIssues,
@@ -32,6 +32,11 @@ export const mergeAiFindings = (existingIssues = [], pendingFindings = []) => {
   const existing = Array.isArray(existingIssues) ? existingIssues : [];
   const pending = Array.isArray(pendingFindings) ? pendingFindings : [];
   return [...existing, ...pending.filter((finding) => finding?.name && !existing.some((issue) => issue?.name === finding.name))];
+};
+
+export const getAiFindingExplanation = (finding = {}) => {
+  const confidence = clamp(Number(finding.confidence) || 0, 0, 100);
+  return `${confidence}% confidence · ${finding.evidence || 'Based on the available inspection evidence.'} · Confirm in person before purchase.`;
 };
 
 export const getAiConfidenceLabel = (confidence) => {
