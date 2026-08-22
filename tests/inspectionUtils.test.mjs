@@ -680,3 +680,18 @@ test('renders embedded photo thumbnails and safe metadata fallbacks', () => {
   assert.doesNotMatch(escaped, /<script>alert/);
   assert.match(escaped, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
 });
+
+test('merges a manually entered custom finding without duplicating an existing issue', () => {
+  const existing = [{ name: 'Windshield chip', severity: 'minor', cost: 120, note: 'Existing note' }];
+  const custom = { name: 'Windshield chip', severity: 'major', cost: 250, note: 'Updated by user', source: 'Manual finding' };
+  const merged = mergeAiFindings(existing, [custom]);
+  assert.equal(merged.length, 1);
+  assert.equal(merged[0].severity, 'minor');
+  assert.equal(merged[0].cost, 120);
+});
+
+test('restores a removed finding through the same merge path used by Undo', () => {
+  const removed = { name: 'Door dent', severity: 'major', cost: 600, note: 'Rear passenger door', source: 'Manual finding' };
+  const restored = mergeAiFindings([], [removed]);
+  assert.deepEqual(restored, [removed]);
+});

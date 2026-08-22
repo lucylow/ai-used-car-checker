@@ -512,3 +512,8 @@
 - [x] Continue improving the React Native app with the next highest-impact functional or reliability improvement
 - [x] Add deterministic regression coverage for the improvement
 - [x] Re-run full validation and save a new checkpoint
+- [x] Add manual custom finding creation with validation and local persistence
+- [x] Add AI processing skeleton loading state with accessible status feedback
+- [x] Add immediate finding-removal toast with Undo recovery
+- [x] Add deterministic regression coverage for the three requested flows
+- [x] Re-run full validation and save a new checkpoint
