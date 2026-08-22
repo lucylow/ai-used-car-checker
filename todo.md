@@ -542,3 +542,7 @@
 - [x] Add a chronological field-note timeline to the inspection summary
 - [x] Add deterministic regression coverage for timeline ordering and malformed dates
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add accessible category filters to the chronological field-note timeline
+- [x] Add deterministic regression coverage for timeline filtering
+- [x] Re-run full validation and save a new checkpoint
