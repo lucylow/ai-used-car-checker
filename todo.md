@@ -207,3 +207,7 @@
 - [x] Improve the highest-impact active-inspection workflow gap
 - [x] Add deterministic tests for the new behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit checklist completion and save-flow consistency for remaining gaps
+- [x] Improve the highest-impact checklist or save-flow reliability gap
+- [x] Add deterministic tests for the new behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
