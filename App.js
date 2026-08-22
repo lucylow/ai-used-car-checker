@@ -211,7 +211,7 @@ export default function App() {
     let recoveryQueued = false;
     try {
       const persistedPhotos = photos.slice(-12).map((photo) => ({ id: photo.id, uri: photo.uri, width: photo.width, height: photo.height, mimeType: photo.mimeType, fileName: photo.fileName }));
-      payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, savedInspections, aiHistory: aiHistory.slice(-6), lastLocalAction });
+      payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, savedInspections, aiHistory: aiHistory.slice(-6), recoveryLog: recoveryLog.slice(-6), lastLocalAction });
       if (payload.length > 250000) setSaveStatus('Inspection is large — keeping a compact local copy');
       await AsyncStorage.setItem('carwise-inspection', payload);
       try {
@@ -231,7 +231,7 @@ export default function App() {
         try {
           if (!payload) {
             const persistedPhotos = photos.slice(-12).map((photo) => ({ id: photo.id, uri: photo.uri, width: photo.width, height: photo.height, mimeType: photo.mimeType, fileName: photo.fileName }));
-            payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, savedInspections, aiHistory: aiHistory.slice(-6), lastLocalAction });
+            payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, savedInspections, aiHistory: aiHistory.slice(-6), recoveryLog: recoveryLog.slice(-6), lastLocalAction });
           }
           await AsyncStorage.setItem('carwise-pending-inspection', payload);
           recoveryQueued = true;
