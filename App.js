@@ -129,7 +129,8 @@ export default function App() {
   const checklistComplete = Object.values(checklist).filter(Boolean).length;
   const riskScore = Math.min(100, issues.reduce((score, issue) => score + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0));
   const reportReadiness = getReportReadiness({ vehicle, checklist, photos });
-  useEffect(() => { if (reportPreview) setReportPreview(`${buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice: 19400, riskScore })}`); }, [vehicle, issues, checklist, photos, riskScore]);
+  useEffect(() => { if (reportPreview) setReportPreview(`${buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice: aiResult?.fairPrice || 19400, riskScore })}`); }, [vehicle, issues, checklist, photos, riskScore, aiResult?.fairPrice]);
+  useEffect(() => { if (!ranAI || aiPendingFindings.length) return; setAiResult((current) => current ? buildAiAnalysis({ vehicle, issues, checklist, photos }) : current); }, [ranAI, aiPendingFindings.length, vehicle, issues, checklist, photos]);
   const viewerPhotos = (selectedSavedInspection?.photos?.length ? selectedSavedInspection.photos : photos).filter((photo) => photo?.uri);
   const filteredSavedInspections = useMemo(() => filterAndSortInspections(savedInspections, historyQuery, historySort), [savedInspections, historyQuery, historySort]);
   const selectedPhotoIndex = viewerPhotos.findIndex((photo) => photo.id === selectedPhoto?.id);

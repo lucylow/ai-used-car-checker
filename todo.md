@@ -289,3 +289,7 @@
 - [x] Add clearer AI recommendation tiers and next actions
 - [x] Add deterministic tests for AI recommendation behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit AI refresh behavior after checklist, photo, and issue edits
+- [x] Add adaptive AI refresh and evidence-change guidance
+- [x] Add deterministic tests for adaptive AI behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

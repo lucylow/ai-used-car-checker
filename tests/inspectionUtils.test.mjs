@@ -16,6 +16,13 @@ test('derives transparent AI analysis from inspection evidence', () => {
   assert.match(result.negotiation, /repair estimate/);
 });
 
+test('updates AI confidence as inspection evidence improves', () => {
+  const before = buildAiAnalysis({ vehicle: {}, checklist: { Exterior: true }, photos: [] });
+  const after = buildAiAnalysis({ vehicle: { vin: '1HGCM82633A004352' }, checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [{ uri: 'file://photo.jpg' }, { uri: 'file://photo2.jpg' }] });
+  assert.ok(after.evidence.score > before.evidence.score);
+  assert.ok(after.confidence > before.confidence);
+});
+
 test('tiers AI recommendations into actionable next steps', () => {
   assert.equal(getAiRecommendation({ issues: [{ severity: 'critical' }], repairTotal: 850, confidence: 80, evidenceScore: 80 }).tier, 'PAUSE');
   assert.equal(getAiRecommendation({ issues: [{ severity: 'major' }], repairTotal: 420, confidence: 80, evidenceScore: 80 }).tier, 'NEGOTIATE');
