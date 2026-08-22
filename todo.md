@@ -301,3 +301,7 @@
 - [x] Implement photo-linked evidence and follow-up actions
 - [x] Add deterministic tests for photo-evidence AI behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit current AI evidence and issue-state model
+- [x] Implement evidence audit states and actionable verification guidance
+- [x] Add deterministic tests for AI evidence-audit behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

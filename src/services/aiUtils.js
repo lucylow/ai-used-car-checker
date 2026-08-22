@@ -1,5 +1,18 @@
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
+export const getEvidenceAudit = ({ vehicle = {}, checklist = {}, photos = [], issues = [], pendingFindings = [] } = {}) => {
+  const completedSections = Object.values(checklist).filter(Boolean).length;
+  const usablePhotoCount = Array.isArray(photos) ? photos.filter((photo) => photo?.uri).length : 0;
+  const confirmed = [`${completedSections}/5 checklist sections`, `${Array.isArray(issues) ? issues.length : 0} recorded issue${issues?.length === 1 ? '' : 's'}`];
+  if (vehicle.year && vehicle.make && vehicle.model) confirmed.unshift('Vehicle identity');
+  const suggested = Array.isArray(pendingFindings) ? pendingFindings.filter((finding) => finding?.name).map((finding) => finding.name) : [];
+  const missing = [];
+  if (!usablePhotoCount) missing.push('clear photo evidence');
+  if (completedSections < 5) missing.push(`${5 - completedSections} checklist section${5 - completedSections === 1 ? '' : 's'}`);
+  if (!vehicle.asking) missing.push('asking price');
+  return { confirmed, suggested, missing, usablePhotoCount };
+};
+
 export const getEvidenceCoverage = ({ checklist = {}, photos = [] } = {}) => {
   const completedSections = Object.values(checklist).filter(Boolean).length;
   const photoCount = Array.isArray(photos) ? photos.filter((photo) => photo?.uri).length : 0;
@@ -18,6 +31,7 @@ export const buildAiAnalysis = ({ vehicle = {}, issues = [], checklist = {}, pho
   const fairPrice = asking ? Math.max(0, Math.round(asking - repairTotal * 0.35)) : null;
   const recommendation = getAiRecommendation({ issues: combinedIssues, repairTotal, confidence, evidenceScore: evidence.score });
   const priorityPlan = getAiPriorityPlan({ issues: combinedIssues, evidenceScore: evidence.score, photos });
+  const evidenceAudit = getEvidenceAudit({ vehicle, checklist, photos, issues: existingIssues, pendingFindings: findings });
   return {
     findings,
     issues: combinedIssues,
@@ -27,6 +41,7 @@ export const buildAiAnalysis = ({ vehicle = {}, issues = [], checklist = {}, pho
     evidence,
     recommendation,
     priorityPlan,
+    evidenceAudit,
     limitations: evidence.score < 60 ? 'Add more checklist results and clear photos before relying on this analysis.' : 'AI findings are screening signals, not a mechanical diagnosis. Confirm safety items with a qualified mechanic.',
     negotiation: repairTotal ? `Use the ${repairTotal.toLocaleString('en-US')} repair estimate as an evidence-backed negotiation reserve; confirm each item before making an offer.` : 'No repair reserve is calculated yet. Add confirmed issues and costs before negotiating.'
   };

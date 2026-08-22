@@ -5,7 +5,7 @@ import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel
 import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiFindingExplanation, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, mergeAiFindings } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiFindingExplanation, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings } from '../src/services/aiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
@@ -14,6 +14,13 @@ test('derives transparent AI analysis from inspection evidence', () => {
   assert.equal(result.confidence, 89);
   assert.equal(result.fairPrice, 21456);
   assert.match(result.negotiation, /repair estimate/);
+});
+
+test('audits AI evidence into confirmed, suggested, and missing signals', () => {
+  const audit = getEvidenceAudit({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true }, photos: [], issues: [{ name: 'Brake issue' }], pendingFindings: [{ name: 'Rust underneath' }] });
+  assert.match(audit.confirmed.join(' '), /Vehicle identity|1\/5|1 recorded issue/);
+  assert.deepEqual(audit.suggested, ['Rust underneath']);
+  assert.match(audit.missing.join(' '), /photo|checklist|asking/i);
 });
 
 test('links AI priorities to usable evidence photos when available', () => {
