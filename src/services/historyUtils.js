@@ -1,6 +1,10 @@
 const riskScore = (item = {}) => (item.issues || []).reduce((sum, issue) => sum + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0);
 const repairTotal = (item = {}) => (item.issues || []).reduce((sum, issue) => sum + (Number(issue.cost) || 0), 0);
 
+export const getInspectionRiskLabel = (item = {}) => { const score = riskScore(item); return score >= 60 ? 'HIGH RISK' : score >= 30 ? 'REVIEW' : 'LOWER RISK'; };
+export const getInspectionCompletion = (item = {}) => { const complete = Object.values(item.checklist || {}).filter(Boolean).length; return `${complete}/5 sections`; };
+export const getInspectionRepairTotal = (item = {}) => repairTotal(item);
+
 export const filterAndSortInspections = (inspections = [], query = '', sort = 'newest') => {
   const normalizedQuery = query.trim().toLowerCase();
   return [...inspections]

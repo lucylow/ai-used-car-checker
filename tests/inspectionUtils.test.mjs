@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { getRepairTotal, getRiskScore, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
-import { filterAndSortInspections } from '../src/services/historyUtils.js';
+import { filterAndSortInspections, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel } from '../src/services/historyUtils.js';
 
 test('serializes and restores a versioned local backup', () => {
   const raw = serializeInspectionBackup({ vehicle: { year: '2020' }, issues: [{ name: 'Brake wear' }], checklist: { Exterior: true }, photos: [{ id: 'p1' }], savedInspections: [{ id: 's1' }] });
@@ -27,6 +27,13 @@ test('filters and sorts saved inspections without mutating source data', () => {
   assert.deepEqual(repairs.map((item) => item.id), ['b', 'a']);
   assert.deepEqual(filterAndSortInspections(inspections, 'honda', 'newest').map((item) => item.id), ['a']);
   assert.deepEqual(inspections.map((item) => item.id), ['a', 'b']);
+});
+
+test('formats saved-inspection risk and completion metadata consistently', () => {
+  const item = { issues: [{ severity: 'critical', cost: 900 }, { severity: 'critical', cost: 300 }], checklist: { Exterior: true, Interior: true } };
+  assert.equal(getInspectionRiskLabel(item), 'HIGH RISK');
+  assert.equal(getInspectionCompletion(item), '2/5 sections');
+  assert.equal(getInspectionRepairTotal(item), 1200);
 });
 
 test('normalizes VIN input and validates a 17-character VIN', () => {

@@ -126,3 +126,6 @@
 - [x] Add saved-history search and sort controls
 - [x] Add filtered-history empty-state guidance
 - [x] Add deterministic coverage for history filtering and sorting
+- [x] Add clearer saved-inspection risk and completion metadata
+- [x] Add accessible reset behavior for history search and sort controls
+- [x] Add deterministic coverage for saved-record display helpers
