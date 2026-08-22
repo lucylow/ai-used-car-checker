@@ -16,9 +16,9 @@
 - [x] Build maintenance planner and cost estimator
 - [x] Build inspection summary and local history
 - [x] Build profile/settings and theme preferences
-- [ ] Add deterministic tests for mock AI and VIN services
+- [x] Add deterministic tests for mock AI and VIN services
 - [x] Run lint/type checks and verify core flows
-- [ ] Save a final checkpoint for delivery
+- [x] Save a final checkpoint for delivery
 - [x] Add a reusable UI component layer for buttons, inputs, cards, badges, loading, empty states, and feedback
 
 - [x] Improve local inspection persistence and restore the active inspection on launch
@@ -268,4 +268,12 @@
 - [x] Audit remaining backup, photo-processing, and report-export failures
 - [x] Add defensive fallbacks and actionable recovery feedback for remaining errors
 - [x] Add deterministic tests for the new error states
+- [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit remaining backup, persistence, media, and report failure paths
+- [x] Add actionable recovery and safe fallbacks for remaining errors
+- [x] Add deterministic tests for the new error states
+- [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit current AI analysis, confidence, repair prioritization, and negotiation guidance
+- [x] Add richer evidence-based AI findings with transparent confidence and limitations
+- [x] Add deterministic tests for the improved AI utilities
 - [x] Re-run tests, type checks, lint, and Expo web export

@@ -1,11 +1,28 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getMediaErrorGuidance, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getReportRetryLabel } from '../src/services/reportUtils.js';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getMediaErrorGuidance, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getLocalSaveErrorGuidance, getReportRetryLabel } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiReadinessMessage } from '../src/services/aiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
+
+test('derives transparent AI analysis from inspection evidence', () => {
+  const result = buildAiAnalysis({ vehicle: { asking: '$21,900', vin: '1HGCM82633A004352' }, issues: [{ name: 'Brake pad wear', severity: 'major', cost: 420 }], checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [{ uri: 'file://one.jpg' }, { uri: 'file://two.jpg' }] });
+  assert.equal(result.evidence.score, 80);
+  assert.equal(result.confidence, 89);
+  assert.equal(result.fairPrice, 21456);
+  assert.match(result.negotiation, /repair estimate/);
+});
+
+test('labels AI confidence and readiness honestly', () => {
+  assert.equal(getAiConfidenceLabel(80), 'Higher confidence');
+  assert.equal(getAiConfidenceLabel(60), 'Moderate confidence');
+  assert.equal(getAiConfidenceLabel(40), 'Limited confidence');
+  assert.match(getAiReadinessMessage({ photoCount: 0, completedSections: 0 }), /checklist.*photo/i);
+  assert.match(getAiReadinessMessage({ photoCount: 1, completedSections: 3 }), /3\/5/);
+});
 
 test('formats actionable report preparation error guidance', () => {
   assert.match(getReportErrorGuidance('pdf'), /PDF|preview|again/);
@@ -20,6 +37,11 @@ test('formats actionable media API error guidance', () => {
 test('formats actionable local restore error guidance', () => {
   assert.match(getLocalRestoreErrorGuidance('malformed'), /invalid|Safe defaults/);
   assert.match(getLocalRestoreErrorGuidance('storage'), /unavailable|retry/);
+});
+
+test('formats local-save recovery guidance for queued and unqueued failures', () => {
+  assert.match(getLocalSaveErrorGuidance(true), /recovery copy.*queued|Retry/i);
+  assert.match(getLocalSaveErrorGuidance(false), /Export a backup|again/i);
 });
 
 test('formats report retry labels for PDF and sharing failures', () => {
