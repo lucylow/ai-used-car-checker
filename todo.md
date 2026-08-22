@@ -534,3 +534,7 @@
 - [x] Add selectable provenance labels when creating or editing field notes
 - [x] Add deterministic regression coverage for provenance-label persistence
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add immediate Undo recovery after deleting a field note
+- [x] Add deterministic regression coverage for note deletion recovery
+- [x] Re-run full validation and save a new checkpoint
