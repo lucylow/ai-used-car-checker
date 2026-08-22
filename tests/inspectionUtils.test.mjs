@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { getRepairTotal, getRiskScore, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport } from '../src/services/reportUtils.js';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel } from '../src/services/reportUtils.js';
 
 test('normalizes VIN input and validates a 17-character VIN', () => {
   assert.equal(normalizeVin('1hg-cm82633a004352'), '1HGCM82633A004352');
@@ -23,4 +23,16 @@ test('builds a share-ready report with key inspection facts', () => {
   assert.match(report, /2020 Honda Accord/);
   assert.match(report, /Estimated repairs: \$600/);
   assert.match(report, /Checklist: 1\/5 sections complete/);
+});
+
+test('renders embedded photo thumbnails and safe metadata fallbacks', () => {
+  const html = buildPhotoEvidenceHtml([
+    { fileName: 'front.jpg', width: 1200, height: 900, embeddedDataUri: 'data:image/jpeg;base64,abc123' },
+    { fileName: 'rear.jpg', width: 800, height: 600, uri: 'file://rear.jpg' },
+    { fileName: 'side.jpg' },
+  ]);
+  assert.match(html, /<img src="data:image\/jpeg;base64,abc123"/);
+  assert.match(html, /local asset unavailable for embed/);
+  assert.match(html, /metadata only/);
+  assert.equal(formatPhotoEvidenceLabel({ fileName: 'front.jpg', width: 1200, height: 900, embeddedDataUri: 'data:image\/jpeg;base64,abc' }, 0), 'Photo 1 · front.jpg · 1200×900 · embedded image');
 });

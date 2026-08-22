@@ -107,3 +107,6 @@
 - [x] Add collapsible report evidence sections
 - [x] Add polished report action states for PDF and sharing
 - [x] Add report preview coverage for evidence sections
+- [x] Add actual local photo thumbnails to PDF evidence when available
+- [x] Add full-screen report preview presentation
+- [x] Add deterministic coverage for report photo fallback rendering
