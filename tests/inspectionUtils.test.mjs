@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { getRepairTotal, getRiskScore, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
+import { filterAndSortInspections } from '../src/services/historyUtils.js';
 
 test('serializes and restores a versioned local backup', () => {
   const raw = serializeInspectionBackup({ vehicle: { year: '2020' }, issues: [{ name: 'Brake wear' }], checklist: { Exterior: true }, photos: [{ id: 'p1' }], savedInspections: [{ id: 's1' }] });
@@ -11,6 +12,21 @@ test('serializes and restores a versioned local backup', () => {
   assert.equal(restored.issues[0].name, 'Brake wear');
   assert.equal(getBackupSummary(restored), '1 saved inspection · 1 active photo');
   assert.throws(() => parseInspectionBackup('{"app":"other","version":1}'), /Unsupported Carwise backup/);
+});
+
+test('filters and sorts saved inspections without mutating source data', () => {
+  const inspections = [
+    { id: 'a', vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, issues: [{ severity: 'minor', cost: 100 }], savedAt: '2026-08-20T00:00:00Z' },
+    { id: 'b', vehicle: { year: '2019', make: 'Toyota', model: 'RAV4' }, issues: [{ severity: 'critical', cost: 700 }], savedAt: '2026-08-21T00:00:00Z' },
+  ];
+  const newest = filterAndSortInspections(inspections, '', 'newest');
+  const risk = filterAndSortInspections(inspections, '', 'risk');
+  const repairs = filterAndSortInspections(inspections, '', 'repairs');
+  assert.deepEqual(newest.map((item) => item.id), ['b', 'a']);
+  assert.deepEqual(risk.map((item) => item.id), ['b', 'a']);
+  assert.deepEqual(repairs.map((item) => item.id), ['b', 'a']);
+  assert.deepEqual(filterAndSortInspections(inspections, 'honda', 'newest').map((item) => item.id), ['a']);
+  assert.deepEqual(inspections.map((item) => item.id), ['a', 'b']);
 });
 
 test('normalizes VIN input and validates a 17-character VIN', () => {

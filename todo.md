@@ -123,3 +123,6 @@
 - [x] Add local inspection backup export and import recovery
 - [x] Improve saved-history filtering and empty-state guidance
 - [x] Add deterministic coverage for backup serialization and recovery
+- [x] Add saved-history search and sort controls
+- [x] Add filtered-history empty-state guidance
+- [x] Add deterministic coverage for history filtering and sorting
