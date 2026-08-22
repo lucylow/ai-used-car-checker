@@ -573,3 +573,13 @@
 - [x] Apply reduced-motion-aware press feedback to save, report, photo, and recovery actions
 - [x] Verify animation behavior does not block or change action semantics
 - [x] Re-run full validation and save a new checkpoint
+
+- [ ] Add reduced-motion-aware feedback to photo capture actions
+- [ ] Add reduced-motion-aware feedback to report export actions
+- [ ] Animate local recovery feedback without changing recovery behavior
+- [ ] Re-run full validation and save a new checkpoint
+
+- [x] Add first-use onboarding orientation for the inspection workflow
+- [x] Explain local-first privacy and inspection evidence expectations during onboarding
+- [x] Add deterministic onboarding state coverage
+- [x] Re-run full validation and save a new checkpoint
