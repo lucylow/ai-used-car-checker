@@ -393,3 +393,7 @@
 - [x] Add photo review filters for needs review, reviewed, and confirmed
 - [x] Add deterministic tests for issue patching and review filtering
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Confirm before deleting photos that have linked findings
+- [x] Preserve explainable metadata-only fallback after linked photo removal
+- [x] Add deterministic tests for photo deletion safeguard guidance
+- [x] Re-run tests, type checks, lint, and Expo web export
