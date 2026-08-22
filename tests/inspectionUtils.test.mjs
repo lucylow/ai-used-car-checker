@@ -176,6 +176,8 @@ test('builds privacy-safe diagnostic exports from bounded operational data', () 
 test('formats detailed recovery-log presentation states consistently', () => {
   const success = getRecoveryLogPresentation({ operation: 'Local save', outcome: 'success', detail: 'Saved draft.' });
   const failure = getRecoveryLogPresentation({ operation: 'Backup restore', outcome: 'error' });
+  assert.equal(getRecoveryLogPresentation(null).tone, 'error');
+  assert.equal(getRecoveryLogEntry(null).operation, 'Local operation');
   assert.equal(success.title, 'Local save · Complete');
   assert.equal(success.tone, 'success');
   assert.equal(failure.tone, 'error');
