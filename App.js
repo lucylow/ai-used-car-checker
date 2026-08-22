@@ -13,7 +13,7 @@ import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from './src/services/historyUtils';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
-import { Animated, Easing, Image, Modal as RNModal, PanResponder, Platform, SafeAreaView, ScrollView, Share, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Animated, Easing, Image, Modal as RNModal, PanResponder, Platform, SafeAreaView, ScrollView, Share, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { PinchGestureHandler, State as GestureState } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 
@@ -130,7 +130,8 @@ export default function App() {
   const checklistComplete = Object.values(checklist).filter(Boolean).length;
   const riskScore = Math.min(100, issues.reduce((score, issue) => score + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0));
   const reportReadiness = getReportReadiness({ vehicle, checklist, photos });
-  const clearAiHistory = () => { setAiHistory(resetAiHistory()); setSaveStatus('AI analysis history cleared; the current analysis remains available.'); };
+  const performClearAiHistory = () => { setAiHistory(resetAiHistory()); setSaveStatus('AI analysis history cleared; the current analysis remains available.'); };
+  const clearAiHistory = () => { if (Platform.OS === 'web') { performClearAiHistory(); return; } Alert.alert('Clear AI timeline?', 'This removes the confidence history but keeps your current analysis and inspection data.', [{ text: 'Cancel', style: 'cancel' }, { text: 'Clear timeline', style: 'destructive', onPress: performClearAiHistory }]); };
   const recordAiSnapshot = (result, reason) => { if (!result) return; setAiHistory((current) => { const snapshot = { id: `${Date.now()}-${current.length}`, confidence: result.confidence, quality: result.quality?.score || 0, evidence: result.evidence?.score || 0, tier: result.recommendation?.tier || 'UNKNOWN', reason }; const previous = current[current.length - 1]; if (previous && previous.confidence === snapshot.confidence && previous.quality === snapshot.quality && previous.evidence === snapshot.evidence && previous.tier === snapshot.tier) return current; return [...current, snapshot].slice(-6); }); };
   useEffect(() => { if (reportPreview) setReportPreview(`${buildInspectionReport({ vehicle, issues, checklist, photos, fairPrice: aiResult?.fairPrice || 19400, riskScore })}`); }, [vehicle, issues, checklist, photos, riskScore, aiResult?.fairPrice]);
   useEffect(() => { if (!ranAI || aiPendingFindings.length) return; setAiResult((current) => { if (!current) return current; const next = buildAiAnalysis({ vehicle, issues, checklist, photos }); recordAiSnapshot(next, 'Evidence or issue data changed'); return next; }); }, [ranAI, aiPendingFindings.length, vehicle, issues, checklist, photos]);

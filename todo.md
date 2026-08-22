@@ -329,3 +329,7 @@
 - [x] Implement timeline reset and user feedback safeguards
 - [x] Add deterministic tests for AI timeline reset behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit AI timeline reset behavior across native and web platforms
+- [x] Implement confirmation-safe reset behavior and status feedback
+- [x] Add deterministic tests for confirmation behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
