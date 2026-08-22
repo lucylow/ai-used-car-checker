@@ -4452,3 +4452,6 @@
 [2026-08-22T15:28:14.388Z] Starting Metro Bundler
 [2026-08-22T15:28:14.595Z] Waiting on http://localhost:8081
 [2026-08-22T15:28:14.595Z] Logs for your project will appear below.
+[2026-08-22T15:29:15.839Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T15:29:17.435Z] Web Bundled 1596ms index.js (437 modules)
+[2026-08-22T15:29:17.746Z] LOG  [web] Logs will appear in the browser console

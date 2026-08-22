@@ -612,6 +612,14 @@ test('calculates a capped risk score from issue severity', () => {
   assert.equal(getRiskScore(Array.from({ length: 10 }, () => ({ severity: 'critical' }))), 100);
 });
 
+test('keeps report helpers safe for malformed collection inputs', () => {
+  assert.match(buildInspectionReport(), /Vehicle details unavailable/);
+  assert.match(buildInspectionReport({ vehicle: null, issues: null, checklist: null, photos: null }), /Issues found: 0/);
+  assert.match(buildInspectionReport({ issues: [{ cost: '420' }, null, { cost: '-5' }] }), /Estimated repairs: \$420/);
+  assert.equal(buildPhotoEvidenceHtml(null), '');
+  assert.equal(formatRepairPriorityHtml(null), '');
+});
+
 test('builds a share-ready report with key inspection facts', () => {
   const report = buildInspectionReport({ vehicle: { year: '2020', make: 'Honda', model: 'Accord', mileage: '42,000' }, issues: [{ severity: 'major', cost: 600 }], checklist: { Exterior: true }, photos: [{ uri: 'file://photo.jpg' }], fairPrice: 19400, riskScore: 20 });
   assert.match(report, /2020 Honda Accord/);
