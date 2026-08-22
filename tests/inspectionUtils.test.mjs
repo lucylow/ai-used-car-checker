@@ -5,7 +5,7 @@ import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel
 import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiReadinessMessage } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiReadinessMessage, mergeAiFindings } from '../src/services/aiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
@@ -14,6 +14,11 @@ test('derives transparent AI analysis from inspection evidence', () => {
   assert.equal(result.confidence, 89);
   assert.equal(result.fairPrice, 21456);
   assert.match(result.negotiation, /repair estimate/);
+});
+
+test('merges user-confirmed AI findings without duplicates', () => {
+  const merged = mergeAiFindings([{ name: 'Brake pad wear' }], [{ name: 'Rust underneath' }, { name: 'Brake pad wear' }, {}]);
+  assert.deepEqual(merged.map((issue) => issue.name), ['Brake pad wear', 'Rust underneath']);
 });
 
 test('labels AI confidence and readiness honestly', () => {

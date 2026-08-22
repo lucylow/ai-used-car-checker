@@ -28,6 +28,12 @@ export const buildAiAnalysis = ({ vehicle = {}, issues = [], checklist = {}, pho
   };
 };
 
+export const mergeAiFindings = (existingIssues = [], pendingFindings = []) => {
+  const existing = Array.isArray(existingIssues) ? existingIssues : [];
+  const pending = Array.isArray(pendingFindings) ? pendingFindings : [];
+  return [...existing, ...pending.filter((finding) => finding?.name && !existing.some((issue) => issue?.name === finding.name))];
+};
+
 export const getAiConfidenceLabel = (confidence) => {
   const value = clamp(Number(confidence) || 0, 0, 100);
   return value >= 75 ? 'Higher confidence' : value >= 55 ? 'Moderate confidence' : 'Limited confidence';

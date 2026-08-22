@@ -277,3 +277,7 @@
 - [x] Add richer evidence-based AI findings with transparent confidence and limitations
 - [x] Add deterministic tests for the improved AI utilities
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit latest AI finding generation and user review flow
+- [x] Add user-confirmed AI finding review with evidence explanations
+- [x] Add deterministic tests for AI review and guidance behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
