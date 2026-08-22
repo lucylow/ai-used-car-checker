@@ -215,3 +215,7 @@
 - [x] Improve the highest-impact issue/report workflow gap
 - [x] Add deterministic tests for the new behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit photo removal and saved-report media state for stale selection risks
+- [x] Improve the highest-impact media workflow gap
+- [x] Add deterministic tests for the new behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

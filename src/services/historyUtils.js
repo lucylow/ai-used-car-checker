@@ -6,6 +6,7 @@ export const getInspectionCompletion = (item = {}) => { const complete = Object.
 export const getInspectionRepairTotal = (item = {}) => repairTotal(item);
 export const getReportReadiness = ({ vehicle = {}, checklist = {}, photos = [] } = {}) => { const missing = []; if (!/^\d{4}$/.test(String(vehicle.year || '').trim()) || !vehicle.make?.trim() || !vehicle.model?.trim()) missing.push('vehicle details'); if (Object.values(checklist).filter(Boolean).length < 5) missing.push('checklist'); if (!photos.length) missing.push('photo evidence'); return { ready: missing.length === 0, missing }; };
 export const getHistoryActionMessage = (action) => action === 'delete' ? 'Inspection deleted · Undo available' : 'Inspection duplicated · New copy added';
+export const shouldClearSavedSelection = (selectedId, deletedId) => Boolean(selectedId && deletedId && String(selectedId) === String(deletedId));
 export const shouldReplaceSavedInspection = (existingVehicle = {}, nextVehicle = {}) => {
   const nextVin = String(nextVehicle.vin || '').replace(/\s/g, '').toUpperCase();
   const existingVin = String(existingVehicle.vin || '').replace(/\s/g, '').toUpperCase();
