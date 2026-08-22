@@ -110,3 +110,6 @@
 - [x] Add actual local photo thumbnails to PDF evidence when available
 - [x] Add full-screen report preview presentation
 - [x] Add deterministic coverage for report photo fallback rendering
+- [x] Improve PDF/share error feedback and prevent duplicate report actions
+- [x] Add deterministic coverage for report amount and HTML escaping
+- [x] Improve report preview accessibility and action-state reset
