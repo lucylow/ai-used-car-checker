@@ -409,3 +409,7 @@
 - [x] Harden media and replacement-photo failures with consistent error details
 - [x] Add deterministic tests for error normalization and fallback guidance
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Add bounded retry failure details and duplicate-operation protection
+- [x] Persist recent recovery-log events safely across app restarts
+- [x] Add deterministic tests for retry failure normalization and recovery-log limits
+- [x] Re-run tests, type checks, lint, and Expo web export

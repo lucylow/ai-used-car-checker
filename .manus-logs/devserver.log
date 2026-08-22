@@ -4176,3 +4176,6 @@
 [2026-08-22T04:33:00.450Z] Your project may not work correctly until you install the expected versions of the packages.
 [2026-08-22T04:33:00.450Z] Waiting on http://localhost:8081
 [2026-08-22T04:33:00.450Z] Logs for your project will appear below.
+[2026-08-22T04:34:16.816Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T04:34:17.285Z] Web Bundled 472ms index.js (485 modules)
+[2026-08-22T04:34:17.560Z] LOG  [web] Logs will appear in the browser console

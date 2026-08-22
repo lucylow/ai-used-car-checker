@@ -3,12 +3,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createNewInspectionState, getDerivedInspectionResetState, isSameIssue } from './src/services/inspectionUtils';
 import { applyDecodedVehicle, decodeVin } from './src/services/vinService';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiFindingExplanation, getAiReadinessMessage, getAiEvidenceActions, getPhotoEvidenceReview, buildPhotoFindingDraft, updatePhotoReview, mergeAiFindings, resetAiHistory } from './src/services/aiUtils';
-import { enqueueRetry, flushRetryQueue, getRetryQueueSize } from './src/services/retryQueue';
+import { enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from './src/services/retryQueue';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getMediaErrorGuidance, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getLocalRestoreErrorGuidance, getReportErrorGuidance, getReportActionStatus, getReportRetryLabel, getProcessingLabel, getDurablePhotoFileName, getErrorDetail } from './src/services/reportUtils';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getMediaErrorGuidance, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getLocalRestoreErrorGuidance, getReportErrorGuidance, getReportActionStatus, getReportRetryLabel, getProcessingLabel, getDurablePhotoFileName, getErrorDetail, normalizeRecoveryLog } from './src/services/reportUtils';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from './src/services/backupUtils';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from './src/services/historyUtils';
 import { getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset } from './src/services/uiUtils';
@@ -181,6 +181,7 @@ export default function App() {
         if (saved.photos) setPhotos(saved.photos);
         if (saved.savedInspections) { const normalizedSaved = saved.savedInspections.map(normalizeSavedInspection).filter(Boolean); setSavedInspections(normalizedSaved); if (normalizedSaved.length < saved.savedInspections.length) { const notice = `Local data restored safely.${getRestoreSanitizationNotice(saved.savedInspections.length - normalizedSaved.length)}`; setRestoreNotice(notice); setSaveStatus(notice); } }
         if (saved.lastLocalAction) setLastLocalAction(saved.lastLocalAction);
+        if (saved.recoveryLog) setRecoveryLog(normalizeRecoveryLog(saved.recoveryLog));
       } catch (error) {
         setLastLocalAction('Local restore needs attention');
         setSaveStatus(`${getLocalRestoreErrorGuidance('malformed')} Detail: ${getErrorDetail(error, 'saved data could not be parsed')}`);
@@ -242,11 +243,12 @@ export default function App() {
   };
   const retryLocalSave = async () => {
     const result = await flushRetryQueue();
+    const diagnostics = getRetryDiagnostics();
     setRetryQueueCount(getRetryQueueSize());
     const saved = await persistLocalCopy();
     setRetryQueueCount(getRetryQueueSize());
-    setSaveStatus(saved ? `Retry complete · ${result.succeeded} queued operation${result.succeeded === 1 ? '' : 's'} recovered` : 'Retry attempted; some local operations still need attention.');
-    recordRecoveryEvent('Retry all local saves', saved ? 'success' : 'error', saved ? 'Queued local work recovered.' : 'Some local work remains queued.');
+    setSaveStatus(saved ? `Retry complete · ${result.succeeded} queued operation${result.succeeded === 1 ? '' : 's'} recovered` : `Retry attempted; ${diagnostics[0]?.detail || 'some local operations still need attention.'}`);
+    recordRecoveryEvent('Retry all local saves', saved ? 'success' : 'error', saved ? 'Queued local work recovered.' : `${diagnostics[0]?.detail || 'Some local work remains queued.'}${diagnostics[0]?.attempts ? ` Attempt ${diagnostics[0].attempts}/${diagnostics[0].maxAttempts}.` : ''}`);
     return saved;
   };
 
