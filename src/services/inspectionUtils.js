@@ -7,6 +7,10 @@ export function createNewInspectionState() {
   };
 }
 
+export function getDerivedInspectionResetState() {
+  return { ranAI: false, reportPreview: '' };
+}
+
 export function isSameIssue(issue = {}, target = {}) {
   if (issue === target) return true;
   return Boolean(issue.id && target.id && issue.id === target.id);

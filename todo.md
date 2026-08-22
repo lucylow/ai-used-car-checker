@@ -219,3 +219,7 @@
 - [x] Improve the highest-impact media workflow gap
 - [x] Add deterministic tests for the new behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit saved-inspection restore and editable-report transitions for state consistency
+- [x] Improve the highest-impact saved-report workflow gap
+- [x] Add deterministic tests for the new behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
