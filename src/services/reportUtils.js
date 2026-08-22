@@ -50,7 +50,7 @@ export const getRepairPriority = (issue = {}) => ({ critical: 3, major: 2, minor
 
 export const formatRepairPriorityHtml = (issues = []) => (Array.isArray(issues) ? issues : []).filter((issue) => issue && typeof issue === 'object').sort((a, b) => getRepairPriority(b) - getRepairPriority(a) || (Number(b.cost) || 0) - (Number(a.cost) || 0)).map((issue, index) => `<li><strong>${escapeHtml(issue.severity || 'review').toUpperCase()}</strong> · ${escapeHtml(issue.name || 'Unspecified issue')} · $${Number(issue.cost) || 0}${index === 0 ? ' · address first' : ''}</li>`).join('');
 
-export function buildInspectionReport({ vehicle = {}, issues = [], checklist = {}, photos = [], fairPrice, riskScore } = {}) {
+export function buildInspectionReport({ vehicle = {}, issues = [], checklist = {}, photos = [], toolNotes = {}, fairPrice, riskScore } = {}) {
   const safeVehicle = vehicle && typeof vehicle === 'object' && !Array.isArray(vehicle) ? vehicle : {};
   const safeIssues = Array.isArray(issues) ? issues.filter((issue) => issue && typeof issue === 'object') : [];
   const safeChecklist = checklist && typeof checklist === 'object' && !Array.isArray(checklist) ? checklist : {};
@@ -58,6 +58,7 @@ export function buildInspectionReport({ vehicle = {}, issues = [], checklist = {
   const repairTotal = safeIssues.reduce((sum, issue) => sum + Math.max(0, Number(issue.cost) || 0), 0);
   const completedSections = Object.values(safeChecklist).filter(Boolean).length;
   const criticalCount = safeIssues.filter((issue) => issue.severity === 'critical').length;
+  const safeToolNotes = toolNotes && typeof toolNotes === 'object' && !Array.isArray(toolNotes) ? [['market', 'Market comparison'], ['history', 'Vehicle history'], ['test', 'Test drive']].filter(([key]) => typeof toolNotes[key] === 'string' && toolNotes[key].trim()).map(([key, label]) => `${label}: ${toolNotes[key].trim().slice(0, 1000)}`) : [];
   return [
     'CARWISE INSPECTION REPORT',
     `${safeVehicle.year || ''} ${safeVehicle.make || ''} ${safeVehicle.model || ''}`.trim() || 'Vehicle details unavailable',
@@ -68,6 +69,7 @@ export function buildInspectionReport({ vehicle = {}, issues = [], checklist = {
     `AI fair price: ${fairPrice ? formatCurrency(fairPrice) : 'Unavailable until AI analysis is completed'}`,
     `Checklist: ${completedSections}/5 sections complete`,
     `Photo evidence: ${safePhotos.length} item(s)`,
+    safeToolNotes.length ? ['', 'FIELD NOTES', ...safeToolNotes] : '',
     '',
     'This report is informational and should be confirmed by a qualified mechanic.'
   ].join('\n');

@@ -520,3 +520,6 @@
 - [x] Continue improving Carwise functionality with the next highest-impact product improvement
 - [x] Add deterministic regression coverage for the improvement
 - [x] Re-run full validation and save a new checkpoint
+- [x] Include persisted market, history, and test-drive notes in text and PDF reports
+- [x] Add deterministic regression coverage for field-note report inclusion
+- [x] Re-run full validation and save a new checkpoint
