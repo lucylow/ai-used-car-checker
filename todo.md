@@ -564,3 +564,8 @@
 - [x] Add reduced-motion-aware press feedback to primary actions and timeline filters
 - [x] Add deterministic coverage for animation state helpers
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add reduced-motion-aware press feedback to primary actions
+- [x] Animate timeline filter selection changes
+- [x] Add deterministic motion helper coverage
+- [x] Re-run full validation and save a new checkpoint
