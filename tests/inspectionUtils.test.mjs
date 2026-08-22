@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
-import { decodeVin } from '../src/services/vinService.js';
+import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('serializes and restores a versioned local backup', () => {
@@ -28,9 +28,16 @@ test('decodes VIN response fields and normalizes the submitted VIN', async () =>
   assert.equal(result.vin, '1HGCM82633A004352');
   assert.equal(result.vehicle.model, 'Accord');
   assert.match(requestedUrl, /DecodeVinValuesExtended\/1HGCM82633A004352/);
+  let calls = 0;
+  clearVinCache();
+  const fetchImpl = async () => { calls += 1; return { ok: true, async json() { return { Results: [{ ModelYear: '2003', Make: 'Honda', Model: 'Accord' }] }; } }; };
+  await decodeVin(result.vin, { fetchImpl });
+  await decodeVin(result.vin, { fetchImpl });
+  assert.equal(calls, 1);
 });
 
 test('returns a fallback result when the VIN service fails', async () => {
+  clearVinCache();
   const result = await decodeVin('1HGCM82633A004352', { fetchImpl: async () => { throw new Error('offline'); } });
   assert.equal(result.status, 'fallback');
   assert.equal(result.vehicle, null);

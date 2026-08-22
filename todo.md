@@ -232,3 +232,8 @@
 - [x] Integrate live NHTSA vPIC VIN decoding with validation and fallback
 - [x] Add deterministic VIN service tests
 - [x] Re-run tests, type checks, lint, and Expo web export
+
+- [x] Audit VIN lookup state and repeat-request behavior
+- [x] Improve VIN lookup reliability and avoid unnecessary duplicate requests
+- [x] Add deterministic tests for the new behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
