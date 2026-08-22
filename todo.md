@@ -598,3 +598,9 @@
 - [x] Add reduced-motion-aware transitions to report preview sections
 - [x] Add deterministic photo-report transition coverage
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add a subtle animated Undo recovery transition
+- [x] Add a persisted motion-intensity setting in Profile
+- [x] Keep system reduced-motion preference as the accessibility override
+- [x] Add deterministic motion-setting coverage
+- [x] Re-run full validation and save a new checkpoint
