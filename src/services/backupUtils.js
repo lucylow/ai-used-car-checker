@@ -16,7 +16,9 @@ export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, 
 }, null, 2);
 
 export const parseInspectionBackup = (raw) => {
-  const parsed = JSON.parse(raw);
+  if (typeof raw !== 'string' || !raw.trim()) throw new Error('Carwise backup is empty.');
+  let parsed;
+  try { parsed = JSON.parse(raw); } catch (_) { throw new Error('Carwise backup is not valid JSON.'); }
   if (!parsed || parsed.app !== 'carwise' || parsed.version !== BACKUP_VERSION) throw new Error('Unsupported Carwise backup');
   return {
     vehicle: isRecord(parsed.vehicle) ? parsed.vehicle : null,
@@ -34,4 +36,4 @@ export const getBackupMetadata = ({ backup = {}, serialized = '' } = {}) => {
   return { bytes, sizeLabel, savedInspections: Array.isArray(backup.savedInspections) ? backup.savedInspections.length : 0, activePhotos: Array.isArray(backup.photos) ? backup.photos.length : 0, aiSnapshots: Array.isArray(backup.aiHistory) ? backup.aiHistory.length : 0, exportedAt: backup.exportedAt || null };
 };
 
-export const getBackupSummary = (backup) => `${backup.savedInspections.length} saved inspection${backup.savedInspections.length === 1 ? '' : 's'} · ${backup.photos.length} active photo${backup.photos.length === 1 ? '' : 's'}`;
+export const getBackupSummary = (backup = {}) => { const savedInspections = Array.isArray(backup.savedInspections) ? backup.savedInspections : []; const photos = Array.isArray(backup.photos) ? backup.photos : []; return `${savedInspections.length} saved inspection${savedInspections.length === 1 ? '' : 's'} · ${photos.length} active photo${photos.length === 1 ? '' : 's'}`; };
