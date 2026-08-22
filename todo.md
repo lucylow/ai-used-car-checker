@@ -389,3 +389,7 @@
 - [x] Show linked evidence thumbnails beside issues in summary and report views
 - [x] Add deterministic tests for linked evidence resolution and display fallbacks
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Add inline editing for linked photo issue severity, cost, and notes
+- [x] Add photo review filters for needs review, reviewed, and confirmed
+- [x] Add deterministic tests for issue patching and review filtering
+- [x] Re-run tests, type checks, lint, and Expo web export

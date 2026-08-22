@@ -20,6 +20,8 @@ export const getPhotoEvidenceReview = (photos = []) => {
 
 export const updatePhotoReview = (photos = [], photoId, status, note = '') => (Array.isArray(photos) ? photos : []).map((photo) => photo?.id === photoId ? { ...photo, reviewStatus: status, reviewNote: note } : photo);
 export const buildPhotoFindingDraft = (review = {}) => ({ name: `Photo evidence · ${review.label || 'Inspection photo'}`, severity: 'minor', cost: 0, note: review.note || review.guidance || 'User-confirmed photo evidence requires in-person verification.', photoId: review.id || null, source: 'user-confirmed photo evidence' });
+export const filterPhotoEvidenceReviews = (reviews = [], filter = 'all') => (Array.isArray(reviews) ? reviews : []).filter((review) => filter === 'all' || review.status === filter);
+export const patchIssueByName = (issues = [], issueName, patch = {}) => (Array.isArray(issues) ? issues : []).map((issue) => issue?.name === issueName ? { ...issue, ...patch, cost: Math.max(0, Number(patch.cost ?? issue.cost) || 0) } : issue);
 
 export const resetAiHistory = () => [];
 
