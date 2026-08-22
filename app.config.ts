@@ -12,6 +12,7 @@ const config: ExpoConfig & { extra: { appName: string; appSlug: string; logoUrl:
   ios: { bundleIdentifier: 'com.carwise.usedcarchecker' },
   android: { package: 'com.carwise.usedcarchecker', adaptiveIcon: { foregroundImage: './assets/images/android-icon-foreground.png', backgroundColor: '#0B1220' } },
   web: { favicon: './assets/images/favicon.png' },
+  plugins: ['expo-font'],
   extra: {
     appName: 'AI Used Car Checker',
     appSlug: 'ai-used-car-checker',

@@ -417,3 +417,7 @@
 - [x] Investigate and reduce recurring dev-server exit events
 - [x] Add deterministic coverage for error-state formatting where needed
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit current runtime, persistence, media, and report error paths
+- [x] Fix the highest-impact error and add actionable recovery feedback
+- [x] Add deterministic regression coverage for the new safeguards
+- [x] Re-run tests, type checks, lint, and Expo web export
