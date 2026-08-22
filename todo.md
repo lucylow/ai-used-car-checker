@@ -583,3 +583,8 @@
 - [x] Explain local-first privacy and inspection evidence expectations during onboarding
 - [x] Add deterministic onboarding state coverage
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add reduced-motion-aware onboarding step transitions
+- [x] Add a Profile action to replay onboarding
+- [x] Add deterministic onboarding transition coverage
+- [x] Re-run full validation and save a new checkpoint
