@@ -2,6 +2,16 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { getRepairTotal, getRiskScore, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml } from '../src/services/reportUtils.js';
+import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
+
+test('serializes and restores a versioned local backup', () => {
+  const raw = serializeInspectionBackup({ vehicle: { year: '2020' }, issues: [{ name: 'Brake wear' }], checklist: { Exterior: true }, photos: [{ id: 'p1' }], savedInspections: [{ id: 's1' }] });
+  const restored = parseInspectionBackup(raw);
+  assert.equal(restored.vehicle.year, '2020');
+  assert.equal(restored.issues[0].name, 'Brake wear');
+  assert.equal(getBackupSummary(restored), '1 saved inspection · 1 active photo');
+  assert.throws(() => parseInspectionBackup('{"app":"other","version":1}'), /Unsupported Carwise backup/);
+});
 
 test('normalizes VIN input and validates a 17-character VIN', () => {
   assert.equal(normalizeVin('1hg-cm82633a004352'), '1HGCM82633A004352');

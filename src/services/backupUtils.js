@@ -1,0 +1,26 @@
+const BACKUP_VERSION = 1;
+
+export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, savedInspections }) => JSON.stringify({
+  app: 'carwise',
+  version: BACKUP_VERSION,
+  exportedAt: new Date().toISOString(),
+  vehicle,
+  issues,
+  checklist,
+  photos,
+  savedInspections,
+}, null, 2);
+
+export const parseInspectionBackup = (raw) => {
+  const parsed = JSON.parse(raw);
+  if (!parsed || parsed.app !== 'carwise' || parsed.version !== BACKUP_VERSION) throw new Error('Unsupported Carwise backup');
+  return {
+    vehicle: parsed.vehicle || null,
+    issues: Array.isArray(parsed.issues) ? parsed.issues : [],
+    checklist: parsed.checklist && typeof parsed.checklist === 'object' ? parsed.checklist : {},
+    photos: Array.isArray(parsed.photos) ? parsed.photos : [],
+    savedInspections: Array.isArray(parsed.savedInspections) ? parsed.savedInspections : [],
+  };
+};
+
+export const getBackupSummary = (backup) => `${backup.savedInspections.length} saved inspection${backup.savedInspections.length === 1 ? '' : 's'} · ${backup.photos.length} active photo${backup.photos.length === 1 ? '' : 's'}`;

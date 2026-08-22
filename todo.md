@@ -120,3 +120,6 @@
 - [x] Add explicit local-save retry and recovery feedback
 - [x] Add clearer checklist completion guidance before saving
 - [x] Add deterministic coverage for completion and retry helpers
+- [x] Add local inspection backup export and import recovery
+- [x] Improve saved-history filtering and empty-state guidance
+- [x] Add deterministic coverage for backup serialization and recovery
