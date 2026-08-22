@@ -129,3 +129,6 @@
 - [x] Add clearer saved-inspection risk and completion metadata
 - [x] Add accessible reset behavior for history search and sort controls
 - [x] Add deterministic coverage for saved-record display helpers
+- [x] Add stronger saved-inspection action feedback after open, duplicate, and delete
+- [x] Add report-readiness status to the inspection summary
+- [x] Add deterministic coverage for report-readiness helpers

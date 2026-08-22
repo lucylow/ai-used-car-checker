@@ -4,6 +4,7 @@ const repairTotal = (item = {}) => (item.issues || []).reduce((sum, issue) => su
 export const getInspectionRiskLabel = (item = {}) => { const score = riskScore(item); return score >= 60 ? 'HIGH RISK' : score >= 30 ? 'REVIEW' : 'LOWER RISK'; };
 export const getInspectionCompletion = (item = {}) => { const complete = Object.values(item.checklist || {}).filter(Boolean).length; return `${complete}/5 sections`; };
 export const getInspectionRepairTotal = (item = {}) => repairTotal(item);
+export const getReportReadiness = ({ vehicle = {}, checklist = {}, photos = [] } = {}) => { const missing = []; if (!vehicle.year || !vehicle.make || !vehicle.model) missing.push('vehicle details'); if (Object.values(checklist).filter(Boolean).length < 5) missing.push('checklist'); if (!photos.length) missing.push('photo evidence'); return { ready: missing.length === 0, missing }; };
 
 export const filterAndSortInspections = (inspections = [], query = '', sort = 'newest') => {
   const normalizedQuery = query.trim().toLowerCase();
