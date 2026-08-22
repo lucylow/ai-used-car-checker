@@ -183,3 +183,7 @@
 - [x] Add explicit canceled-action feedback for camera, library, and document picker flows
 - [x] Add safer empty-state actions for saved inspection details and prototype tools
 - [x] Add deterministic coverage for canceled-flow guidance helpers
+- [x] Audit remaining inspection and quick-tool flows for dead ends or missing recovery states
+- [x] Improve the highest-impact functional gaps found during the audit
+- [x] Add deterministic tests for the new functional behavior
+- [x] Validate the app with tests, type checks, lint, and Expo web export

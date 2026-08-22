@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { getRepairTotal, getRiskScore, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getOperationStatusLabel, getProgressSummaryLabel, getRecoveryGuidance } from '../src/services/reportUtils.js';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness } from '../src/services/historyUtils.js';
 
@@ -48,6 +48,12 @@ test('formats functional action labels consistently', () => {
 test('formats photo screen guidance consistently', () => {
   assert.equal(getPhotoScreenGuidance(0), 'No photo evidence yet. Start with the exterior, tires, or engine bay.');
   assert.equal(getPhotoScreenGuidance(1), '1 photo captured. Review or add more evidence before analysis.');
+});
+
+test('formats processing labels consistently', () => {
+  assert.equal(getProcessingLabel('photo', 'working'), 'Processing photo…');
+  assert.equal(getProcessingLabel('photo', 'success'), 'Photo ready');
+  assert.equal(getProcessingLabel('report', 'error'), 'Report unavailable');
 });
 
 test('formats photo action guidance consistently', () => {
