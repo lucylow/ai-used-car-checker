@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance } from '../src/services/reportUtils.js';
-import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteTimeline, filterToolNoteTimeline } from '../src/services/backupUtils.js';
+import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
@@ -736,6 +736,14 @@ test('filters field-note timeline by category without mutating source data', () 
   assert.equal(filterToolNoteTimeline(timeline, 'all').length, 3);
   assert.deepEqual(filterToolNoteTimeline(timeline, 'unknown'), []);
   assert.equal(timeline.length, 3);
+});
+
+test('filters field-note timeline by provenance source without mutating order', () => {
+  const timeline = getToolNoteTimeline({ market: { note: 'Price note', savedAt: '2026-08-20T12:00:00.000Z', source: 'Seller' }, history: { note: 'History note', savedAt: '2026-08-22T12:00:00.000Z', source: 'Mechanic' }, test: { note: 'Drive note', savedAt: '2026-08-21T12:00:00.000Z', source: 'Seller' } });
+  assert.deepEqual(filterToolNoteTimelineBySource(timeline, 'Seller').map((entry) => entry.key), ['test', 'market']);
+  assert.equal(filterToolNoteTimelineBySource(timeline, 'Mechanic')[0].key, 'history');
+  assert.equal(filterToolNoteTimelineBySource(timeline, 'all').length, 3);
+  assert.deepEqual(filterToolNoteTimelineBySource(null, 'Seller'), []);
 });
 
 test('filters invalid or oversized local tool observations during backup parsing', () => {

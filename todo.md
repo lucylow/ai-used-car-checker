@@ -546,3 +546,7 @@
 - [x] Add accessible category filters to the chronological field-note timeline
 - [x] Add deterministic regression coverage for timeline filtering
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add accessible provenance-source filters to the chronological field-note timeline
+- [x] Add deterministic regression coverage for source filtering
+- [x] Re-run full validation and save a new checkpoint
