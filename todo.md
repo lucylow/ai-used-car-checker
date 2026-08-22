@@ -132,3 +132,6 @@
 - [x] Add stronger saved-inspection action feedback after open, duplicate, and delete
 - [x] Add report-readiness status to the inspection summary
 - [x] Add deterministic coverage for report-readiness helpers
+- [x] Strengthen delete undo state and restore feedback
+- [x] Add clearer duplicate and delete action status messaging
+- [x] Add deterministic coverage for history action state transitions

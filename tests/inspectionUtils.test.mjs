@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { getRepairTotal, getRiskScore, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
-import { filterAndSortInspections, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness } from '../src/services/historyUtils.js';
+import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness } from '../src/services/historyUtils.js';
 
 test('serializes and restores a versioned local backup', () => {
   const raw = serializeInspectionBackup({ vehicle: { year: '2020' }, issues: [{ name: 'Brake wear' }], checklist: { Exterior: true }, photos: [{ id: 'p1' }], savedInspections: [{ id: 's1' }] });
@@ -27,6 +27,11 @@ test('filters and sorts saved inspections without mutating source data', () => {
   assert.deepEqual(repairs.map((item) => item.id), ['b', 'a']);
   assert.deepEqual(filterAndSortInspections(inspections, 'honda', 'newest').map((item) => item.id), ['a']);
   assert.deepEqual(inspections.map((item) => item.id), ['a', 'b']);
+});
+
+test('formats history action feedback consistently', () => {
+  assert.equal(getHistoryActionMessage('delete'), 'Inspection deleted · Undo available');
+  assert.equal(getHistoryActionMessage('duplicate'), 'Inspection duplicated · New copy added');
 });
 
 test('reports readiness with precise missing sections', () => {
