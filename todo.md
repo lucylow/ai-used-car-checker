@@ -413,3 +413,7 @@
 - [x] Persist recent recovery-log events safely across app restarts
 - [x] Add deterministic tests for retry failure normalization and recovery-log limits
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Align Expo dependency versions with the installed SDK and lockfile
+- [x] Investigate and reduce recurring dev-server exit events
+- [x] Add deterministic coverage for error-state formatting where needed
+- [x] Re-run tests, type checks, lint, and Expo web export
