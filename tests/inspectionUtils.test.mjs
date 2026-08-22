@@ -11,6 +11,12 @@ test('serializes and restores a versioned local backup', () => {
   assert.equal(restored.vehicle.year, '2020');
   assert.equal(restored.issues[0].name, 'Brake wear');
   assert.equal(getBackupSummary(restored), '1 saved inspection · 1 active photo');
+  const sanitized = parseInspectionBackup(JSON.stringify({ app: 'carwise', version: 1, vehicle: 'invalid', issues: [{ name: 'kept' }, null, 'invalid'], checklist: [], photos: [{ id: 'kept' }, null], savedInspections: [{ id: 'kept' }, 7] }));
+  assert.equal(sanitized.vehicle, null);
+  assert.deepEqual(sanitized.issues, [{ name: 'kept' }]);
+  assert.deepEqual(sanitized.checklist, {});
+  assert.deepEqual(sanitized.photos, [{ id: 'kept' }]);
+  assert.deepEqual(sanitized.savedInspections, [{ id: 'kept' }]);
   assert.throws(() => parseInspectionBackup('{"app":"other","version":1}'), /Unsupported Carwise backup/);
 });
 

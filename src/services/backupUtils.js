@@ -1,4 +1,5 @@
 const BACKUP_VERSION = 1;
+const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 
 export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, savedInspections }) => JSON.stringify({
   app: 'carwise',
@@ -15,11 +16,11 @@ export const parseInspectionBackup = (raw) => {
   const parsed = JSON.parse(raw);
   if (!parsed || parsed.app !== 'carwise' || parsed.version !== BACKUP_VERSION) throw new Error('Unsupported Carwise backup');
   return {
-    vehicle: parsed.vehicle || null,
-    issues: Array.isArray(parsed.issues) ? parsed.issues : [],
-    checklist: parsed.checklist && typeof parsed.checklist === 'object' ? parsed.checklist : {},
-    photos: Array.isArray(parsed.photos) ? parsed.photos : [],
-    savedInspections: Array.isArray(parsed.savedInspections) ? parsed.savedInspections : [],
+    vehicle: isRecord(parsed.vehicle) ? parsed.vehicle : null,
+    issues: Array.isArray(parsed.issues) ? parsed.issues.filter(isRecord) : [],
+    checklist: isRecord(parsed.checklist) ? parsed.checklist : {},
+    photos: Array.isArray(parsed.photos) ? parsed.photos.filter(isRecord) : [],
+    savedInspections: Array.isArray(parsed.savedInspections) ? parsed.savedInspections.filter(isRecord) : [],
   };
 };
 

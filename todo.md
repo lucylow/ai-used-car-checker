@@ -223,3 +223,7 @@
 - [x] Improve the highest-impact saved-report workflow gap
 - [x] Add deterministic tests for the new behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit backup restore and local save recovery for data-integrity edge cases
+- [x] Improve the highest-impact backup or recovery workflow gap
+- [x] Add deterministic tests for the new behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
