@@ -6,7 +6,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getChecklistGuidance, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getOperationStatusLabel, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getReportActionStatus, getProcessingLabel, getDurablePhotoFileName } from './src/services/reportUtils';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from './src/services/backupUtils';
-import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness } from './src/services/historyUtils';
+import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldReplaceSavedInspection } from './src/services/historyUtils';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import { Animated, Easing, Image, Modal as RNModal, PanResponder, Platform, SafeAreaView, ScrollView, Share, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -171,7 +171,7 @@ export default function App() {
     }
     setFormError('');
     const snapshot = { id: `${Date.now()}`, vehicle, issues, checklist, photos, savedAt: new Date().toISOString() };
-    setSavedInspections((current) => [snapshot, ...current.filter((item) => item.vehicle?.vin !== vehicle.vin)].slice(0, 10));
+    setSavedInspections((current) => [snapshot, ...current.filter((item) => !shouldReplaceSavedInspection(item.vehicle, vehicle))].slice(0, 10));
     setScreen('summary');
   };
   const runAnalysis = () => { const flow = getMainFlowReadiness({ vehicle, checklist, photos }); if (!vehicle.make.trim() || !vehicle.model.trim()) { setFormError(`Add ${flow.missing.includes('vehicle details') ? 'the vehicle make and model' : 'vehicle details'} before running analysis.`); setScreen('new'); return; } if (!photos.length) setSaveStatus('Analysis uses vehicle details only; add photos for stronger evidence.'); setRanAI(true); setIssues((current) => current.some((i) => i.name === 'Rust underneath') ? current : [...current, { name: 'Rust underneath', severity: 'critical', cost: 850, note: 'Detected from inspection imagery' }]); setScreen('ai'); };

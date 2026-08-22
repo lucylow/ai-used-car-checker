@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { getRepairTotal, getRiskScore, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
-import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness } from '../src/services/historyUtils.js';
+import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('serializes and restores a versioned local backup', () => {
   const raw = serializeInspectionBackup({ vehicle: { year: '2020' }, issues: [{ name: 'Brake wear' }], checklist: { Exterior: true }, photos: [{ id: 'p1' }], savedInspections: [{ id: 's1' }] });
@@ -12,6 +12,12 @@ test('serializes and restores a versioned local backup', () => {
   assert.equal(restored.issues[0].name, 'Brake wear');
   assert.equal(getBackupSummary(restored), '1 saved inspection · 1 active photo');
   assert.throws(() => parseInspectionBackup('{"app":"other","version":1}'), /Unsupported Carwise backup/);
+});
+
+test('deduplicates saved inspections only when both VINs match', () => {
+  assert.equal(shouldReplaceSavedInspection({ vin: '' }, { vin: '' }), false);
+  assert.equal(shouldReplaceSavedInspection({ vin: '1hg cm82633a004352' }, { vin: '1HGCM82633A004352' }), true);
+  assert.equal(shouldReplaceSavedInspection({ vin: '1HGCM82633A004352' }, { vin: '2HGCM82633A004352' }), false);
 });
 
 test('filters and sorts saved inspections without mutating source data', () => {
