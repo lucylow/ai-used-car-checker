@@ -526,3 +526,7 @@
 - [x] Add timestamps and provenance labels to persisted field notes
 - [x] Add deterministic regression coverage for field-note provenance
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add accessible editing and deletion for persisted field notes
+- [x] Add deterministic regression coverage for field-note edit/delete behavior
+- [x] Re-run full validation and save a new checkpoint

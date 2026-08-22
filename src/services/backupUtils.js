@@ -3,6 +3,9 @@ const BACKUP_VERSION = 1;
 export const selectInspectionRestorePayload = (primaryPayload, pendingPayload) => pendingPayload || primaryPayload || null;
 const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 
+export const upsertToolNote = (toolNotes, type, note, savedAt = new Date().toISOString(), source = 'User-entered observation') => ({ ...(isRecord(toolNotes) ? toolNotes : {}), [type]: { note: String(note || '').trim().slice(0, 1000), savedAt, source } });
+export const removeToolNote = (toolNotes, type) => { const next = { ...(isRecord(toolNotes) ? toolNotes : {}) }; delete next[type]; return next; };
+
 export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, toolNotes = {}, savedInspections, aiHistory = [] }) => JSON.stringify({
   app: 'carwise',
   version: BACKUP_VERSION,

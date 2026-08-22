@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance } from '../src/services/reportUtils.js';
-import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
+import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
@@ -703,6 +703,19 @@ test('preserves bounded local tool observations through backup round-trip', () =
   assert.equal(parsed.toolNotes.history.note, 'Title report reviewed.');
   assert.equal(parsed.toolNotes.test.note, 'Steering stayed centered.');
   assert.equal(parsed.toolNotes.market.source, 'User-entered observation');
+});
+
+test('upserts field-note provenance deterministically and removes only the requested note', () => {
+  const initial = { market: { note: 'Old', savedAt: '2026-01-01T00:00:00.000Z', source: 'Seller' }, history: { note: 'Title checked', savedAt: '2026-01-01T00:00:00.000Z', source: 'Report' } };
+  const updated = upsertToolNote(initial, 'market', `  ${'x'.repeat(1200)}  `, '2026-08-22T12:00:00.000Z', 'Mechanic');
+  assert.equal(updated.market.note.length, 1000);
+  assert.equal(updated.market.savedAt, '2026-08-22T12:00:00.000Z');
+  assert.equal(updated.market.source, 'Mechanic');
+  assert.equal(updated.history.note, 'Title checked');
+  const removed = removeToolNote(updated, 'market');
+  assert.equal(removed.market, undefined);
+  assert.equal(removed.history.note, 'Title checked');
+  assert.equal(updated.market.note.length, 1000);
 });
 
 test('filters invalid or oversized local tool observations during backup parsing', () => {
