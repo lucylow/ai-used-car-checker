@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createNewInspectionState } from './src/services/inspectionUtils';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -157,7 +158,7 @@ export default function App() {
 
   const exportLocalBackup = async () => { const backup = serializeInspectionBackup({ vehicle, issues, checklist, photos, savedInspections }); const uri = `${FileSystem.cacheDirectory}carwise-backup-${Date.now()}.json`; try { await FileSystem.writeAsStringAsync(uri, backup, { encoding: FileSystem.EncodingType.UTF8 }); if (await Sharing.isAvailableAsync()) { await Sharing.shareAsync(uri, { mimeType: 'application/json', dialogTitle: 'Export Carwise backup' }); setLastLocalAction(getOperationStatusLabel('backup')); setSaveStatus('Backup ready to share'); } else { await Share.share({ message: backup, title: 'Carwise backup' }); setLastLocalAction(getOperationStatusLabel('backup')); setSaveStatus('Backup opened for sharing'); } } catch (_) { setLastLocalAction(getOperationStatusLabel('backup', 'error')); setSaveStatus(getRecoveryGuidance('backup')); } };
   const importLocalBackup = async () => { try { const result = await DocumentPicker.getDocumentAsync({ type: 'application/json', copyToCacheDirectory: true }); if (result.canceled || !result.assets?.[0]) { setSaveStatus(getCanceledFlowGuidance('backup')); return; } const raw = await FileSystem.readAsStringAsync(result.assets[0].uri, { encoding: FileSystem.EncodingType.UTF8 }); const backup = parseInspectionBackup(raw); if (backup.vehicle) setVehicle(backup.vehicle); setIssues(backup.issues); setChecklist(backup.checklist); setPhotos(backup.photos); setSavedInspections(backup.savedInspections); setLastLocalAction(getOperationStatusLabel('restore')); setSaveStatus(`Backup restored · ${getBackupSummary(backup)}`); } catch (_) { setLastLocalAction(getOperationStatusLabel('restore', 'error')); setSaveStatus(getRecoveryGuidance('restore')); } };
-  const startInspection = () => { setScreen('new'); setTab('Home'); };
+  const startInspection = () => { const fresh = createNewInspectionState(); setVehicle(fresh.vehicle); setIssues(fresh.issues); setChecklist(fresh.checklist); setPhotos(fresh.photos); setRanAI(false); setFormError(''); setReportPreview(''); setSaveStatus('New inspection ready. Add vehicle details to begin.'); setScreen('new'); setTab('Home'); };
   const saveInspection = () => {
     if (!vehicle.year || !/^\\d{4}$/.test(vehicle.year) || !vehicle.make.trim() || !vehicle.model.trim()) {
       setFormError('Add a four-digit year, make, and model before continuing.');

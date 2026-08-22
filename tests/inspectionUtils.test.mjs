@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { getRepairTotal, getRiskScore, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
+import { createNewInspectionState, getRepairTotal, getRiskScore, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance } from '../src/services/reportUtils.js';
 import { getBackupSummary, parseInspectionBackup, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
@@ -139,6 +139,15 @@ test('formats saved-inspection risk and completion metadata consistently', () =>
   assert.equal(getInspectionRiskLabel(item), 'HIGH RISK');
   assert.equal(getInspectionCompletion(item), '2/5 sections');
   assert.equal(getInspectionRepairTotal(item), 1200);
+});
+
+test('creates clean defaults for a new inspection', () => {
+  assert.deepEqual(createNewInspectionState(), {
+    vehicle: { year: '', make: '', model: '', mileage: '', vin: '', asking: '' },
+    issues: [],
+    checklist: {},
+    photos: [],
+  });
 });
 
 test('normalizes VIN input and validates a 17-character VIN', () => {

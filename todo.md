@@ -203,3 +203,7 @@
 - [x] Improve the highest-impact inspection-flow reliability gap
 - [x] Add deterministic tests for the new behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit active inspection reset and new-inspection flow for stale data risks
+- [x] Improve the highest-impact active-inspection workflow gap
+- [x] Add deterministic tests for the new behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

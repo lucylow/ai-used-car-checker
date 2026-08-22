@@ -1,3 +1,12 @@
+export function createNewInspectionState() {
+  return {
+    vehicle: { year: '', make: '', model: '', mileage: '', vin: '', asking: '' },
+    issues: [],
+    checklist: {},
+    photos: [],
+  };
+}
+
 export function normalizeVin(value = '') {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 17);
 }
