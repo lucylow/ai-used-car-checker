@@ -4,6 +4,8 @@ export const formatComparisonMetricValue = (row, value) => {
   return `${row.prefix || ''}${formatted}${row.suffix || ''}`;
 };
 
+export const replacePhotoAsset = (photos = [], photoId, replacement = {}) => { const list = Array.isArray(photos) ? photos : []; const found = list.some((photo) => photo?.id === photoId); return found ? list.map((photo) => photo?.id === photoId ? { ...photo, ...replacement, id: photo.id, reviewStatus: photo.reviewStatus || 'confirmed' } : photo) : [...list, { ...replacement, id: photoId, reviewStatus: 'confirmed' }]; };
+
 export const getEvidenceHealth = (issues = [], photos = []) => {
   const linked = (Array.isArray(issues) ? issues : []).filter((issue) => issue?.photoId);
   const resolvable = linked.filter((issue) => getIssueEvidencePhoto(issue, photos));

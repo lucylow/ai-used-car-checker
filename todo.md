@@ -401,3 +401,7 @@
 - [x] Confirm before deleting every photo, including unlinked photos
 - [x] Add deterministic tests for evidence-health counts and delete guidance
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Add replacement-photo recovery for metadata-only linked findings
+- [x] Update evidence-health state after a replacement photo is attached
+- [x] Add deterministic tests for photo reattachment behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
