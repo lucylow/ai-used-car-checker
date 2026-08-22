@@ -187,3 +187,7 @@
 - [x] Improve the highest-impact functional gaps found during the audit
 - [x] Add deterministic tests for the new functional behavior
 - [x] Validate the app with tests, type checks, lint, and Expo web export
+- [x] Audit prototype vehicle tools and local media persistence for functional gaps
+- [x] Improve the highest-impact vehicle-data or media reliability gap
+- [x] Add deterministic tests for the new behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

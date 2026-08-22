@@ -2871,3 +2871,76 @@
 [2026-08-22T02:11:08.454Z] Logs for your project will appear below.
 [2026-08-22T02:11:19.353Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
 [2026-08-22T02:11:20.456Z] Web Bundled 1103ms index.js (462 modules)
+[2026-08-22T02:12:13.602Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T02:12:13.629Z] Web Bundled 27ms index.js (1 module)
+[2026-08-22T02:12:47.339Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T02:12:47.357Z] Web Bundled 19ms index.js (1 module)
+[2026-08-22T02:12:47.611Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T02:12:51.093Z] LOG  [web] Logs will appear in the browser console
+[2026-08-22T02:13:31.013Z] [ELIFECYCLE] Command failed.
+[2026-08-22T02:13:31.018Z] Dev server exited with code -1
+[2026-08-22T02:13:32.113Z] Starting dev server with command: pnpm run dev
+[2026-08-22T02:13:32.612Z] $ expo start
+[2026-08-22T02:13:32.936Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T02:13:33.892Z] Starting Metro Bundler
+[2026-08-22T02:13:38.579Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T02:13:38.579Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T02:13:38.579Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T02:13:38.579Z] eslint-config-expo@57.0.1 - expected version: ~10.0.0
+[2026-08-22T02:13:38.579Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T02:13:38.597Z] Waiting on http://localhost:8081
+[2026-08-22T02:13:38.597Z] Logs for your project will appear below.
+[2026-08-22T02:13:43.880Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-22T02:13:44.311Z] Web Bundled 432ms index.js (481 modules)
+[2026-08-22T02:13:49.320Z] [ELIFECYCLE] Command failed.
+[2026-08-22T02:13:49.327Z] Dev server exited with code -1
+[2026-08-22T02:13:50.433Z] Starting dev server with command: pnpm run dev
+[2026-08-22T02:13:50.915Z] $ expo start
+[2026-08-22T02:13:51.218Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T02:13:52.124Z] Starting Metro Bundler
+[2026-08-22T02:13:52.245Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T02:13:52.245Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T02:13:52.245Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T02:13:52.245Z] eslint-config-expo@57.0.1 - expected version: ~10.0.0
+[2026-08-22T02:13:52.245Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T02:13:52.246Z] Waiting on http://localhost:8081
+[2026-08-22T02:13:52.246Z] Logs for your project will appear below.
+[2026-08-22T02:14:02.213Z] [ELIFECYCLE] Command failed.
+[2026-08-22T02:14:02.220Z] Dev server exited with code -1
+[2026-08-22T02:14:03.327Z] Starting dev server with command: pnpm run dev
+[2026-08-22T02:14:03.794Z] $ expo start
+[2026-08-22T02:14:04.078Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T02:14:04.886Z] Starting Metro Bundler
+[2026-08-22T02:14:05.003Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T02:14:05.003Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T02:14:05.003Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T02:14:05.004Z] eslint-config-expo@57.0.1 - expected version: ~10.0.0
+[2026-08-22T02:14:05.004Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T02:14:05.004Z] Waiting on http://localhost:8081
+[2026-08-22T02:14:05.004Z] Logs for your project will appear below.
+[2026-08-22T02:14:09.737Z] [ELIFECYCLE] Command failed.
+[2026-08-22T02:14:09.744Z] Dev server exited with code -1
+[2026-08-22T02:14:10.849Z] Starting dev server with command: pnpm run dev
+[2026-08-22T02:14:11.317Z] $ expo start
+[2026-08-22T02:14:11.605Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T02:14:12.426Z] Starting Metro Bundler
+[2026-08-22T02:14:12.544Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T02:14:12.544Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T02:14:12.544Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T02:14:12.545Z] eslint-config-expo@57.0.1 - expected version: ~10.0.0
+[2026-08-22T02:14:12.545Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T02:14:12.545Z] Waiting on http://localhost:8081
+[2026-08-22T02:14:12.545Z] Logs for your project will appear below.
+[2026-08-22T02:14:14.972Z] [ELIFECYCLE] Command failed.
+[2026-08-22T02:14:15.521Z] Dev server exited with code -1
+[2026-08-22T02:14:16.585Z] Starting dev server with command: pnpm run dev
+[2026-08-22T02:14:17.056Z] $ expo start
+[2026-08-22T02:14:17.354Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-22T02:14:18.022Z] Starting Metro Bundler
+[2026-08-22T02:14:18.137Z] The following packages should be updated for best compatibility with the installed expo version:
+[2026-08-22T02:14:18.137Z] @expo/vector-icons@14.1.0 - expected version: ^15.0.3
+[2026-08-22T02:14:18.137Z] react-native@0.81.4 - expected version: 0.81.5
+[2026-08-22T02:14:18.137Z] eslint-config-expo@57.0.1 - expected version: ~10.0.0
+[2026-08-22T02:14:18.137Z] Your project may not work correctly until you install the expected versions of the packages.
+[2026-08-22T02:14:18.138Z] Waiting on http://localhost:8081
+[2026-08-22T02:14:18.138Z] Logs for your project will appear below.
