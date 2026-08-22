@@ -1,5 +1,18 @@
 const riskScore = (item = {}) => (item.issues || []).reduce((sum, issue) => sum + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0);
 const repairTotal = (item = {}) => (item.issues || []).reduce((sum, issue) => sum + (Number(issue.cost) || 0), 0);
+const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
+
+export const normalizeSavedInspection = (item = {}) => {
+  if (!isRecord(item) || !isRecord(item.vehicle)) return null;
+  return {
+    ...item,
+    vehicle: item.vehicle,
+    issues: Array.isArray(item.issues) ? item.issues.filter(isRecord) : [],
+    checklist: isRecord(item.checklist) ? item.checklist : {},
+    photos: Array.isArray(item.photos) ? item.photos.filter(isRecord) : [],
+    savedAt: item.savedAt || new Date(0).toISOString(),
+  };
+};
 
 export const getInspectionRiskLabel = (item = {}) => { const score = riskScore(item); return score >= 60 ? 'HIGH RISK' : score >= 30 ? 'REVIEW' : 'LOWER RISK'; };
 export const getInspectionCompletion = (item = {}) => { const complete = Object.values(item.checklist || {}).filter(Boolean).length; return `${complete}/5 sections`; };

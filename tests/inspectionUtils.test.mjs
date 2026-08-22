@@ -6,7 +6,7 @@ import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
-import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
+import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
   const result = buildAiAnalysis({ vehicle: { asking: '$21,900', vin: '1HGCM82633A004352' }, issues: [{ name: 'Brake pad wear', severity: 'major', cost: 420 }], checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [{ uri: 'file://one.jpg' }, { uri: 'file://two.jpg' }] });
@@ -237,6 +237,15 @@ test('returns actionable fallback feedback when VIN lookup times out', async () 
 
 test('rejects invalid VINs before calling the service', async () => {
   await assert.rejects(() => decodeVin('not-a-vin'), /valid 17-character VIN/);
+});
+
+test('normalizes saved inspections without allowing malformed nested data to crash screens', () => {
+  assert.equal(normalizeSavedInspection(null), null);
+  const safe = normalizeSavedInspection({ id: 'saved-1', vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, issues: [{ name: 'Brake', cost: 400 }, 'bad'], checklist: null, photos: [{ id: 'p1' }, null] });
+  assert.equal(safe.issues.length, 1);
+  assert.deepEqual(safe.checklist, {});
+  assert.equal(safe.photos.length, 1);
+  assert.ok(safe.savedAt);
 });
 
 test('clears saved selection only for the deleted record', () => {

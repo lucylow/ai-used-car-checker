@@ -345,3 +345,7 @@
 - [x] Implement a bounded recovery log and actionable status details
 - [x] Add deterministic tests for recovery-log behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit saved-inspection restore and recovery state lifecycle
+- [x] Implement safer saved-inspection restore and user feedback
+- [x] Add deterministic tests for saved-recovery behavior
+- [x] Re-run tests, type checks, lint, and Expo web export
