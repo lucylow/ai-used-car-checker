@@ -4,6 +4,12 @@ export const formatComparisonMetricValue = (row, value) => {
   return `${row.prefix || ''}${formatted}${row.suffix || ''}`;
 };
 
+export const getEvidenceHealth = (issues = [], photos = []) => {
+  const linked = (Array.isArray(issues) ? issues : []).filter((issue) => issue?.photoId);
+  const resolvable = linked.filter((issue) => getIssueEvidencePhoto(issue, photos));
+  return { linkedCount: linked.length, resolvableCount: resolvable.length, missingCount: Math.max(0, linked.length - resolvable.length), label: linked.length ? `${resolvable.length}/${linked.length} linked finding${linked.length === 1 ? '' : 's'} have a resolvable photo` : 'No findings are linked to photo evidence' };
+};
+
 export const getPhotoDeleteGuidance = (photoId, issues = []) => {
   const linkedCount = (Array.isArray(issues) ? issues : []).filter((issue) => issue?.photoId === photoId).length;
   return linkedCount ? { linkedCount, title: 'Photo has linked findings', message: `${linkedCount} finding${linkedCount === 1 ? '' : 's'} will keep its evidence reference as metadata only if this photo is removed.` } : { linkedCount: 0, title: 'Remove photo?', message: 'This photo is not linked to a finding.' };

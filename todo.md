@@ -397,3 +397,7 @@
 - [x] Preserve explainable metadata-only fallback after linked photo removal
 - [x] Add deterministic tests for photo deletion safeguard guidance
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Add evidence-health summary for linked findings with resolvable photos
+- [x] Confirm before deleting every photo, including unlinked photos
+- [x] Add deterministic tests for evidence-health counts and delete guidance
+- [x] Re-run tests, type checks, lint, and Expo web export
