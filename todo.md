@@ -609,3 +609,8 @@
 - [x] Add a live motion-intensity preview in Profile
 - [x] Add deterministic coverage for photo-motion state behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add a clearer first-use onboarding action plan
+- [x] Hand users directly from onboarding into vehicle setup or VIN decoding
+- [x] Add deterministic coverage for onboarding action routing
+- [x] Re-run full validation and save a new checkpoint

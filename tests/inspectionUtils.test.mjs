@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getOnboardingProgressPercent, getOnboardingTransitionOffset, getMotionDuration, getAnimatedProgressPercent, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance } from '../src/services/reportUtils.js';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getMotionDuration, getAnimatedProgressPercent, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance } from '../src/services/reportUtils.js';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
@@ -584,6 +584,12 @@ test('formats local-save status labels consistently', () => {
 test('formats history action feedback consistently', () => {
   assert.equal(getHistoryActionMessage('delete'), 'Inspection deleted · Undo available');
   assert.equal(getHistoryActionMessage('duplicate'), 'Inspection duplicated · New copy added');
+});
+
+test('routes onboarding actions to manual setup or VIN decoding', () => {
+  assert.equal(getOnboardingActionDestination('manual'), 'new');
+  assert.equal(getOnboardingActionDestination('decode-vin'), 'vin');
+  assert.equal(getOnboardingActionDestination('unknown'), 'new');
 });
 
 test('scales motion duration by intensity while honoring reduced motion', () => {
