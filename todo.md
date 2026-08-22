@@ -405,3 +405,7 @@
 - [x] Update evidence-health state after a replacement photo is attached
 - [x] Add deterministic tests for photo reattachment behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Harden local persistence and backup export failures with actionable recovery status
+- [x] Harden media and replacement-photo failures with consistent error details
+- [x] Add deterministic tests for error normalization and fallback guidance
+- [x] Re-run tests, type checks, lint, and Expo web export

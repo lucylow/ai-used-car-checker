@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel } from '../src/services/reportUtils.js';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel } from '../src/services/reportUtils.js';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
@@ -118,6 +118,13 @@ test('formats restore sanitization notices consistently', () => {
   assert.equal(getRestoreSanitizationNotice(0), '');
   assert.match(getRestoreSanitizationNotice(1), /1 malformed saved record skipped/);
   assert.match(getRestoreSanitizationNotice(3), /3 malformed saved records skipped/);
+});
+
+test('normalizes error details with safe bounded fallbacks', () => {
+  assert.equal(getErrorDetail({ message: 'Storage unavailable' }), 'Storage unavailable');
+  assert.equal(getErrorDetail({ code: 'E_STORAGE' }), 'E_STORAGE');
+  assert.equal(getErrorDetail(null, 'fallback reason'), 'fallback reason');
+  assert.equal(getErrorDetail({ message: 'x'.repeat(300) }).length, 160);
 });
 
 test('formats detailed recovery-log presentation states consistently', () => {
