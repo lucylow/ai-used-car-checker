@@ -385,3 +385,7 @@
 - [x] Persist photo review status and notes safely in saved inspections and backups
 - [x] Add deterministic tests for photo finding confirmation and deduplication
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Make photo-linked issue severity, cost, and notes editable after creation
+- [x] Show linked evidence thumbnails beside issues in summary and report views
+- [x] Add deterministic tests for linked evidence resolution and display fallbacks
+- [x] Re-run tests, type checks, lint, and Expo web export

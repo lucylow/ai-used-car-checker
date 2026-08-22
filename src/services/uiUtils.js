@@ -4,6 +4,11 @@ export const formatComparisonMetricValue = (row, value) => {
   return `${row.prefix || ''}${formatted}${row.suffix || ''}`;
 };
 
+export const getIssueEvidencePhoto = (issue = {}, photos = []) => {
+  if (!issue?.photoId || !Array.isArray(photos)) return null;
+  return photos.find((photo) => photo?.id === issue.photoId && photo?.uri) || null;
+};
+
 export const getBackupPreviewRows = (metadata = {}) => [
   ['File size', metadata.sizeLabel || '0 B'],
   ['Saved inspections', metadata.savedInspections || 0],
