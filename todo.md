@@ -593,3 +593,8 @@
 - [x] Add reduced-motion-aware transitions to report sections
 - [x] Add deterministic section-transition coverage
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add reduced-motion-aware transitions to photo review content
+- [x] Add reduced-motion-aware transitions to report preview sections
+- [x] Add deterministic photo-report transition coverage
+- [x] Re-run full validation and save a new checkpoint
