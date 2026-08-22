@@ -28,4 +28,10 @@ export const parseInspectionBackup = (raw) => {
   };
 };
 
+export const getBackupMetadata = ({ backup = {}, serialized = '' } = {}) => {
+  const bytes = new TextEncoder().encode(String(serialized)).length;
+  const sizeLabel = bytes < 1024 ? `${bytes} B` : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KB` : `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+  return { bytes, sizeLabel, savedInspections: Array.isArray(backup.savedInspections) ? backup.savedInspections.length : 0, activePhotos: Array.isArray(backup.photos) ? backup.photos.length : 0, aiSnapshots: Array.isArray(backup.aiHistory) ? backup.aiHistory.length : 0, exportedAt: backup.exportedAt || null };
+};
+
 export const getBackupSummary = (backup) => `${backup.savedInspections.length} saved inspection${backup.savedInspections.length === 1 ? '' : 's'} · ${backup.photos.length} active photo${backup.photos.length === 1 ? '' : 's'}`;

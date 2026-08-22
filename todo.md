@@ -365,3 +365,7 @@
 - [x] Implement saved-inspection comparison guidance
 - [x] Add deterministic tests for history-comparison behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Add visual comparison bars for risk, repairs, checklist, photos, and AI confidence
+- [x] Add backup size and export metadata preview guidance
+- [x] Add deterministic tests for comparison visualization and backup metadata helpers
+- [x] Re-run tests, type checks, lint, and Expo web export

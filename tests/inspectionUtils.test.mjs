@@ -2,11 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getRecoveryGuidance, getReportRetryLabel } from '../src/services/reportUtils.js';
-import { getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
+import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
-import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
+import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('derives transparent AI analysis from inspection evidence', () => {
   const result = buildAiAnalysis({ vehicle: { asking: '$21,900', vin: '1HGCM82633A004352' }, issues: [{ name: 'Brake pad wear', severity: 'major', cost: 420 }], checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [{ uri: 'file://one.jpg' }, { uri: 'file://two.jpg' }] });
@@ -256,6 +256,26 @@ test('compares saved inspections with safe AI confidence fallbacks', () => {
   assert.equal(comparison.left.confidence, null);
   assert.equal(comparison.right.confidence, 72);
   assert.equal(getInspectionComparison({ vehicle: {} }, null), null);
+});
+
+test('builds bounded comparison bar rows and handles unavailable AI confidence', () => {
+  const comparison = getInspectionComparison({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, issues: [{ severity: 'critical', cost: 1200 }], checklist: { Exterior: true }, photos: [] }, { vehicle: { year: '2019', make: 'Toyota', model: 'Camry' }, issues: [], checklist: {}, photos: [{ uri: 'x' }], aiHistory: [{ confidence: 80 }] });
+  const rows = getComparisonMetricRows(comparison);
+  assert.equal(rows.length, 5);
+  assert.equal(rows.find((row) => row.key === 'risk').leftRatio, 0.34);
+  assert.equal(rows.find((row) => row.key === 'confidence').left, null);
+  assert.equal(rows.find((row) => row.key === 'confidence').rightRatio, 0.8);
+  assert.equal(getComparisonMetricRows(null).length, 0);
+});
+
+test('reports backup metadata without changing serialized content', () => {
+  const backup = { exportedAt: '2026-08-22T00:00:00.000Z', savedInspections: [{ id: 'one' }], photos: [{ uri: 'x' }], aiHistory: [{ confidence: 70 }] };
+  const metadata = getBackupMetadata({ backup, serialized: '{"é":true}' });
+  assert.equal(metadata.savedInspections, 1);
+  assert.equal(metadata.activePhotos, 1);
+  assert.equal(metadata.aiSnapshots, 1);
+  assert.equal(metadata.bytes, 11);
+  assert.equal(metadata.sizeLabel, '11 B');
 });
 
 test('normalizes saved inspections without allowing malformed nested data to crash screens', () => {
