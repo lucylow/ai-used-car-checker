@@ -321,3 +321,7 @@
 - [x] Implement AI confidence history and change explanations
 - [x] Add deterministic tests for AI confidence-history behavior
 - [x] Re-run tests, type checks, lint, and Expo web export
+- [x] Audit persisted AI timeline and inspection restore paths
+- [x] Implement durable AI timeline persistence and safe restore
+- [x] Add deterministic tests for persisted AI timeline behavior
+- [x] Re-run tests, type checks, lint, and Expo web export

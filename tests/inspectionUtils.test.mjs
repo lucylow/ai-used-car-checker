@@ -153,6 +153,16 @@ test('replaces duplicate retry keys and drops repeatedly failing work at its lim
   clearRetry('failing');
 });
 
+test('preserves a bounded AI timeline in local backups', () => {
+  const aiHistory = Array.from({ length: 8 }, (_, index) => ({ id: String(index), confidence: 40 + index }));
+  const raw = serializeInspectionBackup({ vehicle: {}, issues: [], checklist: {}, photos: [], savedInspections: [], aiHistory });
+  const restored = parseInspectionBackup(raw);
+  assert.equal(restored.aiHistory.length, 6);
+  assert.equal(restored.aiHistory[0].id, '2');
+  const malformed = parseInspectionBackup(JSON.stringify({ app: 'carwise', version: 1, aiHistory: [{ id: 'kept' }, null, 'invalid'] }));
+  assert.deepEqual(malformed.aiHistory, [{ id: 'kept' }]);
+});
+
 test('serializes and restores a versioned local backup', () => {
   const raw = serializeInspectionBackup({ vehicle: { year: '2020' }, issues: [{ name: 'Brake wear' }], checklist: { Exterior: true }, photos: [{ id: 'p1' }], savedInspections: [{ id: 's1' }] });
   const restored = parseInspectionBackup(raw);

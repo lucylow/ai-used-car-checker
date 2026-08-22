@@ -179,7 +179,7 @@ export default function App() {
     let recoveryQueued = false;
     try {
       const persistedPhotos = photos.slice(-12).map((photo) => ({ id: photo.id, uri: photo.uri, width: photo.width, height: photo.height, mimeType: photo.mimeType, fileName: photo.fileName }));
-      payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, savedInspections, lastLocalAction });
+      payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, savedInspections, aiHistory: aiHistory.slice(-6), lastLocalAction });
       if (payload.length > 250000) setSaveStatus('Inspection is large — keeping a compact local copy');
       await AsyncStorage.setItem('carwise-inspection', payload);
       try {
@@ -197,7 +197,7 @@ export default function App() {
         try {
           if (!payload) {
             const persistedPhotos = photos.slice(-12).map((photo) => ({ id: photo.id, uri: photo.uri, width: photo.width, height: photo.height, mimeType: photo.mimeType, fileName: photo.fileName }));
-            payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, savedInspections, lastLocalAction });
+            payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, savedInspections, aiHistory: aiHistory.slice(-6), lastLocalAction });
           }
           await AsyncStorage.setItem('carwise-pending-inspection', payload);
           recoveryQueued = true;
@@ -229,13 +229,13 @@ export default function App() {
         persistTimer.current = null;
       }
     };
-  }, [vehicle, issues, checklist, photos, savedInspections, restored]);
+  }, [vehicle, issues, checklist, photos, savedInspections, aiHistory, restored]);
 
   useEffect(() => () => { if (undoTimer.current) clearTimeout(undoTimer.current); if (reportActionTimer.current) clearTimeout(reportActionTimer.current); if (persistTimer.current) clearTimeout(persistTimer.current); }, []);
 
-  const exportLocalBackup = async () => { const uri = `${FileSystem.cacheDirectory}carwise-backup-${Date.now()}.json`; try { const backup = serializeInspectionBackup({ vehicle, issues, checklist, photos, savedInspections }); await FileSystem.writeAsStringAsync(uri, backup, { encoding: FileSystem.EncodingType.UTF8 }); if (await Sharing.isAvailableAsync()) { await Sharing.shareAsync(uri, { mimeType: 'application/json', dialogTitle: 'Export Carwise backup' }); setLastLocalAction(getOperationStatusLabel('backup')); setSaveStatus('Backup ready to share'); } else { await Share.share({ message: backup, title: 'Carwise backup' }); setLastLocalAction(getOperationStatusLabel('backup')); setSaveStatus('Backup opened for sharing'); }   } catch (_) { setLastLocalAction(getOperationStatusLabel('backup', 'error')); setSaveStatus('Backup export failed. Your local inspection is unchanged; try again or use report sharing.'); } };
-  const importLocalBackup = async () => { try { const result = await DocumentPicker.getDocumentAsync({ type: 'application/json', copyToCacheDirectory: true }); if (result.canceled || !result.assets?.[0]) { setSaveStatus(getCanceledFlowGuidance('backup')); return; } const raw = await FileSystem.readAsStringAsync(result.assets[0].uri, { encoding: FileSystem.EncodingType.UTF8 }); const backup = parseInspectionBackup(raw); const reset = getDerivedInspectionResetState(); if (backup.vehicle) setVehicle(backup.vehicle); setIssues(backup.issues); setChecklist(backup.checklist); setPhotos(backup.photos); setSavedInspections(backup.savedInspections); setRanAI(reset.ranAI); setAiResult(null); setAiPendingFindings([]); setReportPreview(reset.reportPreview); setLastLocalAction(getOperationStatusLabel('restore')); setSaveStatus(`Backup restored · ${getBackupSummary(backup)}`);   } catch (_) { setLastLocalAction(getOperationStatusLabel('restore', 'error')); setSaveStatus('Backup restore failed. Your existing local inspections are unchanged; choose a valid Carwise JSON backup and try again.'); } };
-  const startInspection = () => { const fresh = createNewInspectionState(); setVehicle(fresh.vehicle); setIssues(fresh.issues); setChecklist(fresh.checklist); setPhotos(fresh.photos); setRanAI(false); setAiResult(null); setAiPendingFindings([]); setFormError(''); setReportPreview(''); setSaveStatus('New inspection ready. Add vehicle details to begin.'); setScreen('new'); setTab('Home'); };
+  const exportLocalBackup = async () => { const uri = `${FileSystem.cacheDirectory}carwise-backup-${Date.now()}.json`; try { const backup = serializeInspectionBackup({ vehicle, issues, checklist, photos, savedInspections, aiHistory }); await FileSystem.writeAsStringAsync(uri, backup, { encoding: FileSystem.EncodingType.UTF8 }); if (await Sharing.isAvailableAsync()) { await Sharing.shareAsync(uri, { mimeType: 'application/json', dialogTitle: 'Export Carwise backup' }); setLastLocalAction(getOperationStatusLabel('backup')); setSaveStatus('Backup ready to share'); } else { await Share.share({ message: backup, title: 'Carwise backup' }); setLastLocalAction(getOperationStatusLabel('backup')); setSaveStatus('Backup opened for sharing'); }   } catch (_) { setLastLocalAction(getOperationStatusLabel('backup', 'error')); setSaveStatus('Backup export failed. Your local inspection is unchanged; try again or use report sharing.'); } };
+  const importLocalBackup = async () => { try { const result = await DocumentPicker.getDocumentAsync({ type: 'application/json', copyToCacheDirectory: true }); if (result.canceled || !result.assets?.[0]) { setSaveStatus(getCanceledFlowGuidance('backup')); return; } const raw = await FileSystem.readAsStringAsync(result.assets[0].uri, { encoding: FileSystem.EncodingType.UTF8 }); const backup = parseInspectionBackup(raw); const reset = getDerivedInspectionResetState(); if (backup.vehicle) setVehicle(backup.vehicle); setIssues(backup.issues); setChecklist(backup.checklist); setPhotos(backup.photos); setSavedInspections(backup.savedInspections); setRanAI(reset.ranAI); setAiResult(null); setAiPendingFindings([]); setAiHistory(backup.aiHistory || []); setReportPreview(reset.reportPreview); setLastLocalAction(getOperationStatusLabel('restore')); setSaveStatus(`Backup restored · ${getBackupSummary(backup)}`);   } catch (_) { setLastLocalAction(getOperationStatusLabel('restore', 'error')); setSaveStatus('Backup restore failed. Your existing local inspections are unchanged; choose a valid Carwise JSON backup and try again.'); } };
+  const startInspection = () => { const fresh = createNewInspectionState(); setVehicle(fresh.vehicle); setIssues(fresh.issues); setChecklist(fresh.checklist); setPhotos(fresh.photos); setRanAI(false); setAiResult(null); setAiPendingFindings([]); setAiHistory([]); setFormError(''); setReportPreview(''); setSaveStatus('New inspection ready. Add vehicle details to begin.'); setScreen('new'); setTab('Home'); };
   const saveInspection = () => {
     if (!vehicle.year || !/^\\d{4}$/.test(vehicle.year) || !vehicle.make.trim() || !vehicle.model.trim()) {
       setFormError('Add a four-digit year, make, and model before continuing.');
