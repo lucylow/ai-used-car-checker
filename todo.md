@@ -909,3 +909,8 @@
 - [x] Improve the highest-impact reliability gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Verify and preserve the interrupted completion-formatting checkpoint work
+- [x] Audit the next reliability gap in Carwise inspection/report helpers
+- [x] Add deterministic regression coverage for the next improvement
+- [x] Re-run full validation and save a new checkpoint

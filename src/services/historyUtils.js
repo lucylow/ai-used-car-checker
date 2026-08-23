@@ -39,13 +39,15 @@ export const getInspectionComparison = (left = {}, right = {}) => {
   return { left: { id: first.id, label: `${first.vehicle.year} ${first.vehicle.make} ${first.vehicle.model}`, ...metric(first) }, right: { id: second.id, label: `${second.vehicle.year} ${second.vehicle.make} ${second.vehicle.model}`, ...metric(second) } };
 };
 export const getComparisonMetricRows = (comparison) => {
-  if (!comparison) return [];
+  if (!comparison || !comparison.left || !comparison.right || typeof comparison.left !== 'object' || typeof comparison.right !== 'object') return [];
+  const left = comparison.left;
+  const right = comparison.right;
   const rows = [
-    { key: 'risk', label: 'Risk score', left: comparison.left.risk, right: comparison.right.risk, max: 100, suffix: '/100' },
-    { key: 'repairs', label: 'Estimated repairs', left: comparison.left.repairs, right: comparison.right.repairs, max: Math.max(comparison.left.repairs, comparison.right.repairs, 1), prefix: '$' },
-    { key: 'checklist', label: 'Checklist complete', left: comparison.left.checklist, right: comparison.right.checklist, max: 5, suffix: '/5' },
-    { key: 'photos', label: 'Photo evidence', left: comparison.left.photos, right: comparison.right.photos, max: Math.max(comparison.left.photos, comparison.right.photos, 1) },
-    { key: 'confidence', label: 'AI confidence', left: comparison.left.confidence, right: comparison.right.confidence, max: 100, suffix: '%' },
+    { key: 'risk', label: 'Risk score', left: left.risk, right: right.risk, max: 100, suffix: '/100' },
+    { key: 'repairs', label: 'Estimated repairs', left: left.repairs, right: right.repairs, max: Math.max(Number(left.repairs) || 0, Number(right.repairs) || 0, 1), prefix: '$' },
+    { key: 'checklist', label: 'Checklist complete', left: left.checklist, right: right.checklist, max: 5, suffix: '/5' },
+    { key: 'photos', label: 'Photo evidence', left: left.photos, right: right.photos, max: Math.max(Number(left.photos) || 0, Number(right.photos) || 0, 1) },
+    { key: 'confidence', label: 'AI confidence', left: left.confidence, right: right.confidence, max: 100, suffix: '%' },
   ];
   return rows.map((row) => ({ ...row, leftRatio: row.left === null ? 0 : Math.min(1, row.left / row.max), rightRatio: row.right === null ? 0 : Math.min(1, row.right / row.max) }));
 };

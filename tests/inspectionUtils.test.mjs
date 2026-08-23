@@ -343,6 +343,7 @@ test('compares saved inspections with safe AI confidence fallbacks', () => {
   assert.equal(comparison.left.confidence, null);
   assert.equal(comparison.right.confidence, 72);
   assert.equal(getInspectionComparison({ vehicle: {} }, null), null);
+  assert.deepEqual(getComparisonMetricRows({ left: null, right: {} }), []);
 });
 
 test('guards primitive VIN and malformed issue inputs', () => {
