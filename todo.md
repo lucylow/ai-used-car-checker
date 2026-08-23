@@ -665,3 +665,8 @@
 - [x] Harden local recovery boundaries without discarding valid inspection data
 - [x] Add deterministic tests for corrupted backups and interrupted saves
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add explicit primary-versus-pending restore-source diagnostics
+- [x] Display restore-source context without exposing sensitive inspection data
+- [x] Add deterministic tests for restore-source labeling
+- [x] Re-run full validation and save a new checkpoint
