@@ -680,3 +680,8 @@
 - [x] Preserve AI history, field-note provenance, photo viewing, and editable-report navigation
 - [x] Add regression coverage for saved-detail module boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract checklist presentation and interactions into a focused component module
+- [x] Preserve progress animation, compact mode, accessibility, and navigation behavior
+- [x] Add regression coverage for checklist module boundaries
+- [x] Re-run full validation and save a new checkpoint
