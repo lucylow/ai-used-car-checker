@@ -634,3 +634,9 @@
 - [x] Preserve existing props, handlers, accessibility, and animation behavior
 - [x] Add deterministic regression coverage for the extracted component boundary
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract repeated report presentation into a focused component
+- [x] Extract repeated recovery presentation into a focused component
+- [x] Preserve accessibility labels, handlers, and animation behavior
+- [x] Add deterministic regression coverage for the extracted boundaries
+- [x] Re-run full validation and save a new checkpoint
