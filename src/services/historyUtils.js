@@ -38,6 +38,8 @@ export const getInspectionComparison = (left = {}, right = {}) => {
   const metric = (item) => ({ risk: riskScore(item), repairs: repairTotal(item), checklist: Object.values(item.checklist).filter(Boolean).length, photos: item.photos.length, confidence: item.aiHistory.at(-1)?.confidence || null });
   return { left: { id: first.id, label: `${first.vehicle.year} ${first.vehicle.make} ${first.vehicle.model}`, ...metric(first) }, right: { id: second.id, label: `${second.vehicle.year} ${second.vehicle.make} ${second.vehicle.model}`, ...metric(second) } };
 };
+const getSafeMetricRatio = (value, max) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.min(1, Math.max(0, numeric / max)) : 0; };
+
 export const getComparisonMetricRows = (comparison) => {
   if (!comparison || !comparison.left || !comparison.right || typeof comparison.left !== 'object' || typeof comparison.right !== 'object') return [];
   const left = comparison.left;
@@ -49,7 +51,7 @@ export const getComparisonMetricRows = (comparison) => {
     { key: 'photos', label: 'Photo evidence', left: left.photos, right: right.photos, max: Math.max(Number(left.photos) || 0, Number(right.photos) || 0, 1) },
     { key: 'confidence', label: 'AI confidence', left: left.confidence, right: right.confidence, max: 100, suffix: '%' },
   ];
-  return rows.map((row) => ({ ...row, leftRatio: row.left === null ? 0 : Math.min(1, row.left / row.max), rightRatio: row.right === null ? 0 : Math.min(1, row.right / row.max) }));
+  return rows.map((row) => ({ ...row, leftRatio: getSafeMetricRatio(row.left, row.max), rightRatio: getSafeMetricRatio(row.right, row.max) }));
 };
 
 export const shouldClearSavedSelection = (selectedId, deletedId) => Boolean(selectedId && deletedId && String(selectedId) === String(deletedId));

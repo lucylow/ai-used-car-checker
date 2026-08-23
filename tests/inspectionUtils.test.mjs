@@ -344,6 +344,11 @@ test('compares saved inspections with safe AI confidence fallbacks', () => {
   assert.equal(comparison.right.confidence, 72);
   assert.equal(getInspectionComparison({ vehicle: {} }, null), null);
   assert.deepEqual(getComparisonMetricRows({ left: null, right: {} }), []);
+  const safeRows = getComparisonMetricRows({ left: { repairs: -10, photos: undefined }, right: { repairs: 'bad', photos: 2 } });
+  assert.equal(safeRows.find((row) => row.key === 'repairs').leftRatio, 0);
+  assert.equal(safeRows.find((row) => row.key === 'repairs').rightRatio, 0);
+  assert.equal(safeRows.find((row) => row.key === 'photos').leftRatio, 0);
+  assert.equal(safeRows.find((row) => row.key === 'photos').rightRatio, 1);
 });
 
 test('guards primitive VIN and malformed issue inputs', () => {

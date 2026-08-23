@@ -914,3 +914,8 @@
 - [x] Audit the next reliability gap in Carwise inspection/report helpers
 - [x] Add deterministic regression coverage for the next improvement
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit the current inspection, AI, and report state flow for another high-impact reliability gap
+- [x] Improve the highest-impact reliability gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
