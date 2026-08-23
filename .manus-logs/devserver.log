@@ -6283,3 +6283,65 @@
 [2026-08-23T19:46:30.263Z] $ expo start
 [2026-08-23T19:46:30.577Z] Starting project at /home/ubuntu/ai-used-car-checker
 [2026-08-23T19:46:31.561Z] Starting Metro Bundler
+[2026-08-23T19:46:38.252Z] Waiting on http://localhost:8081
+[2026-08-23T19:46:38.252Z] Logs for your project will appear below.
+[2026-08-23T19:46:40.567Z] Web Bundled 456ms index.js (499 modules)
+[2026-08-23T19:46:43.464Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:47:50.903Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:47:50.914Z] Dev server exited with code -1
+[2026-08-23T19:47:51.991Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:47:52.518Z] $ expo start
+[2026-08-23T19:47:52.858Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:47:53.948Z] Starting Metro Bundler
+[2026-08-23T19:48:00.546Z] Waiting on http://localhost:8081
+[2026-08-23T19:48:00.546Z] Logs for your project will appear below.
+[2026-08-23T19:48:01.043Z] Web Bundled 416ms index.js (447 modules)
+[2026-08-23T19:48:03.607Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:48:11.167Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:48:11.179Z] Dev server exited with code -1
+[2026-08-23T19:48:12.254Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:48:12.783Z] $ expo start
+[2026-08-23T19:48:13.117Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:48:14.132Z] Starting Metro Bundler
+[2026-08-23T19:48:14.382Z] Waiting on http://localhost:8081
+[2026-08-23T19:48:14.382Z] Logs for your project will appear below.
+[2026-08-23T19:48:17.305Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:48:17.725Z] Dev server exited with code -1
+[2026-08-23T19:48:18.789Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:48:19.307Z] $ expo start
+[2026-08-23T19:48:19.595Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:48:20.347Z] Starting Metro Bundler
+[2026-08-23T19:48:20.513Z] Waiting on http://localhost:8081
+[2026-08-23T19:48:20.513Z] Logs for your project will appear below.
+[2026-08-23T19:48:27.040Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:48:27.665Z] Web Bundled 675ms index.js (505 modules)
+[2026-08-23T19:48:28.451Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:48:31.854Z] Web Bundled 20ms index.js (1 module)
+[2026-08-23T19:48:32.416Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:48:32.875Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:48:32.881Z] Dev server exited with code -1
+[2026-08-23T19:48:33.987Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:48:34.499Z] $ expo start
+[2026-08-23T19:48:34.818Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:48:35.787Z] Starting Metro Bundler
+[2026-08-23T19:48:36.019Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:48:36.025Z] Dev server exited with code -1
+[2026-08-23T19:48:37.133Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:48:37.679Z] $ expo start
+[2026-08-23T19:48:37.966Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:48:38.755Z] Starting Metro Bundler
+[2026-08-23T19:48:38.967Z] Waiting on http://localhost:8081
+[2026-08-23T19:48:38.967Z] Logs for your project will appear below.
+[2026-08-23T19:48:45.701Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:48:45.701Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:48:46.128Z] Web Bundled 471ms index.js (500 modules)
+[2026-08-23T19:48:46.179Z] Web Bundled 487ms index.js (1 module)
+[2026-08-23T19:48:55.482Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:49:11.167Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:49:11.174Z] Dev server exited with code -1
+[2026-08-23T19:49:12.278Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:49:12.792Z] $ expo start
+[2026-08-23T19:49:13.105Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:49:14.030Z] Starting Metro Bundler
+[2026-08-23T19:49:15.317Z] Waiting on http://localhost:8081
+[2026-08-23T19:49:15.317Z] Logs for your project will appear below.

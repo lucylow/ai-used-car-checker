@@ -20,6 +20,7 @@ export const getVinResultCompleteness = (vehicle = {}) => {
   const present = fields.filter((field) => safeText(vehicle?.[field])).length;
   return { present, total: fields.length, complete: present === fields.length };
 };
+export const canApplyDecodedVehicle = (vehicle = {}) => getVinResultCompleteness(vehicle).complete;
 
 export const getVinFallback = (vin, message = 'Live VIN lookup unavailable. Review the VIN manually or try again when connected.') => ({
   vin: normalizeVin(vin),
