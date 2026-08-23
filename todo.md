@@ -645,3 +645,8 @@
 - [x] Preserve report actions, accessibility labels, and animation behavior
 - [x] Add deterministic regression coverage for report-preview boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add guided VIN-decoding walkthrough steps and progress feedback
+- [x] Improve VIN validation and recoverable error states
+- [x] Add deterministic tests for guided VIN flow behavior
+- [x] Re-run full validation and save a new checkpoint
