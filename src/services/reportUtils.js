@@ -119,3 +119,8 @@ export const getReportActionState = ({ busy = false, action = '', retry = '', re
     closeLabel: 'Done',
   };
 };
+
+export const getRestoreSourceForFlow = (source = '', flow = 'restored') => {
+  if (flow === 'new' || flow === 'decoded') return '';
+  return ['primary', 'pending', 'imported'].includes(source) ? source : '';
+};

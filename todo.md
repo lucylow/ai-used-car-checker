@@ -745,3 +745,8 @@
 - [x] Preserve idle, busy, retry, completed, and close behavior
 - [x] Add deterministic tests for report action states
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit restore-source lifecycle across new and decoded inspections
+- [x] Reset stale restore context at safe inspection boundaries
+- [x] Add deterministic lifecycle coverage for restore-source state
+- [x] Re-run full validation and save a new checkpoint
