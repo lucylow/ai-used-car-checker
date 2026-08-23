@@ -342,6 +342,9 @@ test('compares saved inspections with safe AI confidence fallbacks', () => {
   assert.equal(comparison.left.risk, 20);
   assert.equal(comparison.left.confidence, null);
   assert.equal(comparison.right.confidence, 72);
+  const confidenceComparison = getInspectionComparison({ id: 'zero', vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, aiHistory: [{ confidence: 0 }] }, { id: 'over', vehicle: { year: '2019', make: 'Toyota', model: 'Camry' }, aiHistory: [{ confidence: 140 }] });
+  assert.equal(confidenceComparison.left.confidence, 0);
+  assert.equal(confidenceComparison.right.confidence, 100);
   assert.equal(getInspectionComparison({ vehicle: {} }, null), null);
   assert.deepEqual(getComparisonMetricRows({ left: null, right: {} }), []);
   const safeRows = getComparisonMetricRows({ left: { repairs: -10, photos: undefined }, right: { repairs: 'bad', photos: 2 } });

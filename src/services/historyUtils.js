@@ -35,7 +35,7 @@ export const getInspectionComparison = (left = {}, right = {}) => {
   const first = normalizeSavedInspection(left);
   const second = normalizeSavedInspection(right);
   if (!first || !second) return null;
-  const metric = (item) => ({ risk: riskScore(item), repairs: repairTotal(item), checklist: Object.values(item.checklist).filter(Boolean).length, photos: item.photos.length, confidence: item.aiHistory.at(-1)?.confidence || null });
+  const metric = (item) => { const rawConfidence = Number(item.aiHistory.at(-1)?.confidence); return { risk: riskScore(item), repairs: repairTotal(item), checklist: Object.values(item.checklist).filter(Boolean).length, photos: item.photos.length, confidence: Number.isFinite(rawConfidence) ? Math.min(100, Math.max(0, rawConfidence)) : null }; };
   return { left: { id: first.id, label: `${first.vehicle.year} ${first.vehicle.make} ${first.vehicle.model}`, ...metric(first) }, right: { id: second.id, label: `${second.vehicle.year} ${second.vehicle.make} ${second.vehicle.model}`, ...metric(second) } };
 };
 const getSafeMetricRatio = (value, max) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.min(1, Math.max(0, numeric / max)) : 0; };
