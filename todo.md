@@ -735,3 +735,8 @@
 - [x] Strengthen safe fallbacks for incomplete saved records
 - [x] Add deterministic tests for saved-detail fallback states
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add clear report-preview retry-state presentation
+- [x] Preserve privacy-safe restore context in report preview
+- [x] Add deterministic tests for report action states
+- [x] Re-run full validation and save a new checkpoint
