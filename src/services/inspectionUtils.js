@@ -20,6 +20,32 @@ export function getDerivedInspectionResetState() {
   return { ranAI: false, reportPreview: '' };
 }
 
+export function getNewInspectionTransientResetState() {
+  return {
+    ranAI: false,
+    aiResult: null,
+    aiPendingFindings: [],
+    aiHistory: [],
+    toolNotes: {},
+    customFindingVisible: false,
+    customFindingError: '',
+    editingIssue: null,
+    historyConfirm: null,
+    undoItem: null,
+    findingUndoItem: null,
+    noteUndoItem: null,
+    selectedSavedInspection: null,
+    selectedPhoto: null,
+    reportPreview: '',
+    reportSections: { summary: true, evidence: false },
+    reportAction: '',
+    reportBusy: false,
+    reportRetry: false,
+    reportRetryKind: '',
+    saveRetry: false,
+  };
+}
+
 export function isSameIssue(issue = {}, target = {}) {
   if (issue === target) return true;
   return Boolean(issue.id && target.id && issue.id === target.id);

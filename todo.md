@@ -864,3 +864,8 @@
 - [x] Improve the highest-impact quick-tool reliability gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit active inspection navigation and tool-note persistence for another state-consistency gap
+- [x] Improve the highest-impact reliability gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
