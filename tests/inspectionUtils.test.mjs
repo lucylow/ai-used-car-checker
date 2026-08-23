@@ -668,6 +668,7 @@ test('reports readiness with precise missing sections', () => {
   const ready = getReportReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [{ id: 'p1' }] });
   assert.equal(ready.ready, true);
   assert.deepEqual(ready.missing, []);
+  assert.deepEqual(getReportReadiness({ vehicle: null, checklist: null, photos: null }), { ready: false, missing: ['vehicle details', 'checklist', 'photo evidence'] });
 });
 
 test('formats saved-inspection risk and completion metadata consistently', () => {

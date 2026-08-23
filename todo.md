@@ -874,3 +874,8 @@
 - [x] Improve the highest-impact inspection-data reliability gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit current inspection and report flows for another high-impact reliability gap
+- [x] Improve the highest-impact reliability gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
