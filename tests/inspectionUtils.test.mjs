@@ -9,6 +9,12 @@ import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindi
 import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount, getStablePhotoKey, normalizeReportPreviewCollections } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection, pruneComparisonSelection, getSavedIssueDisplay } from '../src/services/historyUtils.js';
 
+test('keeps AI evidence helpers safe for null top-level payloads', () => {
+  assert.deepEqual(getEvidenceAudit(null).missing, ['clear photo evidence', '5 checklist sections', 'asking price']);
+  assert.deepEqual(getAiQualitySummary(null).score, 0);
+  assert.equal(buildAiAnalysis(null).findings.length, 1);
+});
+
 test('formats actionable AI failure guidance for each recovery path', () => {
   assert.match(getAiErrorGuidance('analysis'), /existing findings are unchanged/i);
   assert.match(getLocalRecoveryBanner({ retryCount: Infinity, saveRetry: true }).body, /^1 local operation/);

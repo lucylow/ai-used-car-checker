@@ -1,6 +1,13 @@
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
-export const getEvidenceAudit = ({ vehicle = {}, checklist = {}, photos = [], issues = [], pendingFindings = [] } = {}) => {
+const asRecord = (value) => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+export const getEvidenceAudit = (input = {}) => {
+  const safe = asRecord(input);
+  const vehicle = asRecord(safe.vehicle);
+  const checklist = asRecord(safe.checklist);
+  const photos = Array.isArray(safe.photos) ? safe.photos : [];
+  const issues = Array.isArray(safe.issues) ? safe.issues : [];
+  const pendingFindings = Array.isArray(safe.pendingFindings) ? safe.pendingFindings : [];
   const completedSections = Object.values(checklist).filter(Boolean).length;
   const usablePhotoCount = Array.isArray(photos) ? photos.filter((photo) => photo?.uri).length : 0;
   const confirmed = [`${completedSections}/5 checklist sections`, `${Array.isArray(issues) ? issues.length : 0} recorded issue${issues?.length === 1 ? '' : 's'}`];
@@ -35,13 +42,19 @@ export const getAiEvidenceActions = ({ missing = [] } = {}) => {
   }).filter((action, index, actions) => actions.findIndex((item) => item.key === action.key) === index);
 };
 
-export const getEvidenceCoverage = ({ checklist = {}, photos = [] } = {}) => {
+export const getEvidenceCoverage = (input = {}) => {
+  const safe = asRecord(input);
+  const checklist = asRecord(safe.checklist);
+  const photos = Array.isArray(safe.photos) ? safe.photos : [];
   const completedSections = Object.values(checklist).filter(Boolean).length;
   const photoCount = Array.isArray(photos) ? photos.filter((photo) => photo?.uri).length : 0;
   return { completedSections, photoCount, totalSections: 5, score: clamp(Math.round((completedSections / 5) * 70 + Math.min(photoCount, 6) / 6 * 30), 0, 100) };
 };
 
-export const getAiQualitySummary = ({ evidence = {}, vehicle = {} } = {}) => {
+export const getAiQualitySummary = (input = {}) => {
+  const safe = asRecord(input);
+  const evidence = asRecord(safe.evidence);
+  const vehicle = asRecord(safe.vehicle);
   const evidenceScore = clamp(Number(evidence.score) || 0, 0, 100);
   const identityBonus = vehicle.vin ? 10 : 0;
   const score = clamp(Math.round(evidenceScore * 0.8 + Math.min(identityBonus, 10)), 0, 100);
@@ -52,7 +65,12 @@ export const getAiQualitySummary = ({ evidence = {}, vehicle = {} } = {}) => {
   return { score, label, drivers, nextStep };
 };
 
-export const buildAiAnalysis = ({ vehicle = {}, issues = [], checklist = {}, photos = [] } = {}) => {
+export const buildAiAnalysis = (input = {}) => {
+  const safe = asRecord(input);
+  const vehicle = asRecord(safe.vehicle);
+  const issues = Array.isArray(safe.issues) ? safe.issues : [];
+  const checklist = asRecord(safe.checklist);
+  const photos = Array.isArray(safe.photos) ? safe.photos : [];
   const evidence = getEvidenceCoverage({ checklist, photos });
   const existingIssues = Array.isArray(issues) ? issues : [];
   const hasSafetyIssue = existingIssues.some((issue) => issue?.severity === 'critical');
