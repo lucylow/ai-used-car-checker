@@ -932,3 +932,9 @@ test('locks photo actions only while media processing is active', () => {
   assert.equal(isPhotoActionLocked(false), false);
   assert.equal(isPhotoActionLocked(undefined), false);
 });
+
+test('does not fabricate a fair price when AI data is unavailable', () => {
+  const report = buildInspectionReport({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, fairPrice: null, riskScore: 0 });
+  assert.match(report, /AI fair price: Unavailable until AI analysis is completed/);
+  assert.doesNotMatch(report, /19400/);
+});

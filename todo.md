@@ -799,3 +799,8 @@
 - [x] Improve the highest-impact photo/media state-consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit report generation inputs for stale AI-derived price and risk values after issue edits
+- [x] Improve the highest-impact report derivation consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
