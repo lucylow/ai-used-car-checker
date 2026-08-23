@@ -15,6 +15,12 @@ export const applyDecodedVehicle = (currentVehicle = {}, decodedVehicle = {}, vi
   vin: normalizeVin(vin || currentVehicle.vin || ''),
 });
 
+export const getVinResultCompleteness = (vehicle = {}) => {
+  const fields = ['year', 'make', 'model'];
+  const present = fields.filter((field) => safeText(vehicle?.[field])).length;
+  return { present, total: fields.length, complete: present === fields.length };
+};
+
 export const getVinFallback = (vin, message = 'Live VIN lookup unavailable. Review the VIN manually or try again when connected.') => ({
   vin: normalizeVin(vin),
   status: 'fallback',

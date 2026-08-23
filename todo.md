@@ -839,3 +839,8 @@
 - [x] Improve the highest-impact VIN data-integrity gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit VIN lookup result completeness and user-facing fallback guidance
+- [x] Improve the highest-impact VIN result clarity gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint

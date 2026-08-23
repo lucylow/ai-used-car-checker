@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { decodeVin } from '../src/services/vinService';
+import { decodeVin, getVinResultCompleteness } from '../src/services/vinService';
 import { getInspectionNavigationLabel, getToolInputGuidance, getVinWalkthroughStep } from '../src/services/reportUtils';
 
 function VinTool({ onHome, onUse, Card, ActionButton, colors, styles }) {
@@ -28,6 +28,7 @@ function VinTool({ onHome, onUse, Card, ActionButton, colors, styles }) {
   };
 
   const vehicleLabel = result?.vehicle ? [result.vehicle.year, result.vehicle.make, result.vehicle.model].filter(Boolean).join(' ') : '';
+  const resultCompleteness = getVinResultCompleteness(result?.vehicle);
   const walkthrough = getVinWalkthroughStep({ value, status: result?.status, busy });
   const progress = Math.min(100, Math.max(8, (Math.min(3, walkthrough.index + 1) / 3) * 100));
 
@@ -41,7 +42,7 @@ function VinTool({ onHome, onUse, Card, ActionButton, colors, styles }) {
       <TextInput accessibilityLabel="Vehicle identification number" accessibilityHint="Enter the 17-character vehicle identification number" style={styles.inputFull} value={value} onChangeText={setValue} placeholder="Enter VIN" placeholderTextColor={colors.muted} autoCapitalize="characters" autoCorrect={false} maxLength={17} returnKeyType="done" onSubmitEditing={runDecode} />
       <ActionButton accessibilityLabel="Decode VIN" accessibilityHint="Looks up vehicle details from the entered VIN" disabled={busy} label={busy ? 'Decoding…' : 'Decode VIN'} onPress={runDecode} />
     </Card>
-    {result?.status === 'decoded' ? <Card style={styles.resultCard}><Text style={styles.cardEyebrow}>LIVE RESULT</Text><Text style={styles.cardTitle}>{vehicleLabel || 'Vehicle identity returned'}</Text>{result.vehicle.trim ? <Text style={styles.muted}>Trim: {result.vehicle.trim}</Text> : null}{result.vehicle.bodyClass ? <Text style={styles.muted}>Body: {result.vehicle.bodyClass}</Text> : null}{result.vehicle.engine ? <Text style={styles.muted}>Engine: {result.vehicle.engine}</Text> : null}<TouchableOpacity accessibilityRole="button" accessibilityLabel={`Use ${vehicleLabel || 'decoded vehicle'} in inspection`} style={styles.secondaryButton} onPress={() => onUse({ year: result.vehicle.year, make: result.vehicle.make, model: result.vehicle.model, vin: result.vin })}><Text style={styles.secondaryButtonText}>Use in inspection</Text></TouchableOpacity></Card> : null}
+    {result?.status === 'decoded' ? <Card style={styles.resultCard}><Text style={styles.cardEyebrow}>LIVE RESULT</Text><Text style={styles.cardTitle}>{vehicleLabel || 'Vehicle identity returned'}</Text><Text style={styles.muted}>Identity fields returned: {resultCompleteness.present}/{resultCompleteness.total}{resultCompleteness.complete ? ' · Ready to use' : ' · Review before using'}</Text>{result.vehicle.trim ? <Text style={styles.muted}>Trim: {result.vehicle.trim}</Text> : null}{result.vehicle.bodyClass ? <Text style={styles.muted}>Body: {result.vehicle.bodyClass}</Text> : null}{result.vehicle.engine ? <Text style={styles.muted}>Engine: {result.vehicle.engine}</Text> : null}<TouchableOpacity accessibilityRole="button" accessibilityLabel={`Use ${vehicleLabel || 'decoded vehicle'} in inspection`} style={styles.secondaryButton} onPress={() => onUse({ year: result.vehicle.year, make: result.vehicle.make, model: result.vehicle.model, vin: result.vin })}><Text style={styles.secondaryButtonText}>Use in inspection</Text></TouchableOpacity></Card> : null}
     {result?.status === 'fallback' ? <Card style={styles.resultCard}><Text style={styles.cardEyebrow}>OFFLINE FALLBACK</Text><Text style={styles.muted}>No vehicle details were changed. You can retry the lookup or continue entering details manually.</Text></Card> : null}
     {result?.status === 'error' ? <Card style={styles.resultCard}><Text style={styles.cardEyebrow}>CHECK THE VIN</Text><Text style={styles.muted}>{result.message}</Text><Text style={styles.muted}>Your inspection details remain unchanged. Correct the VIN and try again.</Text></Card> : null}
   </ScrollView>;
