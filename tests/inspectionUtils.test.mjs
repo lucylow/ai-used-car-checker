@@ -13,6 +13,9 @@ test('keeps AI evidence helpers safe for null top-level payloads', () => {
   assert.deepEqual(getEvidenceAudit(null).missing, ['clear photo evidence', '5 checklist sections', 'asking price']);
   assert.deepEqual(getAiQualitySummary(null).score, 0);
   assert.equal(buildAiAnalysis(null).findings.length, 1);
+  assert.equal(getAiQualitySummary({ evidence: { score: Infinity, completedSections: 99, photoCount: 99 } }).score, 0);
+  assert.deepEqual(getAiQualitySummary({ evidence: { score: Infinity, completedSections: 99, photoCount: 99 } }).drivers, ['5/5 checklist sections', '6 usable photos']);
+  assert.equal(buildAiAnalysis({ issues: [{ cost: Infinity }, { cost: -5 }] }).repairTotal, 850);
 });
 
 test('formats actionable AI failure guidance for each recovery path', () => {

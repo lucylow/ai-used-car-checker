@@ -1,4 +1,5 @@
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const safeFinite = (value, fallback = 0) => { const numeric = Number(value); return Number.isFinite(numeric) ? numeric : fallback; };
 
 const asRecord = (value) => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
 export const getEvidenceAudit = (input = {}) => {
@@ -55,11 +56,11 @@ export const getAiQualitySummary = (input = {}) => {
   const safe = asRecord(input);
   const evidence = asRecord(safe.evidence);
   const vehicle = asRecord(safe.vehicle);
-  const evidenceScore = clamp(Number(evidence.score) || 0, 0, 100);
+  const evidenceScore = clamp(safeFinite(evidence.score), 0, 100);
   const identityBonus = vehicle.vin ? 10 : 0;
   const score = clamp(Math.round(evidenceScore * 0.8 + Math.min(identityBonus, 10)), 0, 100);
   const label = score >= 80 ? 'Strong first-pass signal' : score >= 60 ? 'Usable with verification' : 'Early signal only';
-  const drivers = [`${evidence.completedSections || 0}/5 checklist sections`, `${evidence.photoCount || 0} usable photos`];
+  const drivers = [`${clamp(safeFinite(evidence.completedSections), 0, 5)}/5 checklist sections`, `${clamp(safeFinite(evidence.photoCount), 0, 6)} usable photos`];
   if (vehicle.vin) drivers.push('VIN identified');
   const nextStep = score >= 80 ? 'Verify critical findings with service records or a qualified mechanic.' : 'Add the missing evidence shown below before relying on price or risk guidance.';
   return { score, label, drivers, nextStep };
@@ -77,7 +78,7 @@ export const buildAiAnalysis = (input = {}) => {
   const confidence = clamp(Math.round(35 + evidence.score * 0.55 + (vehicle.vin ? 10 : 0)), 35, 95);
   const findings = hasSafetyIssue ? [] : [{ name: 'Rust underneath', severity: 'critical', cost: 850, note: 'Needs in-person confirmation beneath the vehicle.', source: evidence.photoCount ? 'photo-assisted heuristic' : 'inspection checklist heuristic', confidence: clamp(confidence - 8, 25, 95), evidence: evidence.photoCount ? `${evidence.photoCount} usable photo${evidence.photoCount === 1 ? '' : 's'} plus ${evidence.completedSections}/5 checklist sections` : `${evidence.completedSections}/5 checklist sections; no usable photo attached` }];
   const combinedIssues = [...existingIssues, ...findings.filter((finding) => !existingIssues.some((issue) => issue?.name === finding.name))];
-  const repairTotal = combinedIssues.reduce((sum, issue) => sum + Math.max(0, Number(issue?.cost) || 0), 0);
+  const repairTotal = combinedIssues.reduce((sum, issue) => sum + Math.max(0, safeFinite(issue?.cost)), 0);
   const asking = Number(String(vehicle.asking || '').replace(/[^0-9.]/g, '')) || 0;
   const fairPrice = asking ? Math.max(0, Math.round(asking - repairTotal * 0.35)) : null;
   const recommendation = getAiRecommendation({ issues: combinedIssues, repairTotal, confidence, evidenceScore: evidence.score });
