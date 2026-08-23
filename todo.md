@@ -685,3 +685,8 @@
 - [x] Preserve progress animation, compact mode, accessibility, and navigation behavior
 - [x] Add regression coverage for checklist module boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract AI analysis presentation into a focused component module
+- [x] Preserve loading, retry, evidence review, findings, editing, and photo actions
+- [x] Add regression coverage for AI module boundaries
+- [x] Re-run full validation and save a new checkpoint
