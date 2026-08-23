@@ -655,3 +655,8 @@
 - [x] Preserve VIN navigation, accessibility, and decoded-result behavior
 - [x] Add regression coverage for the extracted VIN component boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract the photo-evidence screen into a focused component module
+- [x] Preserve photo picker, permission, processing, review, and removal behavior
+- [x] Add regression coverage for photo workflow boundaries
+- [x] Re-run full validation and save a new checkpoint
