@@ -854,3 +854,8 @@
 - [x] Improve the highest-impact VIN guidance clarity gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit VIN response messaging and partial-result recovery flow for unclear next actions
+- [x] Improve the highest-impact VIN recovery UX gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint

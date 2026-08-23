@@ -979,9 +979,9 @@ test('normalizes decoded VIN fields without object-string leakage', () => {
 });
 
 test('reports VIN identity completeness deterministically', () => {
-  assert.deepEqual(getVinResultCompleteness({ year: '2020', make: 'Ford', model: 'Focus' }), { present: 3, total: 3, complete: true, missing: [] });
-  assert.deepEqual(getVinResultCompleteness({ year: '2020', make: 'Ford' }), { present: 2, total: 3, complete: false, missing: ['model'] });
-  assert.deepEqual(getVinResultCompleteness(null), { present: 0, total: 3, complete: false, missing: ['year', 'make', 'model'] });
+  assert.deepEqual(getVinResultCompleteness({ year: '2020', make: 'Ford', model: 'Focus' }), { present: 3, total: 3, complete: true, missing: [], missingLabels: [] });
+  assert.deepEqual(getVinResultCompleteness({ year: '2020', make: 'Ford' }), { present: 2, total: 3, complete: false, missing: ['model'], missingLabels: ['Model'] });
+  assert.deepEqual(getVinResultCompleteness(null), { present: 0, total: 3, complete: false, missing: ['year', 'make', 'model'], missingLabels: ['Year', 'Make', 'Model'] });
 });
 
 test('blocks applying incomplete decoded VIN identity', () => {
