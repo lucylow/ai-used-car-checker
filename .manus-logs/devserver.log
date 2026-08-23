@@ -4958,3 +4958,62 @@
 [2026-08-23T18:23:22.138Z] Starting Metro Bundler
 [2026-08-23T18:23:22.323Z] Waiting on http://localhost:8081
 [2026-08-23T18:23:22.323Z] Logs for your project will appear below.
+[2026-08-23T18:26:05.879Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:26:06.416Z] $ expo start
+[2026-08-23T18:26:06.744Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:26:07.782Z] Starting Metro Bundler
+[2026-08-23T18:26:14.793Z] Waiting on http://localhost:8081
+[2026-08-23T18:26:14.793Z] Logs for your project will appear below.
+[2026-08-23T18:26:52.396Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:26:52.987Z] Web Bundled 592ms index.js (494 modules)
+[2026-08-23T18:26:53.318Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T18:27:13.570Z] [ELIFECYCLE] Command failed.
+[2026-08-23T18:27:13.582Z] Dev server exited with code -1
+[2026-08-23T18:27:14.676Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:27:15.213Z] $ expo start
+[2026-08-23T18:27:15.571Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:27:16.686Z] Starting Metro Bundler
+[2026-08-23T18:27:23.575Z] Waiting on http://localhost:8081
+[2026-08-23T18:27:23.575Z] Logs for your project will appear below.
+[2026-08-23T18:27:23.575Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:27:24.730Z] Web Bundling failed 1185ms index.js (169 modules)
+[2026-08-23T18:27:24.764Z] Unable to resolve "./components/report-preview-modal" from "App.js"
+[2026-08-23T18:27:24.764Z] [0m [90m 31 |[39m [36mimport[39m [33mReportSummaryHeader[39m [36mfrom[39m [32m'./components/report-summary-header'[39m[33m;[39m
+[2026-08-23T18:27:24.764Z] [90m 32 |[39m [36mimport[39m [33mReportEvidenceSection[39m [36mfrom[39m [32m'./components/report-evidence-section'[39m[33m;[39m
+[2026-08-23T18:27:24.764Z] [31m[1m>[22m[39m[90m 33 |[39m [36mimport[39m [33mReportPreviewModal[39m [36mfrom[39m [32m'./components/report-preview-modal'[39m[33m;[39m
+[2026-08-23T18:27:24.765Z] [90m    |[39m                                 [31m[1m^[22m[39m
+[2026-08-23T18:27:24.765Z] [90m 34 |[39m [36mimport[39m [33mVinTool[39m [36mfrom[39m [32m'./components/vin-tool'[39m[33m;[39m
+[2026-08-23T18:27:24.765Z] [90m 35 |[39m
+[2026-08-23T18:27:24.765Z] [90m 36 |[39m [36mconst[39m [33mCOLORS[39m [33m=[39m {[0m
+[2026-08-23T18:27:24.765Z] Import stack:
+[2026-08-23T18:27:24.765Z] App.js
+[2026-08-23T18:27:24.765Z] | import "./components/report-preview-modal"
+[2026-08-23T18:27:24.765Z] index.js
+[2026-08-23T18:27:24.765Z] | import "./App"
+[2026-08-23T18:27:24.765Z] | import "./index"
+[2026-08-23T18:28:47.771Z] [ELIFECYCLE] Command failed.
+[2026-08-23T18:28:47.778Z] Dev server exited with code -1
+[2026-08-23T18:28:48.863Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:28:49.383Z] $ expo start
+[2026-08-23T18:28:49.746Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:28:50.861Z] Starting Metro Bundler
+[2026-08-23T18:28:57.749Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:28:57.749Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:28:58.188Z] Web Bundled 496ms index.js (495 modules)
+[2026-08-23T18:28:58.240Z] Web Bundled 508ms index.js (1 module)
+[2026-08-23T18:28:59.137Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T18:28:59.614Z] Waiting on http://localhost:8081
+[2026-08-23T18:28:59.614Z] Logs for your project will appear below.
+[2026-08-23T18:29:40.906Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:29:40.931Z] Web Bundled 25ms index.js (1 module)
+[2026-08-23T18:29:41.368Z] [ELIFECYCLE] Command failed.
+[2026-08-23T18:29:41.376Z] Dev server exited with code -1
+[2026-08-23T18:29:42.462Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:29:43.004Z] $ expo start
+[2026-08-23T18:29:43.323Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:29:44.346Z] Starting Metro Bundler
+[2026-08-23T18:29:44.529Z] Waiting on http://localhost:8081
+[2026-08-23T18:29:44.529Z] Logs for your project will appear below.
+[2026-08-23T18:29:51.026Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:29:51.444Z] Web Bundled 464ms index.js (499 modules)
+[2026-08-23T18:29:52.448Z] LOG  [web] Logs will appear in the browser console

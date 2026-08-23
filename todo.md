@@ -710,3 +710,8 @@
 - [x] Preserve linked-photo recovery, provenance filters, and report-generation behavior
 - [x] Add regression coverage for report evidence boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract report export-preview modal into a focused component module
+- [x] Preserve PDF, sharing, section toggles, evidence, retry, and close behavior
+- [x] Add regression coverage for report-preview boundaries
+- [x] Re-run full validation and save a new checkpoint
