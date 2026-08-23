@@ -40,6 +40,10 @@ export const getComparisonMetricRows = (comparison) => {
 };
 
 export const shouldClearSavedSelection = (selectedId, deletedId) => Boolean(selectedId && deletedId && String(selectedId) === String(deletedId));
+export const pruneComparisonSelection = (selection = [], inspections = []) => {
+  const ids = new Set((Array.isArray(inspections) ? inspections : []).map((item) => String(item?.id)).filter(Boolean));
+  return (Array.isArray(selection) ? selection : []).filter((id) => ids.has(String(id))).slice(-2);
+};
 export const shouldReplaceSavedInspection = (existingVehicle = {}, nextVehicle = {}) => {
   const nextVin = String(nextVehicle.vin || '').replace(/\s/g, '').toUpperCase();
   const existingVin = String(existingVehicle.vin || '').replace(/\s/g, '').toUpperCase();

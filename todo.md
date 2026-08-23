@@ -814,3 +814,8 @@
 - [x] Improve the highest-impact readiness-state consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit saved-history comparison selection for malformed or deleted records
+- [x] Improve the highest-impact comparison-state consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
