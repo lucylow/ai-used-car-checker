@@ -1,6 +1,7 @@
 const getIssueList = (item = {}) => Array.isArray(item?.issues) ? item.issues.filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue)) : [];
+const safeCost = (value) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.max(0, numeric) : 0; };
 const riskScore = (item = {}) => getIssueList(item).reduce((sum, issue) => sum + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0);
-const repairTotal = (item = {}) => getIssueList(item).reduce((sum, issue) => sum + Math.max(0, Number(issue.cost) || 0), 0);
+const repairTotal = (item = {}) => getIssueList(item).reduce((sum, issue) => sum + safeCost(issue.cost), 0);
 const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 const safeText = (value, maxLength) => (typeof value === 'string' || typeof value === 'number') ? String(value).trim().slice(0, maxLength) : '';
 const normalizeSavedVehicle = (vehicle = {}) => ({
@@ -28,7 +29,7 @@ export const normalizeSavedInspection = (item = {}) => {
 export const getInspectionRiskLabel = (item = {}) => { const score = riskScore(item); return score >= 60 ? 'HIGH RISK' : score >= 30 ? 'REVIEW' : 'LOWER RISK'; };
 export const getInspectionCompletion = (item = {}) => { const checklist = item && typeof item === 'object' && !Array.isArray(item) && item.checklist && typeof item.checklist === 'object' && !Array.isArray(item.checklist) ? item.checklist : {}; const complete = Math.min(5, Object.values(checklist).filter(Boolean).length); return `${complete}/5 sections`; };
 export const getInspectionRepairTotal = (item = {}) => repairTotal(item);
-export const getSavedIssueDisplay = (issue = {}) => ({ name: typeof issue?.name === 'string' && issue.name.trim() ? issue.name.trim() : 'Unnamed finding', severity: typeof issue?.severity === 'string' && issue.severity.trim() ? issue.severity.trim().toUpperCase() : 'MINOR', cost: Math.max(0, Number(issue?.cost) || 0) });
+export const getSavedIssueDisplay = (issue = {}) => ({ name: typeof issue?.name === 'string' && issue.name.trim() ? issue.name.trim() : 'Unnamed finding', severity: typeof issue?.severity === 'string' && issue.severity.trim() ? issue.severity.trim().toUpperCase() : 'MINOR', cost: safeCost(issue?.cost) });
 export const getReportReadiness = (input = {}) => { const safeInput = input && typeof input === 'object' && !Array.isArray(input) ? input : {}; const { vehicle = {}, checklist = {}, photos = [] } = safeInput; const safeVehicle = isRecord(vehicle) ? vehicle : {}; const safeChecklist = isRecord(checklist) ? checklist : {}; const safePhotos = Array.isArray(photos) ? photos : []; const missing = []; if (!/^\d{4}$/.test(String(safeVehicle.year || '').trim()) || !String(safeVehicle.make || '').trim() || !String(safeVehicle.model || '').trim()) missing.push('vehicle details'); if (Object.values(safeChecklist).filter(Boolean).length < 5) missing.push('checklist'); if (!safePhotos.length) missing.push('photo evidence'); return { ready: missing.length === 0, missing }; };
 export const getHistoryActionMessage = (action) => action === 'delete' ? 'Inspection deleted · Undo available' : 'Inspection duplicated · New copy added';
 export const getInspectionComparison = (left = {}, right = {}) => {

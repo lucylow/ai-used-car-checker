@@ -693,7 +693,8 @@ test('formats saved-inspection risk and completion metadata consistently', () =>
   assert.equal(getInspectionCompletion({ checklist: [] }), '0/5 sections');
   assert.equal(getInspectionCompletion({ checklist: { one: true, two: true, three: true, four: true, five: true, extra: true } }), '5/5 sections');
   assert.equal(getInspectionRepairTotal(item), 1200);
-  assert.equal(getInspectionRepairTotal({ issues: [null, { cost: -500 }, { cost: 275 }] }), 275);
+  assert.equal(getInspectionRepairTotal({ issues: [null, { cost: -500 }, { cost: 275 }, { cost: Infinity }] }), 275);
+  assert.equal(getSavedIssueDisplay({ name: 'Bad cost', cost: Infinity }).cost, 0);
   assert.equal(getInspectionRiskLabel({ issues: [null, 'bad', { severity: 'critical' }, { severity: 'critical' }] }), 'HIGH RISK');
 });
 
