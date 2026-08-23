@@ -759,6 +759,11 @@ test('formats repair priorities with critical issues first and escaped names', (
   assert.match(html, /&lt;Brake&gt; leak/);
 });
 
+test('keeps preview helpers safe for null top-level payloads', () => {
+  assert.deepEqual(getBackupPreviewRows(null), [['File size', '0 B'], ['Saved inspections', 0], ['Active photos', 0], ['AI snapshots', 0]]);
+  assert.deepEqual(normalizeReportPreviewCollections(null), { photos: [], issues: [] });
+});
+
 test('renders embedded photo thumbnails and safe metadata fallbacks', () => {
   const html = buildPhotoEvidenceHtml([
     { fileName: 'front.jpg', width: 1200, height: 900, embeddedDataUri: 'data:image/jpeg;base64,abc123' },

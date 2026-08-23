@@ -25,12 +25,12 @@ export const getIssueEvidencePhoto = (issue = {}, photos = []) => {
   return photos.find((photo) => photo?.id === issue.photoId && photo?.uri) || null;
 };
 
-export const getBackupPreviewRows = (metadata = {}) => [
-  ['File size', metadata.sizeLabel || '0 B'],
-  ['Saved inspections', metadata.savedInspections || 0],
-  ['Active photos', metadata.activePhotos || 0],
-  ['AI snapshots', metadata.aiSnapshots || 0],
-];
+export const getBackupPreviewRows = (metadata = {}) => { const safe = metadata && typeof metadata === 'object' && !Array.isArray(metadata) ? metadata : {}; return [
+  ['File size', safe.sizeLabel || '0 B'],
+  ['Saved inspections', safe.savedInspections || 0],
+  ['Active photos', safe.activePhotos || 0],
+  ['AI snapshots', safe.aiSnapshots || 0],
+]; };
 
 export const getNavigationOverlayCleanup = () => ({ selectedPhoto: null, selectedSavedInspection: null, historyConfirm: null });
 export const isPhotoActionLocked = (busy = false) => Boolean(busy);
@@ -40,7 +40,7 @@ export const getStablePhotoKey = (photo = {}, index = 0) => {
   const uri = typeof photo?.uri === 'string' ? photo.uri.trim() : '';
   return id || uri || `photo-${index + 1}`;
 };
-export const normalizeReportPreviewCollections = ({ photos = [], issues = [] } = {}) => ({
+export const normalizeReportPreviewCollections = (input = {}) => { const safe = input && typeof input === 'object' && !Array.isArray(input) ? input : {}; const { photos = [], issues = [] } = safe; return {
   photos: Array.isArray(photos) ? photos.filter((photo) => photo && typeof photo === 'object') : [],
   issues: Array.isArray(issues) ? issues.filter((issue) => issue && typeof issue === 'object') : [],
-});
+}; };
