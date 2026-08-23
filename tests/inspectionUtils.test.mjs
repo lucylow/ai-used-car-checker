@@ -6,7 +6,7 @@ import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspe
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
-import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked } from '../src/services/uiUtils.js';
+import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('formats actionable AI failure guidance for each recovery path', () => {
@@ -941,4 +941,10 @@ test('does not fabricate a fair price when AI data is unavailable', () => {
 
 test('resets report retry metadata at action start', () => {
   assert.deepEqual(getReportActionStartState(), { reportRetry: false, reportRetryKind: '' });
+});
+
+test('normalizes checklist photo counts for malformed persisted collections', () => {
+  assert.equal(getPhotoCount([{ uri: 'file://photo.jpg' }]), 1);
+  assert.equal(getPhotoCount(null), 0);
+  assert.equal(getPhotoCount({ length: 4 }), 0);
 });

@@ -34,3 +34,4 @@ export const getBackupPreviewRows = (metadata = {}) => [
 
 export const getNavigationOverlayCleanup = () => ({ selectedPhoto: null, selectedSavedInspection: null, historyConfirm: null });
 export const isPhotoActionLocked = (busy = false) => Boolean(busy);
+export const getPhotoCount = (photos = []) => Array.isArray(photos) ? photos.length : 0;
