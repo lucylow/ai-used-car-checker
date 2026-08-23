@@ -1,7 +1,8 @@
 import { Animated, Image, Text, TouchableOpacity, View } from 'react-native';
 
-function ReportPreviewSections({ reportPreview, reportSections, onToggle, reportSectionFeedback, photos, issues, repairTotal, formatCurrency, styles }) {
+function ReportPreviewSections({ reportPreview, reportSections, onToggle, reportSectionFeedback, photos, issues, repairTotal, formatCurrency, styles, restoreSourceLabel = '' }) {
   return <>
+    {restoreSourceLabel ? <Text accessibilityLabel={`Report restore source: ${restoreSourceLabel}`} style={styles.reportProvenance}>Source context · {restoreSourceLabel}</Text> : null}
     <TouchableOpacity accessibilityRole="button" accessibilityLabel="Toggle report summary" style={styles.reportSectionToggle} onPress={() => onToggle('summary')}><Text style={styles.reportSectionToggleText}>Summary {reportSections.summary ? '⌃' : '⌄'}</Text></TouchableOpacity>
     {reportSections.summary ? <Animated.View style={{ opacity: reportSectionFeedback }}><Text style={styles.reportText}>{reportPreview}</Text></Animated.View> : null}
     <TouchableOpacity accessibilityRole="button" accessibilityLabel="Toggle report evidence" style={styles.reportSectionToggle} onPress={() => onToggle('evidence')}><Text style={styles.reportSectionToggleText}>Evidence · {photos.length} photos · {issues.length} issues {reportSections.evidence ? '⌃' : '⌄'}</Text></TouchableOpacity>

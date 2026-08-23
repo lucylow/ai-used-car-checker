@@ -750,3 +750,7 @@
 - [x] Reset stale restore context at safe inspection boundaries
 - [x] Add deterministic lifecycle coverage for restore-source state
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add compact restore-source context to report preview
+- [x] Cover report-preview provenance rendering with deterministic helper tests
+- [x] Re-run full validation and save a new checkpoint
