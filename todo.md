@@ -804,3 +804,8 @@
 - [x] Improve the highest-impact report derivation consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit report action retry and success transitions for stale retry labels
+- [x] Improve the highest-impact report action-state consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
