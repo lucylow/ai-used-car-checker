@@ -670,3 +670,8 @@
 - [x] Display restore-source context without exposing sensitive inspection data
 - [x] Add deterministic tests for restore-source labeling
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract saved-history presentation into a focused component module
+- [x] Preserve comparison, filtering, delete, duplicate, and open behavior
+- [x] Add regression coverage for history module boundaries
+- [x] Re-run full validation and save a new checkpoint
