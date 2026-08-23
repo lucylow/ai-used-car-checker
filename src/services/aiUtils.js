@@ -139,12 +139,13 @@ export const getAiRecommendation = (input = {}) => {
 };
 
 export const getAiFindingExplanation = (finding = {}) => {
-  const confidence = clamp(Number(finding.confidence) || 0, 0, 100);
-  return `${confidence}% confidence · ${finding.evidence || 'Based on the available inspection evidence.'} · Confirm in person before purchase.`;
+  const safe = asRecord(finding);
+  const confidence = clamp(safeFinite(safe.confidence), 0, 100);
+  return `${confidence}% confidence · ${safe.evidence || 'Based on the available inspection evidence.'} · Confirm in person before purchase.`;
 };
 
 export const getAiConfidenceLabel = (confidence) => {
-  const value = clamp(Number(confidence) || 0, 0, 100);
+  const value = clamp(safeFinite(confidence), 0, 100);
   return value >= 75 ? 'Higher confidence' : value >= 55 ? 'Moderate confidence' : 'Limited confidence';
 };
 
