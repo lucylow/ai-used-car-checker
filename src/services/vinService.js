@@ -17,8 +17,8 @@ export const applyDecodedVehicle = (currentVehicle = {}, decodedVehicle = {}, vi
 
 export const getVinResultCompleteness = (vehicle = {}) => {
   const fields = ['year', 'make', 'model'];
-  const present = fields.filter((field) => safeText(vehicle?.[field])).length;
-  return { present, total: fields.length, complete: present === fields.length };
+  const missing = fields.filter((field) => !safeText(vehicle?.[field]));
+  return { present: fields.length - missing.length, total: fields.length, complete: missing.length === 0, missing };
 };
 export const canApplyDecodedVehicle = (vehicle = {}) => getVinResultCompleteness(vehicle).complete;
 

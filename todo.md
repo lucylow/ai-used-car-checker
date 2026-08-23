@@ -849,3 +849,8 @@
 - [x] Improve the highest-impact partial-VIN autofill consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit VIN partial-result guidance for precise missing-field feedback
+- [x] Improve the highest-impact VIN guidance clarity gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
