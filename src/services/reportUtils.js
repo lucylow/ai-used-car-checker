@@ -1,6 +1,7 @@
 const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 
-export const formatCurrency = (value) => `$${(Number(value) || 0).toLocaleString('en-US')}`;
+const getSafeMoneyValue = (value) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.max(0, numeric) : 0; };
+export const formatCurrency = (value) => `$${getSafeMoneyValue(value).toLocaleString('en-US')}`;
 export const getLocalSaveLabel = (state) => ({ saving: 'Saving locally…', saved: 'Saved locally', error: 'Save needs attention' }[state] || 'Local mode');
 export const getLocalSaveErrorGuidance = (queued = true) => queued ? 'Local save failed. A recovery copy is queued; tap Retry when storage is available.' : 'Local save failed again. Export a backup and try again when storage is available.';
 export const getSettingsSaveErrorGuidance = () => 'Settings could not be saved on this device. Your inspection data is unchanged; try again when storage is available.';
@@ -68,7 +69,7 @@ export function buildInspectionReport({ vehicle = {}, issues = [], checklist = {
   const safeIssues = Array.isArray(issues) ? issues.filter((issue) => issue && typeof issue === 'object') : [];
   const safeChecklist = checklist && typeof checklist === 'object' && !Array.isArray(checklist) ? checklist : {};
   const safePhotos = Array.isArray(photos) ? photos.filter((photo) => photo && typeof photo === 'object') : [];
-  const repairTotal = safeIssues.reduce((sum, issue) => sum + Math.max(0, Number(issue.cost) || 0), 0);
+  const repairTotal = safeIssues.reduce((sum, issue) => sum + getSafeMoneyValue(issue.cost), 0);
   const completedSections = Object.values(safeChecklist).filter(Boolean).length;
   const criticalCount = safeIssues.filter((issue) => issue.severity === 'critical').length;
   const safeToolNotes = toolNotes && typeof toolNotes === 'object' && !Array.isArray(toolNotes) ? [['market', 'Market comparison'], ['history', 'Vehicle history'], ['test', 'Test drive']].map(([key, label]) => { const entry = toolNotes[key]; const note = typeof entry === 'string' ? entry : entry && typeof entry.note === 'string' ? entry.note : ''; const source = entry && typeof entry === 'object' && typeof entry.source === 'string' ? entry.source.slice(0, 80) : 'User-entered observation'; const savedAt = entry && typeof entry === 'object' && typeof entry.savedAt === 'string' && !Number.isNaN(Date.parse(entry.savedAt)) ? ` · ${entry.savedAt}` : ''; return note.trim() ? `${label}: ${note.trim().slice(0, 1000)} · ${source}${savedAt}` : ''; }).filter(Boolean) : [];
@@ -79,7 +80,7 @@ export function buildInspectionReport({ vehicle = {}, issues = [], checklist = {
     `Risk score: ${riskScore}/100`,
     `Issues found: ${safeIssues.length} (${criticalCount} critical)`,
     `Estimated repairs: ${formatCurrency(repairTotal)}`,
-    `AI fair price: ${fairPrice ? formatCurrency(fairPrice) : 'Unavailable until AI analysis is completed'}`,
+    `AI fair price: ${Number.isFinite(Number(fairPrice)) && Number(fairPrice) > 0 ? formatCurrency(fairPrice) : 'Unavailable until AI analysis is completed'}`,
     `Checklist: ${completedSections}/5 sections complete`,
     `Photo evidence: ${safePhotos.length} item(s)`,
     safeToolNotes.length ? ['', 'FIELD NOTES', ...safeToolNotes] : '',
