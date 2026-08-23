@@ -784,3 +784,8 @@
 - [x] Improve the highest-impact finding-review consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit AI refresh and manual finding edits for stale confidence or report metadata
+- [x] Improve the highest-impact analysis metadata consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint

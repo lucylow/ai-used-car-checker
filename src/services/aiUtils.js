@@ -131,3 +131,4 @@ export const getAiReadinessMessage = ({ photoCount = 0, completedSections = 0 } 
 
 export const getAiAnalysisStartState = () => ({ aiResult: null, aiPendingFindings: [], ranAI: false, aiBusy: true });
 export const canReviewAiFindings = ({ busy = false, pendingFindings = [] } = {}) => !busy && Array.isArray(pendingFindings) && pendingFindings.length > 0;
+export const getAiReviewStateAfterIssueMutation = () => ({ aiPendingFindings: [] });

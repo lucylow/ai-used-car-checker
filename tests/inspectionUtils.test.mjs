@@ -5,7 +5,7 @@ import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
 import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
@@ -915,4 +915,8 @@ test('allows AI finding review only when pending findings are ready', () => {
   assert.equal(canReviewAiFindings({ busy: true, pendingFindings: [{ name: 'Rust' }] }), false);
   assert.equal(canReviewAiFindings({ busy: false, pendingFindings: [] }), false);
   assert.equal(canReviewAiFindings({ busy: false, pendingFindings: [{ name: 'Rust' }] }), true);
+});
+
+test('clears pending AI review after an issue mutation', () => {
+  assert.deepEqual(getAiReviewStateAfterIssueMutation(), { aiPendingFindings: [] });
 });
