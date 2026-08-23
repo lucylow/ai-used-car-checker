@@ -779,3 +779,8 @@
 - [x] Improve the highest-impact AI state-consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit AI pending-finding acceptance and dismissal transitions for stale result metadata
+- [x] Improve the highest-impact finding-review consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
