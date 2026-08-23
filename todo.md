@@ -740,3 +740,8 @@
 - [x] Preserve privacy-safe restore context in report preview
 - [x] Add deterministic tests for report action states
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Centralize report-preview action-state derivation
+- [x] Preserve idle, busy, retry, completed, and close behavior
+- [x] Add deterministic tests for report action states
+- [x] Re-run full validation and save a new checkpoint

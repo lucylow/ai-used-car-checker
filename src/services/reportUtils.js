@@ -107,3 +107,15 @@ export const getSavedInspectionDisplayName = (vehicle = {}) => {
   const parts = [safe.year, safe.make, safe.model].map((value) => String(value || '').trim()).filter(Boolean);
   return parts.length ? parts.join(' ') : 'Saved inspection';
 };
+
+export const getReportActionState = ({ busy = false, action = '', retry = '', retryKind = 'text' } = {}) => {
+  const safeKind = retryKind === 'pdf' ? 'pdf' : 'text';
+  return {
+    busy: Boolean(busy),
+    primaryLabel: String(action || '').trim() || 'Export PDF report',
+    retryVisible: Boolean(retry) && !Boolean(busy),
+    retryLabel: getReportRetryLabel(safeKind),
+    retryKind: safeKind,
+    closeLabel: 'Done',
+  };
+};
