@@ -759,3 +759,8 @@
 - [x] Improve the highest-impact state-consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit inspection restore and report generation transitions for stale derived state
+- [x] Improve the highest-impact derived-state consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
