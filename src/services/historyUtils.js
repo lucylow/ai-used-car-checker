@@ -1,5 +1,6 @@
-const riskScore = (item = {}) => (item.issues || []).reduce((sum, issue) => sum + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0);
-const repairTotal = (item = {}) => (item.issues || []).reduce((sum, issue) => sum + (Number(issue.cost) || 0), 0);
+const getIssueList = (item = {}) => Array.isArray(item?.issues) ? item.issues.filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue)) : [];
+const riskScore = (item = {}) => getIssueList(item).reduce((sum, issue) => sum + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0);
+const repairTotal = (item = {}) => getIssueList(item).reduce((sum, issue) => sum + Math.max(0, Number(issue.cost) || 0), 0);
 const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 const safeText = (value, maxLength) => (typeof value === 'string' || typeof value === 'number') ? String(value).trim().slice(0, maxLength) : '';
 const normalizeSavedVehicle = (vehicle = {}) => ({

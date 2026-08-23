@@ -679,6 +679,8 @@ test('formats saved-inspection risk and completion metadata consistently', () =>
   assert.equal(getInspectionRiskLabel(item), 'HIGH RISK');
   assert.equal(getInspectionCompletion(item), '2/5 sections');
   assert.equal(getInspectionRepairTotal(item), 1200);
+  assert.equal(getInspectionRepairTotal({ issues: [null, { cost: -500 }, { cost: 275 }] }), 275);
+  assert.equal(getInspectionRiskLabel({ issues: [null, 'bad', { severity: 'critical' }, { severity: 'critical' }] }), 'HIGH RISK');
 });
 
 test('clears derived AI and report state when loading another inspection', () => {
