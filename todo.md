@@ -794,3 +794,8 @@
 - [x] Improve the highest-impact recovery-state consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit photo-processing and media persistence transitions for stale busy or retry state
+- [x] Improve the highest-impact photo/media state-consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
