@@ -619,3 +619,8 @@
 - [x] Improve one targeted user-facing error or recovery path
 - [x] Add deterministic regression coverage for the code-quality improvement
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit and extract repeated action and feedback UI patterns
+- [x] Preserve accessibility labels and existing handlers during extraction
+- [x] Add deterministic regression coverage for the extracted behavior
+- [x] Re-run full validation and save a new checkpoint
