@@ -660,3 +660,8 @@
 - [x] Preserve photo picker, permission, processing, review, and removal behavior
 - [x] Add regression coverage for photo workflow boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit backup parsing and retry behavior for recovery gaps
+- [x] Harden local recovery boundaries without discarding valid inspection data
+- [x] Add deterministic tests for corrupted backups and interrupted saves
+- [x] Re-run full validation and save a new checkpoint

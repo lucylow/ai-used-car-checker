@@ -267,6 +267,15 @@ test('preserves a bounded AI timeline in local backups', () => {
   assert.deepEqual(malformed.aiHistory, [{ id: 'kept' }]);
 });
 
+test('selects a usable backup copy without letting malformed pending data mask primary data', () => {
+  const primary = JSON.stringify({ app: 'carwise', version: 1, vehicle: { year: '2020' } });
+  const pending = JSON.stringify({ app: 'carwise', version: 1, vehicle: { year: '2021' } });
+  assert.equal(selectInspectionRestorePayload(primary, pending), pending);
+  assert.equal(selectInspectionRestorePayload(primary, '{broken-json'), primary);
+  assert.equal(selectInspectionRestorePayload('', '{broken-json'), '{broken-json');
+  assert.equal(selectInspectionRestorePayload(null, null), null);
+});
+
 test('serializes and restores a versioned local backup', () => {
   const raw = serializeInspectionBackup({ vehicle: { year: '2020' }, issues: [{ name: 'Brake wear' }], checklist: { Exterior: true }, photos: [{ id: 'p1' }], savedInspections: [{ id: 's1' }] });
   const restored = parseInspectionBackup(raw);
