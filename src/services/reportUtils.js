@@ -3,6 +3,7 @@ const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, (character)
 export const formatCurrency = (value) => `$${(Number(value) || 0).toLocaleString('en-US')}`;
 export const getLocalSaveLabel = (state) => ({ saving: 'Saving locally…', saved: 'Saved locally', error: 'Save needs attention' }[state] || 'Local mode');
 export const getLocalSaveErrorGuidance = (queued = true) => queued ? 'Local save failed. A recovery copy is queued; tap Retry when storage is available.' : 'Local save failed again. Export a backup and try again when storage is available.';
+export const getSettingsSaveErrorGuidance = () => 'Settings could not be saved on this device. Your inspection data is unchanged; try again when storage is available.';
 export const getRestoreSourceLabel = (source) => ({ primary: 'Primary local inspection', pending: 'Pending local recovery copy', imported: 'Imported Carwise backup' }[source] || 'No restore source recorded');
 export const getReportProvenanceLabel = (source) => ['primary', 'pending', 'imported'].includes(source) ? `Source context · ${getRestoreSourceLabel(source)}` : '';
 export const getLocalRecoveryBanner = ({ retryCount = 0, saveRetry = false } = {}) => { const count = Math.max(0, Number(retryCount) || 0); if (!count && !saveRetry) return null; return { title: 'Local recovery needed', body: `${count || 1} local operation${(count || 1) === 1 ? '' : 's'} is waiting for retry. Your inspection remains available on this device.`, action: 'Retry local saves' }; };

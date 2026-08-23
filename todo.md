@@ -769,3 +769,8 @@
 - [x] Improve the highest-impact navigation-state consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit active inspection persistence and settings transitions for stale or lost user state
+- [x] Improve the highest-impact persistence or settings consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint

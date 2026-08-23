@@ -5510,3 +5510,150 @@
 [2026-08-23T19:04:39.187Z] $ expo start
 [2026-08-23T19:04:39.512Z] Starting project at /home/ubuntu/ai-used-car-checker
 [2026-08-23T19:04:40.519Z] Starting Metro Bundler
+[2026-08-23T19:04:42.734Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:04:42.865Z] Dev server exited with code -1
+[2026-08-23T19:04:43.951Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:04:44.481Z] $ expo start
+[2026-08-23T19:04:44.806Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:04:45.842Z] Starting Metro Bundler
+[2026-08-23T19:04:52.924Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:04:52.924Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:04:53.030Z] Waiting on http://localhost:8081
+[2026-08-23T19:04:53.030Z] Logs for your project will appear below.
+[2026-08-23T19:04:53.031Z] Web ./index.js ▓░░░░░░░░░░░░░░░  7.7% ( 30/108)
+[2026-08-23T19:04:53.031Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:04:53.354Z] Web Bundled 486ms index.js (499 modules)
+[2026-08-23T19:04:53.402Z] Web Bundled 499ms index.js (1 module)
+[2026-08-23T19:04:54.101Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:05:49.832Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:05:49.843Z] Dev server exited with code -1
+[2026-08-23T19:05:50.934Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:05:51.473Z] $ expo start
+[2026-08-23T19:05:51.820Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:05:52.871Z] Starting Metro Bundler
+[2026-08-23T19:05:52.963Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:05:52.974Z] Dev server exited with code -1
+[2026-08-23T19:05:54.075Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:05:54.646Z] $ expo start
+[2026-08-23T19:05:54.982Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:05:55.954Z] Starting Metro Bundler
+[2026-08-23T19:06:02.704Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:06:02.704Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:06:02.704Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:06:03.108Z] Web Bundled 462ms index.js (502 modules)
+[2026-08-23T19:06:03.172Z] Web Bundled 476ms index.js (1 module)
+[2026-08-23T19:06:03.172Z] Web Bundled 491ms index.js (1 module)
+[2026-08-23T19:06:03.320Z] Waiting on http://localhost:8081
+[2026-08-23T19:06:03.320Z] Logs for your project will appear below.
+[2026-08-23T19:06:03.764Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:06:03.977Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:06:06.782Z] Web Bundled 21ms index.js (1 module)
+[2026-08-23T19:06:07.231Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:06:09.070Z] Web Bundled 26ms index.js (1 module)
+[2026-08-23T19:06:09.592Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:06:19.403Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:06:19.411Z] Dev server exited with code -1
+[2026-08-23T19:06:20.510Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:06:21.049Z] $ expo start
+[2026-08-23T19:06:21.383Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:06:22.359Z] Starting Metro Bundler
+[2026-08-23T19:06:22.540Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:06:22.549Z] Dev server exited with code -1
+[2026-08-23T19:06:23.651Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:06:24.176Z] $ expo start
+[2026-08-23T19:06:24.515Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:06:25.517Z] Starting Metro Bundler
+[2026-08-23T19:06:25.682Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:06:25.694Z] Dev server exited with code -1
+[2026-08-23T19:06:26.793Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:06:27.309Z] $ expo start
+[2026-08-23T19:06:27.580Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:06:28.330Z] Starting Metro Bundler
+[2026-08-23T19:06:28.520Z] Waiting on http://localhost:8081
+[2026-08-23T19:06:28.520Z] Logs for your project will appear below.
+[2026-08-23T19:06:28.835Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:06:28.844Z] Dev server exited with code -1
+[2026-08-23T19:06:29.944Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:06:30.465Z] $ expo start
+[2026-08-23T19:06:30.760Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:06:31.507Z] Starting Metro Bundler
+[2026-08-23T19:06:31.675Z] Waiting on http://localhost:8081
+[2026-08-23T19:06:31.675Z] Logs for your project will appear below.
+[2026-08-23T19:06:32.047Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:06:32.054Z] Dev server exited with code -1
+[2026-08-23T19:06:33.159Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:06:33.678Z] $ expo start
+[2026-08-23T19:06:33.951Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:06:34.717Z] Starting Metro Bundler
+[2026-08-23T19:06:34.882Z] Waiting on http://localhost:8081
+[2026-08-23T19:06:34.882Z] Logs for your project will appear below.
+[2026-08-23T19:06:36.240Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:06:36.466Z] Dev server exited with code -1
+[2026-08-23T19:06:37.551Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:06:38.085Z] $ expo start
+[2026-08-23T19:06:38.364Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:06:39.130Z] Starting Metro Bundler
+[2026-08-23T19:06:39.198Z] Error while reading cache, falling back to a full crawl:
+[2026-08-23T19:06:39.198Z] Error: Unable to deserialize cloned data due to invalid or unsupported version.
+[2026-08-23T19:06:39.198Z] at deserialize (node:v8:404:7)
+[2026-08-23T19:06:39.198Z] at DiskCacheManager.read (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/cache/DiskCacheManager.js:60:33)
+[2026-08-23T19:06:39.198Z] at FileMap.read (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/index.js:284:14)
+[2026-08-23T19:06:39.198Z] at /home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/index.js:202:25
+[2026-08-23T19:06:39.198Z] at DependencyGraph.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/node-haste/DependencyGraph.js:88:5)
+[2026-08-23T19:06:39.198Z] at Bundler.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/Bundler.js:62:5)
+[2026-08-23T19:06:39.198Z] at IncrementalBundler.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/IncrementalBundler.js:302:5)
+[2026-08-23T19:06:39.198Z] at Server.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/Server.js:1305:5)
+[2026-08-23T19:06:39.287Z] Waiting on http://localhost:8081
+[2026-08-23T19:06:39.287Z] Logs for your project will appear below.
+[2026-08-23T19:06:40.752Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:06:40.794Z] Dev server exited with code -1
+[2026-08-23T19:06:41.862Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:06:42.369Z] $ expo start
+[2026-08-23T19:06:42.645Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:06:43.445Z] Starting Metro Bundler
+[2026-08-23T19:06:43.516Z] Error while reading cache, falling back to a full crawl:
+[2026-08-23T19:06:43.516Z] Error: Unable to deserialize cloned data due to invalid or unsupported version.
+[2026-08-23T19:06:43.516Z] at deserialize (node:v8:404:7)
+[2026-08-23T19:06:43.516Z] at DiskCacheManager.read (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/cache/DiskCacheManager.js:60:33)
+[2026-08-23T19:06:43.516Z] at FileMap.read (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/index.js:284:14)
+[2026-08-23T19:06:43.516Z] at /home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/index.js:202:25
+[2026-08-23T19:06:43.516Z] at DependencyGraph.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/node-haste/DependencyGraph.js:88:5)
+[2026-08-23T19:06:43.516Z] at Bundler.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/Bundler.js:62:5)
+[2026-08-23T19:06:43.516Z] at IncrementalBundler.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/IncrementalBundler.js:302:5)
+[2026-08-23T19:06:43.516Z] at Server.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/Server.js:1305:5)
+[2026-08-23T19:06:43.567Z] Waiting on http://localhost:8081
+[2026-08-23T19:06:43.567Z] Logs for your project will appear below.
+[2026-08-23T19:06:43.895Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:06:43.905Z] Dev server exited with code -1
+[2026-08-23T19:06:45.010Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:06:45.529Z] $ expo start
+[2026-08-23T19:06:45.860Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:06:46.855Z] Starting Metro Bundler
+[2026-08-23T19:06:46.957Z] Error while reading cache, falling back to a full crawl:
+[2026-08-23T19:06:46.957Z] Error: Unable to deserialize cloned data due to invalid or unsupported version.
+[2026-08-23T19:06:46.957Z] at deserialize (node:v8:404:7)
+[2026-08-23T19:06:46.957Z] at DiskCacheManager.read (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/cache/DiskCacheManager.js:60:33)
+[2026-08-23T19:06:46.957Z] at FileMap.read (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/index.js:284:14)
+[2026-08-23T19:06:46.957Z] at /home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro-file-map@0.83.3_supports-color@8.1.1/node_modules/metro-file-map/src/index.js:202:25
+[2026-08-23T19:06:46.957Z] at DependencyGraph.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/node-haste/DependencyGraph.js:88:5)
+[2026-08-23T19:06:46.957Z] at Bundler.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/Bundler.js:62:5)
+[2026-08-23T19:06:46.957Z] at IncrementalBundler.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/IncrementalBundler.js:302:5)
+[2026-08-23T19:06:46.958Z] at Server.ready (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/metro@0.83.3_supports-color@8.1.1/node_modules/metro/src/Server.js:1305:5)
+[2026-08-23T19:06:47.022Z] Waiting on http://localhost:8081
+[2026-08-23T19:06:47.022Z] Logs for your project will appear below.
+[2026-08-23T19:06:54.158Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:06:54.158Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T19:06:55.706Z] Web Bundled 1592ms index.js (456 modules)
+[2026-08-23T19:06:55.753Z] Web Bundled 1605ms index.js (1 module)
+[2026-08-23T19:06:55.870Z] Web Bundled 28ms index.js (1 module)
+[2026-08-23T19:06:56.617Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:06:58.568Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:06:58.600Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T19:07:13.892Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:07:13.900Z] Dev server exited with code -1
+[2026-08-23T19:07:15.004Z] Starting dev server with command: pnpm run dev
+[2026-08-23T19:07:15.592Z] $ expo start
+[2026-08-23T19:07:15.951Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T19:07:16.974Z] Starting Metro Bundler
+[2026-08-23T19:07:17.484Z] [ELIFECYCLE] Command failed.
+[2026-08-23T19:07:17.495Z] Dev server exited with code -1
