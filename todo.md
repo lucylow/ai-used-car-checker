@@ -715,3 +715,8 @@
 - [x] Preserve PDF, sharing, section toggles, evidence, retry, and close behavior
 - [x] Add regression coverage for report-preview boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract report-preview summary and evidence content into focused components
+- [x] Preserve section toggles, report text, photo metadata, and action behavior
+- [x] Add deterministic tests for report-preview section state transitions
+- [x] Re-run full validation and save a new checkpoint
