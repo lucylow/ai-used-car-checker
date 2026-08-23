@@ -525,6 +525,7 @@ test('formats canceled-flow guidance consistently', () => {
 
 test('reports main inspection flow readiness consistently', () => {
   assert.deepEqual(getMainFlowReadiness({ vehicle: { make: '', model: '' }, checklist: {}, photos: [] }), { ready: false, missing: ['vehicle details', 'checklist', 'photo evidence'] });
+  assert.deepEqual(getMainFlowReadiness({ vehicle: null, checklist: null, photos: null }), { ready: false, missing: ['vehicle details', 'checklist', 'photo evidence'] });
   assert.equal(getMainFlowReadiness({ vehicle: { make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).ready, false);
   assert.deepEqual(getMainFlowReadiness({ vehicle: { year: '20', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).missing, ['vehicle details']);
   assert.deepEqual(getMainFlowReadiness({ vehicle: { year: '2020', make: '  ', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).missing, ['vehicle details']);
