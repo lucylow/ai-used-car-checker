@@ -762,6 +762,7 @@ test('keeps report money formatting safe for invalid values', () => {
   assert.match(report, /Estimated repairs: \$0/);
   assert.match(report, /AI fair price: Unavailable until AI analysis is completed/);
   assert.match(formatRepairPriorityHtml([{ severity: 'major', name: 'Invalid cost', cost: Infinity }]), /\$0/);
+  assert.match(buildInspectionReport(null), /Vehicle details unavailable/);
 });
 
 test('builds a share-ready report with key inspection facts', () => {
