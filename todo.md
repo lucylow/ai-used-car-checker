@@ -640,3 +640,8 @@
 - [x] Preserve accessibility labels, handlers, and animation behavior
 - [x] Add deterministic regression coverage for the extracted boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract report-preview presentation into a focused reusable component
+- [x] Preserve report actions, accessibility labels, and animation behavior
+- [x] Add deterministic regression coverage for report-preview boundaries
+- [x] Re-run full validation and save a new checkpoint
