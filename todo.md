@@ -695,3 +695,8 @@
 - [x] Preserve finding review, issue editing, custom findings, and photo actions
 - [x] Add regression coverage for AI-results module boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract completed AI result cards into a focused component module
+- [x] Preserve pricing, confidence, history, evidence audit, recommendations, and action plans
+- [x] Add regression coverage for completed AI result boundaries
+- [x] Re-run full validation and save a new checkpoint
