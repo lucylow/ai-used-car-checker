@@ -840,3 +840,10 @@ test('toggles report-preview sections with safe state boundaries', () => {
   assert.deepEqual(toggleReportSection(null, 'summary'), { summary: true, evidence: false });
   assert.deepEqual(toggleReportSection({ summary: true }, 'unknown'), { summary: true, evidence: false });
 });
+
+test('labels restore sources without exposing inspection contents', () => {
+  assert.equal(getRestoreSourceLabel('primary'), 'Primary local inspection');
+  assert.equal(getRestoreSourceLabel('pending'), 'Pending local recovery copy');
+  assert.equal(getRestoreSourceLabel('imported'), 'Imported Carwise backup');
+  assert.equal(getRestoreSourceLabel('unexpected'), 'No restore source recorded');
+});

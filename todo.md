@@ -725,3 +725,8 @@
 - [x] Preserve visibility, close, toggle, and retry behavior
 - [x] Add deterministic tests for report-preview state transitions
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add restore-source context to recovery-log presentation
+- [x] Preserve privacy-safe diagnostics and local-recovery behavior
+- [x] Add deterministic tests for restore-source display states
+- [x] Re-run full validation and save a new checkpoint

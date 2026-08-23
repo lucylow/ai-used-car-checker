@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { filterRecoveryLogEntries, getRecoveryLogPresentation, getRecoveryLogTimeLabel } from '../src/services/reportUtils';
+import { filterRecoveryLogEntries, getRecoveryLogPresentation, getRecoveryLogTimeLabel, getRestoreSourceLabel } from '../src/services/reportUtils';
 
 const COLORS = { bg: '#0B1220', surface: '#151F32', surface2: '#1C2940', text: '#F6F8FC', muted: '#92A1B8', blue: '#2F80ED', mint: '#35D0BA', amber: '#F4B740', border: '#263651' };
 
-export function RecoveryLogModal({ visible, entries = [], queuedCount = 0, onClose, onRetry, onExportDiagnostics }) {
+export function RecoveryLogModal({ visible, entries = [], queuedCount = 0, restoreSource = '', onClose, onRetry, onExportDiagnostics }) {
   const [operationFilter, setOperationFilter] = useState('all');
   const [outcomeFilter, setOutcomeFilter] = useState('all');
   const normalizedEntries = useMemo(() => filterRecoveryLogEntries(entries), [entries]);
@@ -18,6 +18,7 @@ export function RecoveryLogModal({ visible, entries = [], queuedCount = 0, onClo
           <View><Text style={{ color: COLORS.text, fontSize: 26, fontWeight: '800' }}>Recovery log</Text><Text style={{ color: COLORS.muted, fontSize: 13, lineHeight: 19, marginTop: 4 }}>{queuedCount ? `${queuedCount} operation${queuedCount === 1 ? '' : 's'} queued for retry` : 'Recent local operation history'}</Text></View>
           <TouchableOpacity accessibilityRole="button" accessibilityLabel="Close recovery log" onPress={onClose}><Text style={{ color: COLORS.blue, fontWeight: '800' }}>Close</Text></TouchableOpacity>
         </View>
+        {restoreSource ? <Text accessibilityLabel={`Restore source: ${getRestoreSourceLabel(restoreSource)}`} style={{ color: COLORS.muted, fontSize: 12, marginTop: 12 }}>Restore source: {getRestoreSourceLabel(restoreSource)}</Text> : null}
         <View style={{ marginTop: 14, gap: 8 }}>
           <Text style={{ color: COLORS.muted, fontSize: 12, fontWeight: '800' }}>Filter events</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
