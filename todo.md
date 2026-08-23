@@ -754,3 +754,8 @@
 - [x] Add compact restore-source context to report preview
 - [x] Cover report-preview provenance rendering with deterministic helper tests
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit report preview and local recovery transitions for remaining state-consistency gaps
+- [x] Improve the highest-impact state-consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint

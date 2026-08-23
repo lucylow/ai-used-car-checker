@@ -121,6 +121,8 @@ export const getReportActionState = ({ busy = false, action = '', retry = '', re
   };
 };
 
+export const getReportPreviewCloseState = () => ({ reportPreview: '', reportAction: '', reportBusy: false, reportRetry: false, reportRetryKind: '' });
+
 export const getRestoreSourceForFlow = (source = '', flow = 'restored') => {
   if (flow === 'new' || flow === 'decoded') return '';
   return ['primary', 'pending', 'imported'].includes(source) ? source : '';
