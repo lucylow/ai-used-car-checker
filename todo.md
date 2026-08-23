@@ -819,3 +819,8 @@
 - [x] Improve the highest-impact comparison-state consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit saved-inspection detail rendering for malformed vehicle and issue metadata
+- [x] Improve the highest-impact saved-detail resilience gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint

@@ -7,7 +7,7 @@ import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
 import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount } from '../src/services/uiUtils.js';
-import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection, pruneComparisonSelection } from '../src/services/historyUtils.js';
+import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection, pruneComparisonSelection, getSavedIssueDisplay } from '../src/services/historyUtils.js';
 
 test('formats actionable AI failure guidance for each recovery path', () => {
   assert.match(getAiErrorGuidance('analysis'), /existing findings are unchanged/i);
@@ -954,4 +954,9 @@ test('prunes comparison selection to existing saved records', () => {
   assert.deepEqual(pruneComparisonSelection(['missing', 'keep-1', 'keep-2'], inspections), ['keep-1', 'keep-2']);
   assert.deepEqual(pruneComparisonSelection(['keep-1', 'keep-2', 'keep-3'], inspections), ['keep-1', 'keep-2']);
   assert.deepEqual(pruneComparisonSelection(null, inspections), []);
+});
+
+test('normalizes saved issue display metadata safely', () => {
+  assert.deepEqual(getSavedIssueDisplay({ name: '  Brake noise ', severity: 'major', cost: -40 }), { name: 'Brake noise', severity: 'MAJOR', cost: 0 });
+  assert.deepEqual(getSavedIssueDisplay({}), { name: 'Unnamed finding', severity: 'MINOR', cost: 0 });
 });

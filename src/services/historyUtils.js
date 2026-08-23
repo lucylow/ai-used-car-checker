@@ -18,6 +18,7 @@ export const normalizeSavedInspection = (item = {}) => {
 export const getInspectionRiskLabel = (item = {}) => { const score = riskScore(item); return score >= 60 ? 'HIGH RISK' : score >= 30 ? 'REVIEW' : 'LOWER RISK'; };
 export const getInspectionCompletion = (item = {}) => { const complete = Object.values(item.checklist || {}).filter(Boolean).length; return `${complete}/5 sections`; };
 export const getInspectionRepairTotal = (item = {}) => repairTotal(item);
+export const getSavedIssueDisplay = (issue = {}) => ({ name: typeof issue?.name === 'string' && issue.name.trim() ? issue.name.trim() : 'Unnamed finding', severity: typeof issue?.severity === 'string' && issue.severity.trim() ? issue.severity.trim().toUpperCase() : 'MINOR', cost: Math.max(0, Number(issue?.cost) || 0) });
 export const getReportReadiness = ({ vehicle = {}, checklist = {}, photos = [] } = {}) => { const missing = []; if (!/^\d{4}$/.test(String(vehicle.year || '').trim()) || !vehicle.make?.trim() || !vehicle.model?.trim()) missing.push('vehicle details'); if (Object.values(checklist).filter(Boolean).length < 5) missing.push('checklist'); if (!photos.length) missing.push('photo evidence'); return { ready: missing.length === 0, missing }; };
 export const getHistoryActionMessage = (action) => action === 'delete' ? 'Inspection deleted · Undo available' : 'Inspection duplicated · New copy added';
 export const getInspectionComparison = (left = {}, right = {}) => {
