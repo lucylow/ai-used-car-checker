@@ -6,7 +6,7 @@ import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspe
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
-import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount, getStablePhotoKey } from '../src/services/uiUtils.js';
+import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount, getStablePhotoKey, normalizeReportPreviewCollections } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection, pruneComparisonSelection, getSavedIssueDisplay } from '../src/services/historyUtils.js';
 
 test('formats actionable AI failure guidance for each recovery path', () => {
@@ -965,4 +965,11 @@ test('creates stable keys for saved photo evidence', () => {
   assert.equal(getStablePhotoKey({ id: 'photo-7', uri: 'file://one.jpg' }, 0), 'photo-7');
   assert.equal(getStablePhotoKey({ uri: 'file://two.jpg' }, 1), 'file://two.jpg');
   assert.equal(getStablePhotoKey({}, 2), 'photo-3');
+});
+
+test('normalizes report-preview evidence collections safely', () => {
+  const normalized = normalizeReportPreviewCollections({ photos: [{ uri: 'file://photo.jpg' }, null], issues: [{ name: 'Brake noise' }, 'invalid'] });
+  assert.equal(normalized.photos.length, 1);
+  assert.equal(normalized.issues.length, 1);
+  assert.deepEqual(normalizeReportPreviewCollections({ photos: null, issues: null }), { photos: [], issues: [] });
 });

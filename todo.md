@@ -829,3 +829,8 @@
 - [x] Improve the highest-impact saved-photo rendering consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit report preview evidence filtering for malformed issue and photo collections
+- [x] Improve the highest-impact report-preview resilience gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint

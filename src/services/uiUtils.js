@@ -40,3 +40,7 @@ export const getStablePhotoKey = (photo = {}, index = 0) => {
   const uri = typeof photo?.uri === 'string' ? photo.uri.trim() : '';
   return id || uri || `photo-${index + 1}`;
 };
+export const normalizeReportPreviewCollections = ({ photos = [], issues = [] } = {}) => ({
+  photos: Array.isArray(photos) ? photos.filter((photo) => photo && typeof photo === 'object') : [],
+  issues: Array.isArray(issues) ? issues.filter((issue) => issue && typeof issue === 'object') : [],
+});
