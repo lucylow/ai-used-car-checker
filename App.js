@@ -8,7 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getRestoreSourceLabel, getMainFlowReadiness, getPhotoActionGuidance, getOperationStatusLabel, getMediaErrorGuidance, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getLocalRestoreErrorGuidance, getReportErrorGuidance, getReportActionStatus, getProcessingLabel, getDurablePhotoFileName, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, normalizeCarwiseSettings, getMotionDuration, getMotionFeedbackOpacity, getAnimatedProgressPercent, getErrorDetail, normalizeRecoveryLog, getAiErrorGuidance, buildDiagnosticExport, getSafeDateLabel, toggleReportSection, getRestoreSourceForFlow, getReportProvenanceLabel, getReportPreviewCloseState, getSettingsSaveErrorGuidance } from './src/services/reportUtils';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getRestoreSourceLabel, getMainFlowReadiness, getPhotoActionGuidance, getOperationStatusLabel, getMediaErrorGuidance, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getLocalRestoreErrorGuidance, getReportErrorGuidance, getReportActionStatus, getProcessingLabel, getDurablePhotoFileName, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, normalizeCarwiseSettings, getMotionDuration, getMotionFeedbackOpacity, getAnimatedProgressPercent, getErrorDetail, normalizeRecoveryLog, getAiErrorGuidance, buildDiagnosticExport, getSafeDateLabel, toggleReportSection, getRestoreSourceForFlow, getReportProvenanceLabel, getReportPreviewCloseState, getSettingsSaveErrorGuidance, getLocalSaveSuccessLabel } from './src/services/reportUtils';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from './src/services/backupUtils';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from './src/services/historyUtils';
 import { getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup } from './src/services/uiUtils';
@@ -248,6 +248,7 @@ export default function App() {
     setSaveState('saving');
     let payload = '';
     let recoveryQueued = false;
+    let pendingCleanupFailed = false;
     try {
       const persistedPhotos = photos.slice(-12).map((photo) => ({ id: photo.id, uri: photo.uri, width: photo.width, height: photo.height, mimeType: photo.mimeType, fileName: photo.fileName }));
       payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, toolNotes, savedInspections, aiHistory: aiHistory.slice(-6), recoveryLog: recoveryLog.slice(-6), lastLocalAction });
@@ -256,13 +257,13 @@ export default function App() {
       try {
         await AsyncStorage.removeItem('carwise-pending-inspection');
       } catch (_) {
-        setSaveStatus('Saved locally, but an older pending copy could not be cleared. Retry later.');
+        pendingCleanupFailed = true;
       }
       setSaveRetry(false);
       setRetryQueueCount(getRetryQueueSize());
       setSaveState('saved');
       recordRecoveryEvent('Local save', 'success', 'Inspection saved on this device.');
-      if (payload.length <= 250000) setSaveStatus('Saved locally');
+      setSaveStatus(getLocalSaveSuccessLabel({ pendingCleanupFailed, payloadLength: payload.length }));
       return true;
     } catch (error) {
       if (queueOnFailure) {

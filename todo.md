@@ -789,3 +789,8 @@
 - [x] Improve the highest-impact analysis metadata consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit local recovery and pending-save lifecycle for stale retry indicators
+- [x] Improve the highest-impact recovery-state consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
