@@ -13,6 +13,9 @@ test('formats actionable AI failure guidance for each recovery path', () => {
   assert.match(getAiErrorGuidance('analysis'), /existing findings are unchanged/i);
   assert.match(getLocalRecoveryBanner({ retryCount: Infinity, saveRetry: true }).body, /^1 local operation/);
   assert.equal(getRestoreSanitizationNotice(Infinity), '');
+  assert.equal(getLocalRecoveryBanner(null), null);
+  assert.equal(getLocalSaveSuccessLabel(null), 'Saved locally');
+  assert.match(getInspectionActionGuidance(null), /Complete the checklist/);
   assert.match(getAiErrorGuidance('accept'), /existing issues are unchanged/i);
   assert.match(getAiErrorGuidance('dismiss'), /Reopen the analysis/i);
   assert.equal(getAiErrorGuidance('unknown'), getAiErrorGuidance('analysis'));
