@@ -629,3 +629,8 @@
 - [x] Preserve accessibility labels, disabled states, and existing handlers
 - [x] Add deterministic regression coverage for the extracted action behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract a repeated screen section into a focused reusable component
+- [x] Preserve existing props, handlers, accessibility, and animation behavior
+- [x] Add deterministic regression coverage for the extracted component boundary
+- [x] Re-run full validation and save a new checkpoint
