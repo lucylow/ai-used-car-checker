@@ -6,7 +6,7 @@ import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspe
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory } from '../src/services/aiUtils.js';
-import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets } from '../src/services/uiUtils.js';
+import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection } from '../src/services/historyUtils.js';
 
 test('formats actionable AI failure guidance for each recovery path', () => {
@@ -884,5 +884,13 @@ test('resets all transient report-preview state on close', () => {
     reportBusy: false,
     reportRetry: false,
     reportRetryKind: '',
+  });
+});
+
+test('clears transient navigation overlays as one safe cleanup state', () => {
+  assert.deepEqual(getNavigationOverlayCleanup(), {
+    selectedPhoto: null,
+    selectedSavedInspection: null,
+    historyConfirm: null,
   });
 });

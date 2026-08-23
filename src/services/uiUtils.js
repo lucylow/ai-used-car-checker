@@ -31,3 +31,5 @@ export const getBackupPreviewRows = (metadata = {}) => [
   ['Active photos', metadata.activePhotos || 0],
   ['AI snapshots', metadata.aiSnapshots || 0],
 ];
+
+export const getNavigationOverlayCleanup = () => ({ selectedPhoto: null, selectedSavedInspection: null, historyConfirm: null });
