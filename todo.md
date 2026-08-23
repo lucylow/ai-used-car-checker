@@ -675,3 +675,8 @@
 - [x] Preserve comparison, filtering, delete, duplicate, and open behavior
 - [x] Add regression coverage for history module boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract saved-inspection detail presentation into a focused component module
+- [x] Preserve AI history, field-note provenance, photo viewing, and editable-report navigation
+- [x] Add regression coverage for saved-detail module boundaries
+- [x] Re-run full validation and save a new checkpoint
