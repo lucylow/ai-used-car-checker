@@ -690,3 +690,8 @@
 - [x] Preserve loading, retry, evidence review, findings, editing, and photo actions
 - [x] Add regression coverage for AI module boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract completed AI results presentation into focused component modules
+- [x] Preserve finding review, issue editing, custom findings, and photo actions
+- [x] Add regression coverage for AI-results module boundaries
+- [x] Re-run full validation and save a new checkpoint
