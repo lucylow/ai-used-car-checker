@@ -62,7 +62,7 @@ export const buildPhotoEvidenceHtml = (photos = []) => (Array.isArray(photos) ? 
 
 export const getRepairPriority = (issue = {}) => ({ critical: 3, major: 2, minor: 1 }[issue.severity] || 0);
 
-export const formatRepairPriorityHtml = (issues = []) => (Array.isArray(issues) ? issues : []).filter((issue) => issue && typeof issue === 'object').sort((a, b) => getRepairPriority(b) - getRepairPriority(a) || (Number(b.cost) || 0) - (Number(a.cost) || 0)).map((issue, index) => `<li><strong>${escapeHtml(issue.severity || 'review').toUpperCase()}</strong> · ${escapeHtml(issue.name || 'Unspecified issue')} · $${Number(issue.cost) || 0}${index === 0 ? ' · address first' : ''}</li>`).join('');
+export const formatRepairPriorityHtml = (issues = []) => (Array.isArray(issues) ? issues : []).filter((issue) => issue && typeof issue === 'object').sort((a, b) => getRepairPriority(b) - getRepairPriority(a) || getSafeMoneyValue(b.cost) - getSafeMoneyValue(a.cost)).map((issue, index) => `<li><strong>${escapeHtml(issue.severity || 'review').toUpperCase()}</strong> · ${escapeHtml(issue.name || 'Unspecified issue')} · ${formatCurrency(issue.cost)}${index === 0 ? ' · address first' : ''}</li>`).join('');
 
 export function buildInspectionReport({ vehicle = {}, issues = [], checklist = {}, photos = [], toolNotes = {}, fairPrice, riskScore } = {}) {
   const safeVehicle = vehicle && typeof vehicle === 'object' && !Array.isArray(vehicle) ? vehicle : {};
