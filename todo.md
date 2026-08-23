@@ -624,3 +624,8 @@
 - [x] Preserve accessibility labels and existing handlers during extraction
 - [x] Add deterministic regression coverage for the extracted behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit and extract repeated primary action behavior
+- [x] Preserve accessibility labels, disabled states, and existing handlers
+- [x] Add deterministic regression coverage for the extracted action behavior
+- [x] Re-run full validation and save a new checkpoint
