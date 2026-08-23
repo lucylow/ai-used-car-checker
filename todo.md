@@ -859,3 +859,8 @@
 - [x] Improve the highest-impact VIN recovery UX gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit Market, History, and Test tool flows for state or data-integrity gaps
+- [x] Improve the highest-impact quick-tool reliability gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
