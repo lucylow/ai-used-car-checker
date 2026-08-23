@@ -107,13 +107,16 @@ export const mergeAiFindings = (existingIssues = [], pendingFindings = []) => {
   return [...existing, ...pending.filter((finding) => finding?.name && !existing.some((issue) => issue?.name === finding.name))];
 };
 
-export const getAiPriorityPlan = ({ issues = [], evidenceScore = 0, photos = [] } = {}) => {
-  const list = Array.isArray(issues) ? issues : [];
+export const getAiPriorityPlan = (input = {}) => {
+  const safe = asRecord(input);
+  const list = Array.isArray(safe.issues) ? safe.issues : [];
+  const evidenceScore = clamp(safeFinite(safe.evidenceScore), 0, 100);
+  const photos = Array.isArray(safe.photos) ? safe.photos : [];
   const usablePhotos = Array.isArray(photos) ? photos.filter((photo) => photo?.uri) : [];
   const severityWeight = { critical: 3, major: 2, minor: 1 };
   return list.map((issue, index) => {
     const severity = issue?.severity || 'minor';
-    const cost = Math.max(0, Number(issue?.cost) || 0);
+    const cost = Math.max(0, safeFinite(issue?.cost));
     const priorityScore = (severityWeight[severity] || 1) * 100 + Math.min(cost, 5000) / 50;
     const nextAction = severity === 'critical' ? 'Stop and arrange an independent mechanic inspection.' : severity === 'major' ? 'Request service records and obtain a repair estimate.' : 'Document the condition and include it in negotiation notes.';
     const photo = usablePhotos[index % Math.max(usablePhotos.length, 1)];
@@ -121,8 +124,12 @@ export const getAiPriorityPlan = ({ issues = [], evidenceScore = 0, photos = [] 
   }).sort((a, b) => b.priorityScore - a.priorityScore).map((issue, index) => ({ ...issue, priority: index + 1 }));
 };
 
-export const getAiRecommendation = ({ issues = [], repairTotal = 0, confidence = 0, evidenceScore = 0 } = {}) => {
-  const list = Array.isArray(issues) ? issues : [];
+export const getAiRecommendation = (input = {}) => {
+  const safe = asRecord(input);
+  const list = Array.isArray(safe.issues) ? safe.issues : [];
+  const repairTotal = Math.max(0, safeFinite(safe.repairTotal));
+  const confidence = clamp(safeFinite(safe.confidence), 0, 100);
+  const evidenceScore = clamp(safeFinite(safe.evidenceScore), 0, 100);
   const critical = list.filter((issue) => issue?.severity === 'critical').length;
   const major = list.filter((issue) => issue?.severity === 'major').length;
   if (critical) return { tier: 'PAUSE', title: 'Pause before making an offer', action: 'Arrange an independent mechanic inspection and verify the critical item first.', reason: `${critical} critical issue${critical === 1 ? '' : 's'} need in-person confirmation.` };
@@ -141,7 +148,10 @@ export const getAiConfidenceLabel = (confidence) => {
   return value >= 75 ? 'Higher confidence' : value >= 55 ? 'Moderate confidence' : 'Limited confidence';
 };
 
-export const getAiReadinessMessage = ({ photoCount = 0, completedSections = 0 } = {}) => {
+export const getAiReadinessMessage = (input = {}) => {
+  const safe = asRecord(input);
+  const photoCount = Math.max(0, safeFinite(safe.photoCount));
+  const completedSections = clamp(safeFinite(safe.completedSections), 0, 5);
   if (!photoCount && !completedSections) return 'Add checklist results and at least one clear photo for a more useful analysis.';
   if (!photoCount) return 'Checklist data is available. Add clear photos to improve visual evidence.';
   if (completedSections < 5) return `${completedSections}/5 checklist sections complete. Finish the walk-around to improve confidence.`;
