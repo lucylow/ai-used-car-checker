@@ -480,6 +480,8 @@ test('reports backup metadata without changing serialized content', () => {
 test('normalizes saved inspections without allowing malformed nested data to crash screens', () => {
   assert.equal(normalizeSavedInspection(null), null);
   const safe = normalizeSavedInspection({ id: 'saved-1', vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, issues: [{ name: 'Brake', cost: 400 }, 'bad'], checklist: null, photos: [{ id: 'p1' }, null] });
+  const malformedVehicle = normalizeSavedInspection({ id: 'saved-2', vehicle: { year: { value: 2020 }, make: ' Honda ', model: 2024, vin: ' 1hg cm82633a004352 ' } });
+  assert.deepEqual(malformedVehicle.vehicle, { year: '', make: 'Honda', model: '2024', mileage: '', vin: '1HGCM82633A004352', asking: '' });
   assert.equal(safe.issues.length, 1);
   assert.deepEqual(safe.checklist, {});
   assert.equal(safe.photos.length, 1);

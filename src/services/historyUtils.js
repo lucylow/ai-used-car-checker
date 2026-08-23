@@ -1,12 +1,21 @@
 const riskScore = (item = {}) => (item.issues || []).reduce((sum, issue) => sum + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0);
 const repairTotal = (item = {}) => (item.issues || []).reduce((sum, issue) => sum + (Number(issue.cost) || 0), 0);
 const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
+const safeText = (value, maxLength) => (typeof value === 'string' || typeof value === 'number') ? String(value).trim().slice(0, maxLength) : '';
+const normalizeSavedVehicle = (vehicle = {}) => ({
+  year: safeText(vehicle.year, 4),
+  make: safeText(vehicle.make, 60),
+  model: safeText(vehicle.model, 80),
+  mileage: safeText(vehicle.mileage, 20),
+  vin: safeText(vehicle.vin, 30).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 17),
+  asking: safeText(vehicle.asking, 30),
+});
 
 export const normalizeSavedInspection = (item = {}) => {
   if (!isRecord(item) || !isRecord(item.vehicle)) return null;
   return {
     ...item,
-    vehicle: item.vehicle,
+    vehicle: normalizeSavedVehicle(item.vehicle),
     issues: Array.isArray(item.issues) ? item.issues.filter(isRecord) : [],
     checklist: isRecord(item.checklist) ? item.checklist : {},
     photos: Array.isArray(item.photos) ? item.photos.filter(isRecord) : [],

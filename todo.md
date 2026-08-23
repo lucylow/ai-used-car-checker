@@ -869,3 +869,8 @@
 - [x] Improve the highest-impact reliability gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit inspection data normalization and saved-record transitions for another integrity gap
+- [x] Improve the highest-impact inspection-data reliability gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
