@@ -614,3 +614,8 @@
 - [x] Hand users directly from onboarding into vehicle setup or VIN decoding
 - [x] Add deterministic coverage for onboarding action routing
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit shared helper boundaries and repeated state transformations
+- [x] Improve one targeted user-facing error or recovery path
+- [x] Add deterministic regression coverage for the code-quality improvement
+- [x] Re-run full validation and save a new checkpoint
