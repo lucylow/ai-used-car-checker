@@ -101,3 +101,9 @@ export const toggleReportSection = (sections = {}, section) => {
   if (!['summary', 'evidence'].includes(section)) return { summary: Boolean(safe.summary), evidence: Boolean(safe.evidence) };
   return { summary: Boolean(safe.summary), evidence: Boolean(safe.evidence), [section]: !Boolean(safe[section]) };
 };
+
+export const getSavedInspectionDisplayName = (vehicle = {}) => {
+  const safe = vehicle && typeof vehicle === 'object' && !Array.isArray(vehicle) ? vehicle : {};
+  const parts = [safe.year, safe.make, safe.model].map((value) => String(value || '').trim()).filter(Boolean);
+  return parts.length ? parts.join(' ') : 'Saved inspection';
+};

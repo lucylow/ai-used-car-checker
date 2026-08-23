@@ -730,3 +730,8 @@
 - [x] Preserve privacy-safe diagnostics and local-recovery behavior
 - [x] Add deterministic tests for restore-source display states
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Add restore-source context to saved-inspection detail
+- [x] Strengthen safe fallbacks for incomplete saved records
+- [x] Add deterministic tests for saved-detail fallback states
+- [x] Re-run full validation and save a new checkpoint

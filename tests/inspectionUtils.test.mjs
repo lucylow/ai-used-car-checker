@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getRestoreSourceLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, getVinWalkthroughStep, normalizeCarwiseSettings, getMotionDuration, getAnimatedProgressPercent, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance, toggleReportSection } from '../src/services/reportUtils.js';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getRestoreSourceLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, getVinWalkthroughStep, normalizeCarwiseSettings, getMotionDuration, getAnimatedProgressPercent, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance, toggleReportSection, getSavedInspectionDisplayName } from '../src/services/reportUtils.js';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from '../src/services/backupUtils.js';
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
@@ -846,4 +846,11 @@ test('labels restore sources without exposing inspection contents', () => {
   assert.equal(getRestoreSourceLabel('pending'), 'Pending local recovery copy');
   assert.equal(getRestoreSourceLabel('imported'), 'Imported Carwise backup');
   assert.equal(getRestoreSourceLabel('unexpected'), 'No restore source recorded');
+});
+
+test('renders safe saved-inspection names for complete and incomplete vehicle records', () => {
+  assert.equal(getSavedInspectionDisplayName({ year: '2020', make: 'Honda', model: 'Accord' }), '2020 Honda Accord');
+  assert.equal(getSavedInspectionDisplayName({ make: 'Honda' }), 'Honda');
+  assert.equal(getSavedInspectionDisplayName(null), 'Saved inspection');
+  assert.equal(getSavedInspectionDisplayName('invalid'), 'Saved inspection');
 });
