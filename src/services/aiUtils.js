@@ -128,3 +128,5 @@ export const getAiReadinessMessage = ({ photoCount = 0, completedSections = 0 } 
   if (completedSections < 5) return `${completedSections}/5 checklist sections complete. Finish the walk-around to improve confidence.`;
   return 'Evidence coverage is strong enough for a first-pass screening analysis.';
 };
+
+export const getAiAnalysisStartState = () => ({ aiResult: null, aiPendingFindings: [], ranAI: false, aiBusy: true });

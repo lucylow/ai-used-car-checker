@@ -774,3 +774,8 @@
 - [x] Improve the highest-impact persistence or settings consistency gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit AI analysis and finding-review transitions for stale or conflicting state
+- [x] Improve the highest-impact AI state-consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
