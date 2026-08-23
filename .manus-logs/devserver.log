@@ -5079,3 +5079,53 @@
 [2026-08-23T18:32:43.322Z] Starting Metro Bundler
 [2026-08-23T18:32:43.519Z] Waiting on http://localhost:8081
 [2026-08-23T18:32:43.519Z] Logs for your project will appear below.
+[2026-08-23T18:32:49.989Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:32:50.387Z] Web Bundled 443ms index.js (504 modules)
+[2026-08-23T18:32:50.892Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T18:33:30.452Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:33:30.482Z] Web Bundled 30ms index.js (1 module)
+[2026-08-23T18:33:30.800Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T18:34:04.111Z] [ELIFECYCLE] Command failed.
+[2026-08-23T18:34:04.121Z] Dev server exited with code -1
+[2026-08-23T18:34:05.206Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:34:05.776Z] $ expo start
+[2026-08-23T18:34:06.134Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:34:07.319Z] Starting Metro Bundler
+[2026-08-23T18:34:14.657Z] Waiting on http://localhost:8081
+[2026-08-23T18:34:14.657Z] Logs for your project will appear below.
+[2026-08-23T18:34:23.885Z] [ELIFECYCLE] Command failed.
+[2026-08-23T18:34:23.896Z] Dev server exited with code -1
+[2026-08-23T18:34:24.999Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:34:25.530Z] $ expo start
+[2026-08-23T18:34:25.867Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:34:26.922Z] Starting Metro Bundler
+[2026-08-23T18:34:27.117Z] Waiting on http://localhost:8081
+[2026-08-23T18:34:27.117Z] Logs for your project will appear below.
+[2026-08-23T18:34:32.591Z] [ELIFECYCLE] Command failed.
+[2026-08-23T18:34:32.897Z] Dev server exited with code -1
+[2026-08-23T18:34:34.008Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:34:34.542Z] $ expo start
+[2026-08-23T18:34:34.864Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:34:35.842Z] Starting Metro Bundler
+[2026-08-23T18:34:36.031Z] Waiting on http://localhost:8081
+[2026-08-23T18:34:36.031Z] Logs for your project will appear below.
+[2026-08-23T18:34:36.192Z] [ELIFECYCLE] Command failed.
+[2026-08-23T18:34:36.200Z] Dev server exited with code -1
+[2026-08-23T18:34:37.307Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:34:37.844Z] $ expo start
+[2026-08-23T18:34:38.128Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:34:38.909Z] Starting Metro Bundler
+[2026-08-23T18:34:39.086Z] Waiting on http://localhost:8081
+[2026-08-23T18:34:39.086Z] Logs for your project will appear below.
+[2026-08-23T18:34:45.804Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:34:46.818Z] [ELIFECYCLE] Command failed.
+[2026-08-23T18:34:46.826Z] Dev server exited with code -1
+[2026-08-23T18:34:47.933Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:34:48.452Z] $ expo start
+[2026-08-23T18:34:48.766Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:34:49.664Z] Starting Metro Bundler
+[2026-08-23T18:34:49.846Z] Waiting on http://localhost:8081
+[2026-08-23T18:34:49.846Z] Logs for your project will appear below.
+[2026-08-23T18:35:02.434Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:35:03.847Z] Web Bundled 1413ms index.js (504 modules)
+[2026-08-23T18:35:04.687Z] LOG  [web] Logs will appear in the browser console

@@ -720,3 +720,8 @@
 - [x] Preserve section toggles, report text, photo metadata, and action behavior
 - [x] Add deterministic tests for report-preview section state transitions
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Centralize report-preview section-state transitions
+- [x] Preserve visibility, close, toggle, and retry behavior
+- [x] Add deterministic tests for report-preview state transitions
+- [x] Re-run full validation and save a new checkpoint

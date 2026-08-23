@@ -95,3 +95,9 @@ export const getPermissionGuidance = (kind, status) => { const name = kind === '
 export const getToolInputGuidance = (type, value = '') => { if (type !== 'vin') return value ? 'Ready to run this local prototype check.' : 'Add an optional note, then run the check.'; const normalized = String(value).replace(/\s/g, '').toUpperCase(); if (!normalized) return 'Enter a 17-character VIN to validate it locally.'; return normalized.length === 17 ? 'VIN length is valid. Ready to decode.' : `${Math.max(0, 17 - normalized.length)} characters remaining for a valid VIN.`; };
 export const getCanceledFlowGuidance = (kind) => { const labels = { camera: 'Camera capture canceled. You can try again or choose a photo from your library.', library: 'Photo selection canceled. Your existing evidence is unchanged.', backup: 'Backup restore canceled. Your existing local inspections are unchanged.' }; return labels[kind] || 'Action canceled. Your existing inspection data is unchanged.' };
 export const getAiErrorGuidance = (kind = 'analysis') => { const labels = { analysis: 'AI analysis could not be completed. Check the inspection details and try again; your existing findings are unchanged.', accept: 'AI findings could not be added. Review the suggested findings and try again; your existing issues are unchanged.', dismiss: 'AI suggestions could not be dismissed cleanly. Reopen the analysis and try again; your existing issues are unchanged.' }; return labels[kind] || labels.analysis; };
+
+export const toggleReportSection = (sections = {}, section) => {
+  const safe = sections && typeof sections === 'object' && !Array.isArray(sections) ? sections : {};
+  if (!['summary', 'evidence'].includes(section)) return { summary: Boolean(safe.summary), evidence: Boolean(safe.evidence) };
+  return { summary: Boolean(safe.summary), evidence: Boolean(safe.evidence), [section]: !Boolean(safe[section]) };
+};
