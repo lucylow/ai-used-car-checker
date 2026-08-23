@@ -774,6 +774,7 @@ test('formats repair priorities with critical issues first and escaped names', (
 
 test('keeps preview helpers safe for null top-level payloads', () => {
   assert.deepEqual(getBackupPreviewRows(null), [['File size', '0 B'], ['Saved inspections', 0], ['Active photos', 0], ['AI snapshots', 0]]);
+  assert.deepEqual(getBackupPreviewRows({ sizeLabel: ' 2 KB ', savedInspections: -2, activePhotos: 2.8, aiSnapshots: Infinity }), [['File size', '2 KB'], ['Saved inspections', 0], ['Active photos', 2], ['AI snapshots', 0]]);
   assert.deepEqual(normalizeReportPreviewCollections(null), { photos: [], issues: [] });
 });
 

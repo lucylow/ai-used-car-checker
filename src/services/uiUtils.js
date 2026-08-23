@@ -25,11 +25,12 @@ export const getIssueEvidencePhoto = (issue = {}, photos = []) => {
   return photos.find((photo) => photo?.id === issue.photoId && photo?.uri) || null;
 };
 
+const getSafeCount = (value) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.max(0, Math.floor(numeric)) : 0; };
 export const getBackupPreviewRows = (metadata = {}) => { const safe = metadata && typeof metadata === 'object' && !Array.isArray(metadata) ? metadata : {}; return [
-  ['File size', safe.sizeLabel || '0 B'],
-  ['Saved inspections', safe.savedInspections || 0],
-  ['Active photos', safe.activePhotos || 0],
-  ['AI snapshots', safe.aiSnapshots || 0],
+  ['File size', typeof safe.sizeLabel === 'string' && safe.sizeLabel.trim() ? safe.sizeLabel.trim() : '0 B'],
+  ['Saved inspections', getSafeCount(safe.savedInspections)],
+  ['Active photos', getSafeCount(safe.activePhotos)],
+  ['AI snapshots', getSafeCount(safe.aiSnapshots)],
 ]; };
 
 export const getNavigationOverlayCleanup = () => ({ selectedPhoto: null, selectedSavedInspection: null, historyConfirm: null });
