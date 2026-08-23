@@ -61,8 +61,9 @@ export const shouldReplaceSavedInspection = (existingVehicle = {}, nextVehicle =
 };
 
 export const filterAndSortInspections = (inspections = [], query = '', sort = 'newest') => {
-  const normalizedQuery = query.trim().toLowerCase();
-  return [...inspections]
+  const normalizedQuery = typeof query === 'string' ? query.trim().toLowerCase() : '';
+  const safeInspections = Array.isArray(inspections) ? inspections.filter(isRecord) : [];
+  return [...safeInspections]
     .filter((item) => !normalizedQuery || `${item.vehicle?.year || ''} ${item.vehicle?.make || ''} ${item.vehicle?.model || ''}`.toLowerCase().includes(normalizedQuery))
     .sort((a, b) => {
       if (sort === 'repairs') return repairTotal(b) - repairTotal(a);

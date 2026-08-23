@@ -512,6 +512,8 @@ test('filters and sorts saved inspections without mutating source data', () => {
   assert.deepEqual(risk.map((item) => item.id), ['b', 'a']);
   assert.deepEqual(repairs.map((item) => item.id), ['b', 'a']);
   assert.deepEqual(filterAndSortInspections(inspections, 'honda', 'newest').map((item) => item.id), ['a']);
+  assert.deepEqual(filterAndSortInspections([null, 'bad', inspections[0]], null).map((item) => item.id), ['a']);
+  assert.deepEqual(filterAndSortInspections(null, 'Honda'), []);
   assert.deepEqual(inspections.map((item) => item.id), ['a', 'b']);
 });
 
