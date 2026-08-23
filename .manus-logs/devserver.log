@@ -4928,3 +4928,33 @@
 [2026-08-23T18:17:48.746Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
 [2026-08-23T18:17:49.458Z] Web Bundled 712ms index.js (1 module)
 [2026-08-23T18:17:49.774Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T18:21:27.450Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:21:28.119Z] Web Bundled 670ms index.js (1 module)
+[2026-08-23T18:21:28.429Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T18:21:42.362Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:21:42.385Z] Web Bundled 23ms index.js (1 module)
+[2026-08-23T18:21:46.716Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T18:22:20.592Z] [ELIFECYCLE] Command failed.
+[2026-08-23T18:22:20.598Z] Dev server exited with code -1
+[2026-08-23T18:22:21.704Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:22:22.229Z] $ expo start
+[2026-08-23T18:22:22.571Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:22:23.706Z] Starting Metro Bundler
+[2026-08-23T18:22:32.448Z] Waiting on http://localhost:8081
+[2026-08-23T18:22:32.449Z] Logs for your project will appear below.
+[2026-08-23T18:22:52.360Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:22:54.004Z] Web Bundled 1643ms index.js (494 modules)
+[2026-08-23T18:22:54.255Z] Web Bundled 20ms index.js (1 module)
+[2026-08-23T18:22:54.553Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T18:22:54.907Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T18:23:01.930Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-23T18:23:01.954Z] Web Bundled 24ms index.js (1 module)
+[2026-08-23T18:23:02.433Z] LOG  [web] Logs will appear in the browser console
+[2026-08-23T18:23:19.186Z] [ELIFECYCLE] Command failed.
+[2026-08-23T18:23:19.193Z] Dev server exited with code -1
+[2026-08-23T18:23:20.298Z] Starting dev server with command: pnpm run dev
+[2026-08-23T18:23:20.831Z] $ expo start
+[2026-08-23T18:23:21.154Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-23T18:23:22.138Z] Starting Metro Bundler
+[2026-08-23T18:23:22.323Z] Waiting on http://localhost:8081
+[2026-08-23T18:23:22.323Z] Logs for your project will appear below.

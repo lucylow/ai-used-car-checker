@@ -705,3 +705,8 @@
 - [x] Preserve readiness, evidence, field-note, export, and sharing behavior
 - [x] Add regression coverage for report-summary module boundaries
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract report evidence and field-note presentation into focused component modules
+- [x] Preserve linked-photo recovery, provenance filters, and report-generation behavior
+- [x] Add regression coverage for report evidence boundaries
+- [x] Re-run full validation and save a new checkpoint
