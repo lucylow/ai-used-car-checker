@@ -34,8 +34,9 @@ export const patchIssueByName = (issues = [], issueName, patch = {}) => (Array.i
 
 export const resetAiHistory = () => [];
 
-export const getAiEvidenceActions = ({ missing = [] } = {}) => {
-  const gaps = Array.isArray(missing) ? missing : [];
+export const getAiEvidenceActions = (input = {}) => {
+  const safe = asRecord(input);
+  const gaps = Array.isArray(safe.missing) ? safe.missing : [];
   return gaps.flatMap((gap) => {
     if (/photo/i.test(gap)) return [{ key: 'photos', label: 'Add photos', target: 'photos' }];
     if (/checklist/i.test(gap)) return [{ key: 'checklist', label: 'Complete checklist', target: 'checklist' }];
@@ -161,5 +162,5 @@ export const getAiReadinessMessage = (input = {}) => {
 };
 
 export const getAiAnalysisStartState = () => ({ aiResult: null, aiPendingFindings: [], ranAI: false, aiBusy: true });
-export const canReviewAiFindings = ({ busy = false, pendingFindings = [] } = {}) => !busy && Array.isArray(pendingFindings) && pendingFindings.length > 0;
+export const canReviewAiFindings = (input = {}) => { const safe = asRecord(input); return !Boolean(safe.busy) && Array.isArray(safe.pendingFindings) && safe.pendingFindings.length > 0; };
 export const getAiReviewStateAfterIssueMutation = () => ({ aiPendingFindings: [] });
