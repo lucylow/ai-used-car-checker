@@ -1,5 +1,6 @@
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const safeFinite = (value, fallback = 0) => { const numeric = Number(value); return Number.isFinite(numeric) ? numeric : fallback; };
+const safeText = (value, fallback = '') => typeof value === 'string' && value.trim() ? value.trim() : fallback;
 
 const asRecord = (value) => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
 export const getEvidenceAudit = (input = {}) => {
@@ -115,7 +116,7 @@ export const getAiPriorityPlan = (input = {}) => {
   const usablePhotos = Array.isArray(photos) ? photos.filter((photo) => photo?.uri) : [];
   const severityWeight = { critical: 3, major: 2, minor: 1 };
   return list.map((issue, index) => {
-    const severity = issue?.severity || 'minor';
+    const severity = safeText(issue?.severity, 'minor').toLowerCase();
     const cost = Math.max(0, safeFinite(issue?.cost));
     const priorityScore = (severityWeight[severity] || 1) * 100 + Math.min(cost, 5000) / 50;
     const nextAction = severity === 'critical' ? 'Stop and arrange an independent mechanic inspection.' : severity === 'major' ? 'Request service records and obtain a repair estimate.' : 'Document the condition and include it in negotiation notes.';
@@ -141,7 +142,7 @@ export const getAiRecommendation = (input = {}) => {
 export const getAiFindingExplanation = (finding = {}) => {
   const safe = asRecord(finding);
   const confidence = clamp(safeFinite(safe.confidence), 0, 100);
-  return `${confidence}% confidence · ${safe.evidence || 'Based on the available inspection evidence.'} · Confirm in person before purchase.`;
+  return `${confidence}% confidence · ${safeText(safe.evidence, 'Based on the available inspection evidence.')} · Confirm in person before purchase.`;
 };
 
 export const getAiConfidenceLabel = (confidence) => {

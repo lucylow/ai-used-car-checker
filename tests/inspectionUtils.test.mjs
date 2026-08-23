@@ -21,6 +21,8 @@ test('keeps AI evidence helpers safe for null top-level payloads', () => {
   assert.match(getAiReadinessMessage(null), /Add checklist results/);
   assert.match(getAiFindingExplanation(null), /^0% confidence/);
   assert.equal(getAiConfidenceLabel(Infinity), 'Limited confidence');
+  assert.doesNotMatch(getAiFindingExplanation({ evidence: { unexpected: true } }), /\[object Object\]/);
+  assert.match(getAiPriorityPlan({ issues: [{ severity: { unexpected: true }, cost: 10 }] })[0].why, /^Minor concern/);
 });
 
 test('formats actionable AI failure guidance for each recovery path', () => {
