@@ -999,3 +999,8 @@
 - [x] Improve the highest-impact reliability gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit the current inspection, history, and report flow for another high-impact user-facing edge case
+- [x] Improve the highest-impact inspection-flow reliability gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint

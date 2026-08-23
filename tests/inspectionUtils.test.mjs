@@ -566,6 +566,7 @@ test('reports main inspection flow readiness consistently', () => {
   assert.deepEqual(getMainFlowReadiness({ vehicle: { year: '20', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).missing, ['vehicle details']);
   assert.deepEqual(getMainFlowReadiness({ vehicle: { year: '2020', make: '  ', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).missing, ['vehicle details']);
   assert.equal(getMainFlowReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).ready, true);
+  assert.equal(getMainFlowReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { alpha: true, beta: true, gamma: true, delta: true, epsilon: true }, photos: [{ uri: 'file://photo.jpg' }] }).ready, false);
 });
 
 test('formats functional action labels consistently', () => {
@@ -709,6 +710,7 @@ test('reports readiness with precise missing sections', () => {
   assert.deepEqual(ready.missing, []);
   assert.deepEqual(getReportReadiness({ vehicle: null, checklist: null, photos: null }), { ready: false, missing: ['vehicle details', 'checklist', 'photo evidence'] });
   assert.deepEqual(getReportReadiness(null), { ready: false, missing: ['vehicle details', 'checklist', 'photo evidence'] });
+  assert.equal(getReportReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { alpha: true, beta: true, gamma: true, delta: true, epsilon: true }, photos: [{ id: 'p1' }] }).ready, false);
 });
 
 test('formats saved-inspection risk and completion metadata consistently', () => {
