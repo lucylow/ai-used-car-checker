@@ -834,3 +834,8 @@
 - [x] Improve the highest-impact report-preview resilience gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit VIN result rendering and decoded-vehicle normalization for malformed API fields
+- [x] Improve the highest-impact VIN data-integrity gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint

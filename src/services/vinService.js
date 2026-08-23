@@ -5,11 +5,13 @@ const vinCache = new Map();
 
 export const clearVinCache = () => vinCache.clear();
 
+const safeText = (value, fallback = '') => typeof value === 'string' || typeof value === 'number' ? String(value).trim() : fallback;
+
 export const applyDecodedVehicle = (currentVehicle = {}, decodedVehicle = {}, vin = '') => ({
   ...currentVehicle,
-  year: String(decodedVehicle.year || currentVehicle.year || '').trim(),
-  make: String(decodedVehicle.make || currentVehicle.make || '').trim(),
-  model: String(decodedVehicle.model || currentVehicle.model || '').trim(),
+  year: safeText(decodedVehicle.year, safeText(currentVehicle.year)),
+  make: safeText(decodedVehicle.make, safeText(currentVehicle.make)),
+  model: safeText(decodedVehicle.model, safeText(currentVehicle.model)),
   vin: normalizeVin(vin || currentVehicle.vin || ''),
 });
 
@@ -31,14 +33,14 @@ export const decodeVin = async (vin, { fetchImpl = fetch, timeoutMs = 8000 } = {
     if (!response.ok) throw new Error(`VIN service returned ${response.status}`);
     const payload = await response.json();
     const result = payload?.Results?.[0] || {};
-    const vehicle = {
-      year: result.ModelYear || '',
-      make: result.Make || '',
-      model: result.Model || '',
-      trim: result.Trim || '',
-      bodyClass: result.BodyClass || '',
-      engine: result.DisplacementL ? `${result.DisplacementL}L ${result.EngineCylinders || ''}-cylinder`.trim() : '',
-    };
+      const vehicle = {
+        year: safeText(result.ModelYear),
+        make: safeText(result.Make),
+        model: safeText(result.Model),
+        trim: safeText(result.Trim),
+        bodyClass: safeText(result.BodyClass),
+        engine: safeText(result.DisplacementL) ? `${safeText(result.DisplacementL)}L ${safeText(result.EngineCylinders)}-cylinder`.trim() : '',
+      };
     if (!vehicle.year && !vehicle.make && !vehicle.model) throw new Error('VIN service returned no vehicle identity.');
     const decoded = { vin: normalizedVin, status: 'decoded', message: 'VIN decoded with NHTSA vPIC.', vehicle };
     vinCache.set(normalizedVin, decoded);
