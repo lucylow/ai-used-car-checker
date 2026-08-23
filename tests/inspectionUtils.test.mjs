@@ -6,7 +6,7 @@ import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspe
 import { clearVinCache, decodeVin } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
-import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount } from '../src/services/uiUtils.js';
+import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount, getStablePhotoKey } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection, pruneComparisonSelection, getSavedIssueDisplay } from '../src/services/historyUtils.js';
 
 test('formats actionable AI failure guidance for each recovery path', () => {
@@ -959,4 +959,10 @@ test('prunes comparison selection to existing saved records', () => {
 test('normalizes saved issue display metadata safely', () => {
   assert.deepEqual(getSavedIssueDisplay({ name: '  Brake noise ', severity: 'major', cost: -40 }), { name: 'Brake noise', severity: 'MAJOR', cost: 0 });
   assert.deepEqual(getSavedIssueDisplay({}), { name: 'Unnamed finding', severity: 'MINOR', cost: 0 });
+});
+
+test('creates stable keys for saved photo evidence', () => {
+  assert.equal(getStablePhotoKey({ id: 'photo-7', uri: 'file://one.jpg' }, 0), 'photo-7');
+  assert.equal(getStablePhotoKey({ uri: 'file://two.jpg' }, 1), 'file://two.jpg');
+  assert.equal(getStablePhotoKey({}, 2), 'photo-3');
 });

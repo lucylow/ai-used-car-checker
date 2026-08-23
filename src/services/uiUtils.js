@@ -35,3 +35,8 @@ export const getBackupPreviewRows = (metadata = {}) => [
 export const getNavigationOverlayCleanup = () => ({ selectedPhoto: null, selectedSavedInspection: null, historyConfirm: null });
 export const isPhotoActionLocked = (busy = false) => Boolean(busy);
 export const getPhotoCount = (photos = []) => Array.isArray(photos) ? photos.length : 0;
+export const getStablePhotoKey = (photo = {}, index = 0) => {
+  const id = typeof photo?.id === 'string' ? photo.id.trim() : '';
+  const uri = typeof photo?.uri === 'string' ? photo.uri.trim() : '';
+  return id || uri || `photo-${index + 1}`;
+};

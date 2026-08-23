@@ -824,3 +824,8 @@
 - [x] Improve the highest-impact saved-detail resilience gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit saved photo evidence rendering for malformed IDs and duplicate keys
+- [x] Improve the highest-impact saved-photo rendering consistency gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint
