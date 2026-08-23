@@ -650,3 +650,8 @@
 - [x] Improve VIN validation and recoverable error states
 - [x] Add deterministic tests for guided VIN flow behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Extract the VIN decoder UI into a focused component module
+- [x] Preserve VIN navigation, accessibility, and decoded-result behavior
+- [x] Add regression coverage for the extracted VIN component boundaries
+- [x] Re-run full validation and save a new checkpoint
