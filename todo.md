@@ -1297,3 +1297,5 @@
 - [x] Add deterministic coverage for report HTML escaping and unsafe markup
 - [x] Require strict boolean save-retry state in local recovery guidance
 - [x] Add deterministic coverage for malformed recovery-banner inputs
+- [x] Require strict boolean pending-cleanup state in local-save success messaging
+- [x] Add deterministic coverage for malformed local-save success inputs

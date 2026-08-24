@@ -1268,6 +1268,13 @@ test('does not treat malformed truthy vehicle values as AI identity evidence', (
   assert.equal(quality.drivers.includes('VIN identified'), false);
 });
 
+test('requires strict pending-cleanup state before warning after local save', () => {
+  assert.match(getLocalSaveSuccessLabel({ pendingCleanupFailed: true }), /older pending copy/);
+  assert.equal(getLocalSaveSuccessLabel({ pendingCleanupFailed: 1 }), 'Saved locally');
+  assert.equal(getLocalSaveSuccessLabel({ pendingCleanupFailed: 'true' }), 'Saved locally');
+  assert.equal(getLocalSaveSuccessLabel({ pendingCleanupFailed: {}, payloadLength: 250001 }), 'Inspection is large — keeping a compact local copy');
+});
+
 test('requires strict retry state before showing local recovery guidance', () => {
   assert.equal(getLocalRecoveryBanner({ saveRetry: true })?.action, 'Retry local saves');
   assert.equal(getLocalRecoveryBanner({ saveRetry: 1 }), null);
