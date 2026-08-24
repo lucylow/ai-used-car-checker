@@ -1213,3 +1213,10 @@ test('sanitizes malformed report-operation diagnostics and guidance inputs', () 
   assert.equal(getDurablePhotoFileName({ unsafe: true }, Infinity).startsWith('carwise-'), true);
   assert.match(getInspectionActionGuidance({ photoCount: Infinity, reportReady: true }), /add photos/i);
 });
+
+test('sanitizes malformed settings and motion preference values', () => {
+  assert.deepEqual(normalizeCarwiseSettings([], []), { compactMode: false, aiDisclosure: true, motionIntensity: 'standard' });
+  assert.deepEqual(normalizeCarwiseSettings({ motionIntensity: { unsafe: true } }, { motionIntensity: 'gentle' }), { compactMode: false, aiDisclosure: true, motionIntensity: 'gentle' });
+  assert.equal(getMotionDuration(Infinity, 'standard'), 40);
+  assert.equal(getMotionDuration(999999, 'standard'), 2000);
+});

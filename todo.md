@@ -1244,3 +1244,8 @@
 - [x] Harden report preview, sharing, and PDF action boundaries against unsafe values
 - [x] Add deterministic regression coverage for report action sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit local settings normalization and persistence boundaries for malformed values
+- [x] Harden settings and motion preference helpers against unsafe types and non-finite values
+- [x] Add deterministic regression coverage for settings sanitization
+- [x] Re-run full validation and save a new checkpoint
