@@ -6,6 +6,23 @@ const safeReviewStatus = (status) => ['confirmed', 'rejected', 'needs-confirmati
 const safeReviewNote = (note) => typeof note === 'string' ? note.trim().slice(0, 240) : '';
 
 const asRecord = (value) => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+const normalizeAnalysisIssues = (issues) => (Array.isArray(issues) ? issues : []).map((issue) => {
+  const safe = asRecord(issue);
+  const name = safeText(safe.name).slice(0, 100);
+  if (!name) return null;
+  const normalized = { name, severity: ['critical', 'major', 'minor'].includes(safe.severity) ? safe.severity : 'minor', cost: Math.max(0, safeFinite(safe.cost)), note: safeText(safe.note).slice(0, 240) };
+  const id = safeText(safe.id).slice(0, 120);
+  const photoId = safeText(safe.photoId).slice(0, 120);
+  const source = safeText(safe.source).slice(0, 120);
+  const evidence = safeText(safe.evidence).slice(0, 240);
+  const confidence = Number(safe.confidence);
+  if (id) normalized.id = id;
+  if (photoId) normalized.photoId = photoId;
+  if (source) normalized.source = source;
+  if (evidence) normalized.evidence = evidence;
+  if (Number.isFinite(confidence)) normalized.confidence = clamp(confidence, 0, 100);
+  return normalized;
+}).filter(Boolean).slice(0, 80);
 const checklistSectionAliases = [['exterior'], ['tires', 'tires & brakes'], ['engine', 'engine bay'], ['interior'], ['test', 'test drive']];
 const countCompletedChecklistSections = (checklist = {}) => { const safeChecklist = asRecord(checklist); return checklistSectionAliases.filter((aliases) => aliases.some((alias) => Object.keys(safeChecklist).some((key) => String(key).trim().toLowerCase() === alias && Boolean(safeChecklist[key])))).length; };
 export const getEvidenceAudit = (input = {}) => {
@@ -81,8 +98,8 @@ export const buildAiAnalysis = (input = {}) => {
   const checklist = asRecord(safe.checklist);
   const photos = (Array.isArray(safe.photos) ? safe.photos : []).filter(isUsablePhoto);
   const evidence = getEvidenceCoverage({ checklist, photos });
-  const existingIssues = Array.isArray(issues) ? issues : [];
-  const hasSafetyIssue = existingIssues.some((issue) => issue?.severity === 'critical');
+  const existingIssues = normalizeAnalysisIssues(issues);
+  const hasSafetyIssue = existingIssues.some((issue) => issue.severity === 'critical');
   const confidence = clamp(Math.round(35 + evidence.score * 0.55 + (vehicle.vin ? 10 : 0)), 35, 95);
   const findings = hasSafetyIssue ? [] : [{ name: 'Rust underneath', severity: 'critical', cost: 850, note: 'Needs in-person confirmation beneath the vehicle.', source: evidence.photoCount ? 'photo-assisted heuristic' : 'inspection checklist heuristic', confidence: clamp(confidence - 8, 25, 95), evidence: evidence.photoCount ? `${evidence.photoCount} usable photo${evidence.photoCount === 1 ? '' : 's'} plus ${evidence.completedSections}/5 checklist sections` : `${evidence.completedSections}/5 checklist sections; no usable photo attached` }];
   const combinedIssues = [...existingIssues, ...findings.filter((finding) => !existingIssues.some((issue) => issue?.name === finding.name))];

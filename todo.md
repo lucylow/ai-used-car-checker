@@ -1179,3 +1179,8 @@
 - [x] Harden photo-review updates to retain only valid photo records and safe review metadata
 - [x] Add deterministic regression coverage for malformed photo-review updates
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit AI analysis output for malformed existing issue records
+- [x] Sanitize existing issues before AI scoring, pricing, recommendations, and result presentation
+- [x] Add deterministic regression coverage for malformed AI issue inputs
+- [x] Re-run full validation and save a new checkpoint

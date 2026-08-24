@@ -1122,3 +1122,13 @@ test('filters malformed photo records across AI evidence review boundaries', () 
   assert.equal(getEvidenceAudit({ photos }).usablePhotoCount, 1);
   assert.deepEqual(updatePhotoReview(photos, 'photo-1', { unexpected: true }, { unexpected: true }), [{ id: 'photo-1', uri: ' file://valid.jpg ', reviewStatus: 'needs-confirmation', reviewNote: '' }]);
 });
+
+test('sanitizes malformed existing issues before AI analysis calculations', () => {
+  const result = buildAiAnalysis({ issues: [null, 'invalid', { name: { unexpected: true }, severity: 'critical', cost: 5000 }, { name: '  Brake wear  ', severity: 'unexpected', cost: 'not-a-number', note: { unexpected: true }, source: { unexpected: true } }] });
+  assert.deepEqual(result.issues.map((issue) => issue.name), ['Brake wear', 'Rust underneath']);
+  assert.equal(result.issues[0].severity, 'minor');
+  assert.equal(result.issues[0].cost, 0);
+  assert.equal(result.issues[0].note, '');
+  assert.equal(result.repairTotal, 850);
+  assert.equal(result.recommendation.tier, 'PAUSE');
+});
