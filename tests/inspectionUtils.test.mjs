@@ -1268,6 +1268,12 @@ test('does not treat malformed truthy vehicle values as AI identity evidence', (
   assert.equal(quality.drivers.includes('VIN identified'), false);
 });
 
+test('guards delayed AI results against replaced inspection generations', () => {
+  assert.equal(isCurrentActionGeneration({ generation: 5, currentGeneration: 5 }), true);
+  assert.equal(isCurrentActionGeneration({ generation: 5, currentGeneration: 6 }), false);
+  assert.equal(isCurrentActionGeneration({ generation: '5', currentGeneration: 5 }), true);
+});
+
 test('guards late photo results against replaced inspection generations', () => {
   assert.equal(isCurrentActionGeneration({ generation: 3, currentGeneration: 3 }), true);
   assert.equal(isCurrentActionGeneration({ generation: 2, currentGeneration: 3 }), false);

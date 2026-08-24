@@ -1291,3 +1291,5 @@
 - [x] Add deterministic coverage for stale retry generation handling
 - [x] Prevent late photo-processing results from mutating a newer inspection
 - [x] Add deterministic coverage for photo action generation validity
+- [x] Prevent delayed AI analysis results from updating a newer inspection
+- [x] Add deterministic coverage for AI action generation validity
