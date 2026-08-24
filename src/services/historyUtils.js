@@ -63,8 +63,10 @@ export const pruneComparisonSelection = (selection = [], inspections = []) => {
   return (Array.isArray(selection) ? selection : []).filter((id) => ids.has(String(id))).slice(-2);
 };
 export const shouldReplaceSavedInspection = (existingVehicle = {}, nextVehicle = {}) => {
-  const nextVin = String(nextVehicle.vin || '').replace(/\s/g, '').toUpperCase();
-  const existingVin = String(existingVehicle.vin || '').replace(/\s/g, '').toUpperCase();
+  const safeExisting = isRecord(existingVehicle) ? existingVehicle : {};
+  const safeNext = isRecord(nextVehicle) ? nextVehicle : {};
+  const nextVin = String(safeNext.vin || '').replace(/\s/g, '').toUpperCase();
+  const existingVin = String(safeExisting.vin || '').replace(/\s/g, '').toUpperCase();
   return Boolean(nextVin && existingVin && nextVin === existingVin);
 };
 

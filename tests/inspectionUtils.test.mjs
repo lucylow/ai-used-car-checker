@@ -740,6 +740,12 @@ test('clears derived AI and report state when loading another inspection', () =>
   assert.deepEqual(getDerivedInspectionResetState(), { ranAI: false, reportPreview: '' });
 });
 
+test('keeps saved-inspection replacement checks safe for malformed vehicles', () => {
+  assert.equal(shouldReplaceSavedInspection(null, null), false);
+  assert.equal(shouldReplaceSavedInspection({ vin: '1HGCM82633A004352' }, null), false);
+  assert.equal(shouldReplaceSavedInspection(null, { vin: '1HGCM82633A004352' }), false);
+  assert.equal(shouldReplaceSavedInspection({ vin: '1HGCM82633A004352' }, { vin: ' 1hgcm82633a004352 ' }), true);
+});
 test('matches issues by identity without conflating duplicate names', () => {
   const first = { id: 'one', name: 'Brake wear' };
   const second = { id: 'two', name: 'Brake wear' };
