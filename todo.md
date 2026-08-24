@@ -1274,3 +1274,8 @@
 - [x] Harden AI readiness, quality, and audit summaries against unsafe identity metadata
 - [x] Add deterministic regression coverage for evidence-gate sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit AI priority and recommendation issue-severity boundaries for malformed values
+- [x] Harden severity normalization and decision counts against unsafe case and type variants
+- [x] Add deterministic regression coverage for AI severity sanitization
+- [x] Re-run full validation and save a new checkpoint

@@ -1267,3 +1267,10 @@ test('does not treat malformed truthy vehicle values as AI identity evidence', (
   assert.equal(quality.score, 80);
   assert.equal(quality.drivers.includes('VIN identified'), false);
 });
+
+test('normalizes AI severity values before decision helpers count issues', () => {
+  assert.equal(getAiRecommendation({ issues: [{ name: 'Brake risk', severity: ' CRITICAL ' }], repairTotal: 0, confidence: 80, evidenceScore: 80 }).tier, 'PAUSE');
+  assert.equal(getAiRecommendation({ issues: [{ name: 'Unknown risk', severity: { unsafe: true } }], repairTotal: 0, confidence: 80, evidenceScore: 80 }).tier, 'PROCEED');
+  assert.equal(getAiPriorityPlan({ issues: [{ name: 'Transmission concern', severity: ' MAJOR ', cost: 420 }], evidenceScore: 70 })[0].nextAction, 'Request service records and obtain a repair estimate.');
+  assert.equal(patchIssueByName([{ name: 'Brake risk', severity: 'minor', cost: 10 }], 'Brake risk', { severity: ' CRITICAL ' })[0].severity, 'critical');
+});

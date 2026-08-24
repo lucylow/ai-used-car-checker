@@ -9,6 +9,7 @@ const getAskingPrice = (value) => safeMoney(Number(safeScalarText(value).replace
 const isUsablePhoto = (photo) => photo && typeof photo === 'object' && !Array.isArray(photo) && typeof photo.uri === 'string' && photo.uri.trim();
 const safeReviewStatus = (status) => ['confirmed', 'rejected', 'needs-confirmation'].includes(status) ? status : 'needs-confirmation';
 const safeReviewNote = (note) => typeof note === 'string' ? note.trim().slice(0, 240) : '';
+const safeSeverity = (value) => { const normalized = safeText(value).toLowerCase(); return ['critical', 'major', 'minor'].includes(normalized) ? normalized : 'minor'; };
 const isIssueRecord = (issue) => issue && typeof issue === 'object' && !Array.isArray(issue);
 const isValidFinding = (finding) => isIssueRecord(finding) && typeof finding.name === 'string' && finding.name.trim();
 
@@ -17,7 +18,7 @@ const normalizeAnalysisIssues = (issues) => (Array.isArray(issues) ? issues : []
   const safe = asRecord(issue);
   const name = safeText(safe.name).slice(0, 100);
   if (!name) return null;
-  const normalized = { name, severity: ['critical', 'major', 'minor'].includes(safe.severity) ? safe.severity : 'minor', cost: safeMoney(safe.cost), note: safeText(safe.note).slice(0, 240) };
+  const normalized = { name, severity: safeSeverity(safe.severity), cost: safeMoney(safe.cost), note: safeText(safe.note).slice(0, 240) };
   const id = safeText(safe.id).slice(0, 120);
   const photoId = safeText(safe.photoId).slice(0, 120);
   const source = safeText(safe.source).slice(0, 120);
@@ -60,7 +61,7 @@ export const getPhotoEvidenceReview = (photos = []) => {
 export const updatePhotoReview = (photos = [], photoId, status, note = '') => (Array.isArray(photos) ? photos : []).filter(isUsablePhoto).map((photo) => photo.id === photoId ? { ...photo, reviewStatus: safeReviewStatus(status), reviewNote: safeReviewNote(note) } : photo);
 export const buildPhotoFindingDraft = (review = {}) => { const safe = asRecord(review); const label = safeText(safe.label, 'Inspection photo'); const note = safeText(safe.note, safeText(safe.guidance, 'User-confirmed photo evidence requires in-person verification.')); const photoId = safeText(safe.id, '') || null; return { name: `Photo evidence · ${label}`, severity: 'minor', cost: 0, note, photoId, source: 'user-confirmed photo evidence' }; };
 export const filterPhotoEvidenceReviews = (reviews = [], filter = 'all') => (Array.isArray(reviews) ? reviews : []).filter((review) => review && typeof review === 'object' && (filter === 'all' || review.status === filter));
-export const patchIssueByName = (issues = [], issueName, patch = {}) => (Array.isArray(issues) ? issues : []).filter(isValidFinding).map((issue) => issue.name === issueName ? { ...issue, ...patch, cost: safeMoney(patch.cost ?? issue.cost) } : issue);
+export const patchIssueByName = (issues = [], issueName, patch = {}) => (Array.isArray(issues) ? issues : []).filter(isValidFinding).map((issue) => issue.name === issueName ? { ...issue, ...patch, severity: safeSeverity(patch.severity ?? issue.severity), cost: safeMoney(patch.cost ?? issue.cost) } : issue);
 
 export const resetAiHistory = () => [];
 
@@ -141,13 +142,13 @@ export const mergeAiFindings = (existingIssues = [], pendingFindings = []) => {
 
 export const getAiPriorityPlan = (input = {}) => {
   const safe = asRecord(input);
-  const list = (Array.isArray(safe.issues) ? safe.issues : []).filter(isIssueRecord).map((issue) => ({ ...issue, name: safeText(issue.name, 'Unnamed finding').slice(0, 100), severity: ['critical', 'major', 'minor'].includes(issue.severity) ? issue.severity : 'minor', cost: safeMoney(issue.cost), note: safeText(issue.note).slice(0, 240) }));
+  const list = (Array.isArray(safe.issues) ? safe.issues : []).filter(isIssueRecord).map((issue) => ({ ...issue, name: safeText(issue.name, 'Unnamed finding').slice(0, 100), severity: safeSeverity(issue.severity), cost: safeMoney(issue.cost), note: safeText(issue.note).slice(0, 240) }));
   const evidenceScore = clamp(safeFinite(safe.evidenceScore), 0, 100);
   const photos = Array.isArray(safe.photos) ? safe.photos : [];
   const usablePhotos = photos.filter(isUsablePhoto);
   const severityWeight = { critical: 3, major: 2, minor: 1 };
   return list.map((issue, index) => {
-    const severity = safeText(issue?.severity, 'minor').toLowerCase();
+    const severity = safeSeverity(issue?.severity);
     const cost = safeMoney(issue?.cost);
     const priorityScore = (severityWeight[severity] || 1) * 100 + Math.min(cost, 5000) / 50;
     const nextAction = severity === 'critical' ? 'Stop and arrange an independent mechanic inspection.' : severity === 'major' ? 'Request service records and obtain a repair estimate.' : 'Document the condition and include it in negotiation notes.';
@@ -158,7 +159,7 @@ export const getAiPriorityPlan = (input = {}) => {
 
 export const getAiRecommendation = (input = {}) => {
   const safe = asRecord(input);
-  const list = (Array.isArray(safe.issues) ? safe.issues : []).filter(isIssueRecord);
+  const list = (Array.isArray(safe.issues) ? safe.issues : []).filter(isIssueRecord).map((issue) => ({ ...issue, severity: safeSeverity(issue.severity) }));
   const repairTotal = safeMoney(safe.repairTotal);
   const confidence = clamp(safeFinite(safe.confidence), 0, 100);
   const evidenceScore = clamp(safeFinite(safe.evidenceScore), 0, 100);
