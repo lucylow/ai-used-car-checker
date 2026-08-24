@@ -719,11 +719,15 @@ test('formats saved-inspection risk and completion metadata consistently', () =>
   assert.equal(getInspectionCompletion(item), '2/5 sections');
   assert.equal(getInspectionCompletion(null), '0/5 sections');
   assert.equal(getInspectionCompletion({ checklist: [] }), '0/5 sections');
-  assert.equal(getInspectionCompletion({ checklist: { one: true, two: true, three: true, four: true, five: true, extra: true } }), '5/5 sections');
+  assert.equal(getInspectionCompletion({ checklist: { one: true, two: true, three: true, four: true, five: true, extra: true } }), '0/5 sections');
+  assert.equal(getInspectionCompletion({ checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true, extra: true } }), '5/5 sections');
   assert.equal(getInspectionRepairTotal(item), 1200);
   assert.equal(getInspectionRepairTotal({ issues: [null, { cost: -500 }, { cost: 275 }, { cost: Infinity }] }), 275);
   assert.equal(getSavedIssueDisplay({ name: 'Bad cost', cost: Infinity }).cost, 0);
   assert.equal(getInspectionRiskLabel({ issues: [null, 'bad', { severity: 'critical' }, { severity: 'critical' }] }), 'HIGH RISK');
+  const comparison = getInspectionComparison({ id: 'left', vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { one: true, two: true, three: true, four: true, five: true }, photos: [] }, { id: 'right', vehicle: { year: '2021', make: 'Toyota', model: 'Camry' }, checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [] });
+  assert.equal(comparison.left.checklist, 0);
+  assert.equal(comparison.right.checklist, 5);
 });
 
 test('clears derived AI and report state when loading another inspection', () => {

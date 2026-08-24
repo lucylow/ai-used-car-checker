@@ -27,7 +27,7 @@ export const normalizeSavedInspection = (item = {}) => {
 };
 
 export const getInspectionRiskLabel = (item = {}) => { const score = riskScore(item); return score >= 60 ? 'HIGH RISK' : score >= 30 ? 'REVIEW' : 'LOWER RISK'; };
-export const getInspectionCompletion = (item = {}) => { const checklist = item && typeof item === 'object' && !Array.isArray(item) && item.checklist && typeof item.checklist === 'object' && !Array.isArray(item.checklist) ? item.checklist : {}; const complete = Math.min(5, Object.values(checklist).filter(Boolean).length); return `${complete}/5 sections`; };
+export const getInspectionCompletion = (item = {}) => `${countCompletedChecklistSections(item && typeof item === 'object' && !Array.isArray(item) ? item.checklist : {})}/5 sections`;
 export const getInspectionRepairTotal = (item = {}) => repairTotal(item);
 export const getSavedIssueDisplay = (issue = {}) => ({ name: typeof issue?.name === 'string' && issue.name.trim() ? issue.name.trim() : 'Unnamed finding', severity: typeof issue?.severity === 'string' && issue.severity.trim() ? issue.severity.trim().toUpperCase() : 'MINOR', cost: safeCost(issue?.cost) });
 const checklistSectionAliases = [['exterior'], ['tires', 'tires & brakes'], ['engine', 'engine bay'], ['interior'], ['test', 'test drive']];
@@ -38,7 +38,7 @@ export const getInspectionComparison = (left = {}, right = {}) => {
   const first = normalizeSavedInspection(left);
   const second = normalizeSavedInspection(right);
   if (!first || !second) return null;
-  const metric = (item) => { const rawConfidence = Number(item.aiHistory.at(-1)?.confidence); return { risk: riskScore(item), repairs: repairTotal(item), checklist: Object.values(item.checklist).filter(Boolean).length, photos: item.photos.length, confidence: Number.isFinite(rawConfidence) ? Math.min(100, Math.max(0, rawConfidence)) : null }; };
+  const metric = (item) => { const rawConfidence = Number(item.aiHistory.at(-1)?.confidence); return { risk: riskScore(item), repairs: repairTotal(item), checklist: countCompletedChecklistSections(item.checklist), photos: item.photos.length, confidence: Number.isFinite(rawConfidence) ? Math.min(100, Math.max(0, rawConfidence)) : null }; };
   return { left: { id: first.id, label: `${first.vehicle.year} ${first.vehicle.make} ${first.vehicle.model}`, ...metric(first) }, right: { id: second.id, label: `${second.vehicle.year} ${second.vehicle.make} ${second.vehicle.model}`, ...metric(second) } };
 };
 const getSafeMetricRatio = (value, max) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.min(1, Math.max(0, numeric / max)) : 0; };
