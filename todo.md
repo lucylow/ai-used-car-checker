@@ -1219,3 +1219,8 @@
 - [x] Harden VIN response normalization and cache safety against unsafe fields
 - [x] Add deterministic regression coverage for VIN response sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit VIN identity application and vehicle-field merge boundaries
+- [x] Harden decoded vehicle field normalization against unsafe current-state metadata
+- [x] Add deterministic regression coverage for VIN application safety
+- [x] Re-run full validation and save a new checkpoint

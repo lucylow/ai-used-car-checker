@@ -16,13 +16,18 @@ const normalizeEngine = (displacement, cylinders) => { const displacementText = 
 const normalizeTimeout = (value) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.min(MAX_TIMEOUT_MS, Math.max(0, numeric)) : 8000; };
 const cloneDecoded = (decoded) => ({ ...decoded, vehicle: isRecord(decoded?.vehicle) ? { ...decoded.vehicle } : null });
 
-export const applyDecodedVehicle = (currentVehicle = {}, decodedVehicle = {}, vin = '') => ({
-  ...currentVehicle,
-  year: normalizeYear(decodedVehicle.year) || normalizeYear(currentVehicle.year),
-  make: safeText(decodedVehicle.make) || safeText(currentVehicle.make),
-  model: safeText(decodedVehicle.model) || safeText(currentVehicle.model),
-  vin: normalizeVin(vin || currentVehicle.vin || ''),
-});
+export const applyDecodedVehicle = (currentVehicle = {}, decodedVehicle = {}, vin = '') => {
+  const current = isRecord(currentVehicle) ? currentVehicle : {};
+  const decoded = isRecord(decodedVehicle) ? decodedVehicle : {};
+  return {
+    year: normalizeYear(decoded.year) || normalizeYear(current.year),
+    make: safeText(decoded.make) || safeText(current.make),
+    model: safeText(decoded.model) || safeText(current.model),
+    vin: normalizeVin(vin || current.vin || ''),
+    ...(Object.prototype.hasOwnProperty.call(current, 'mileage') ? { mileage: safeText(current.mileage, '', 20) } : {}),
+    ...(Object.prototype.hasOwnProperty.call(current, 'asking') ? { asking: safeText(current.asking, '', 30) } : {}),
+  };
+};
 
 export const getVinResultCompleteness = (vehicle = {}) => {
   const fields = ['year', 'make', 'model'];

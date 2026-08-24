@@ -1102,6 +1102,7 @@ test('normalizes report-preview evidence collections safely', () => {
 
 test('normalizes decoded VIN fields without object-string leakage', () => {
   assert.deepEqual(applyDecodedVehicle({ year: '2018', make: 'Toyota', model: 'Camry' }, { year: {}, make: null, model: ' Accord ' }, '1HGCM82633A004352'), { year: '2018', make: 'Toyota', model: 'Accord', vin: '1HGCM82633A004352' });
+  assert.deepEqual(applyDecodedVehicle({ year: { unsafe: true }, make: { unsafe: true }, model: null, mileage: { unsafe: true }, asking: ['unsafe'], ignored: 'drop' }, null, null), { year: '', make: '', model: '', vin: '', mileage: '', asking: '' });
 });
 
 test('reports VIN identity completeness deterministically', () => {
