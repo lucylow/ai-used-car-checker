@@ -1220,3 +1220,14 @@ test('sanitizes malformed settings and motion preference values', () => {
   assert.equal(getMotionDuration(Infinity, 'standard'), 40);
   assert.equal(getMotionDuration(999999, 'standard'), 2000);
 });
+
+test('bounds malformed saved-history comparison metrics', () => {
+  const comparison = getInspectionComparison({ id: 'left', vehicle: { year: Infinity, make: 'Honda', model: 'Accord' }, issues: [{ severity: 'critical' }, { severity: 'critical' }, { severity: 'critical' }], checklist: {}, photos: [] }, { id: 'right', vehicle: { year: '2021', make: 'Toyota', model: 'Camry' }, issues: [], checklist: {}, photos: [] });
+  assert.equal(comparison.left.risk, 100);
+  assert.equal(comparison.left.label, ' Honda Accord');
+  const rows = getComparisonMetricRows({ left: { risk: Infinity, repairs: Infinity, checklist: Infinity, photos: Infinity, confidence: Infinity }, right: { risk: -2, repairs: -5, checklist: -3, photos: -4, confidence: -6 } });
+  assert.equal(rows.find((row) => row.key === 'risk').leftRatio, 0);
+  assert.equal(rows.find((row) => row.key === 'repairs').left, 0);
+  assert.equal(rows.find((row) => row.key === 'checklist').left, 0);
+  assert.equal(rows.find((row) => row.key === 'confidence').right, 0);
+});

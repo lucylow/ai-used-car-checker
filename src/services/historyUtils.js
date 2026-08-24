@@ -1,9 +1,9 @@
 const getIssueList = (item = {}) => Array.isArray(item?.issues) ? item.issues.filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue)) : [];
 const safeCost = (value) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.max(0, numeric) : 0; };
-const riskScore = (item = {}) => getIssueList(item).reduce((sum, issue) => sum + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0);
+const riskScore = (item = {}) => Math.min(100, getIssueList(item).reduce((sum, issue) => sum + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0));
 const repairTotal = (item = {}) => getIssueList(item).reduce((sum, issue) => sum + safeCost(issue.cost), 0);
 const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
-const safeText = (value, maxLength) => (typeof value === 'string' || typeof value === 'number') ? String(value).trim().slice(0, maxLength) : '';
+const safeText = (value, maxLength) => typeof value === 'string' ? value.trim().slice(0, maxLength) : typeof value === 'number' && Number.isFinite(value) ? String(value).slice(0, maxLength) : '';
 const normalizeSavedAt = (value) => typeof value === 'string' && !Number.isNaN(Date.parse(value)) ? value : new Date(0).toISOString();
 const getSavedAtTime = (value) => typeof value === 'string' && !Number.isNaN(Date.parse(value)) ? Date.parse(value) : 0;
 const normalizeSavedVehicle = (vehicle = {}) => ({
@@ -50,12 +50,23 @@ export const getComparisonMetricRows = (comparison) => {
   if (!comparison || !comparison.left || !comparison.right || typeof comparison.left !== 'object' || typeof comparison.right !== 'object') return [];
   const left = comparison.left;
   const right = comparison.right;
+  const safeMetric = (value, max) => { if (value === null || value === undefined) return null; const numeric = Number(value); return Number.isFinite(numeric) ? Math.min(max, Math.max(0, numeric)) : 0; };
+  const safeRiskLeft = safeMetric(left.risk, 100);
+  const safeRiskRight = safeMetric(right.risk, 100);
+  const safeRepairsLeft = safeMetric(left.repairs, 100000000);
+  const safeRepairsRight = safeMetric(right.repairs, 100000000);
+  const safeChecklistLeft = safeMetric(left.checklist, 5);
+  const safeChecklistRight = safeMetric(right.checklist, 5);
+  const safePhotosLeft = safeMetric(left.photos, 10000);
+  const safePhotosRight = safeMetric(right.photos, 10000);
+  const safeConfidenceLeft = safeMetric(left.confidence, 100);
+  const safeConfidenceRight = safeMetric(right.confidence, 100);
   const rows = [
-    { key: 'risk', label: 'Risk score', left: left.risk, right: right.risk, max: 100, suffix: '/100' },
-    { key: 'repairs', label: 'Estimated repairs', left: left.repairs, right: right.repairs, max: Math.max(Number(left.repairs) || 0, Number(right.repairs) || 0, 1), prefix: '$' },
-    { key: 'checklist', label: 'Checklist complete', left: left.checklist, right: right.checklist, max: 5, suffix: '/5' },
-    { key: 'photos', label: 'Photo evidence', left: left.photos, right: right.photos, max: Math.max(Number(left.photos) || 0, Number(right.photos) || 0, 1) },
-    { key: 'confidence', label: 'AI confidence', left: left.confidence, right: right.confidence, max: 100, suffix: '%' },
+    { key: 'risk', label: 'Risk score', left: safeRiskLeft, right: safeRiskRight, max: 100, suffix: '/100' },
+    { key: 'repairs', label: 'Estimated repairs', left: safeRepairsLeft, right: safeRepairsRight, max: Math.max(safeRepairsLeft || 0, safeRepairsRight || 0, 1), prefix: '$' },
+    { key: 'checklist', label: 'Checklist complete', left: safeChecklistLeft, right: safeChecklistRight, max: 5, suffix: '/5' },
+    { key: 'photos', label: 'Photo evidence', left: safePhotosLeft, right: safePhotosRight, max: Math.max(safePhotosLeft || 0, safePhotosRight || 0, 1) },
+    { key: 'confidence', label: 'AI confidence', left: safeConfidenceLeft, right: safeConfidenceRight, max: 100, suffix: '%' },
   ];
   return rows.map((row) => ({ ...row, leftRatio: getSafeMetricRatio(row.left, row.max), rightRatio: getSafeMetricRatio(row.right, row.max) }));
 };

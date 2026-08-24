@@ -1249,3 +1249,8 @@
 - [x] Harden settings and motion preference helpers against unsafe types and non-finite values
 - [x] Add deterministic regression coverage for settings sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit inspection comparison and saved-history metrics for non-finite numeric values
+- [x] Harden comparison, repair-total, and risk-summary calculations against unsafe numeric metadata
+- [x] Add deterministic regression coverage for comparison metric sanitization
+- [x] Re-run full validation and save a new checkpoint
