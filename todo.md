@@ -1283,3 +1283,5 @@
 - [x] Add deterministic coverage for settings persistence readiness gating
 - [x] Serialize debounced active-inspection saves to prevent older writes from racing newer state
 - [x] Add deterministic coverage for local-save scheduling guards
+- [x] Prevent obsolete queued autosave snapshots from overwriting newer local inspection state
+- [x] Add deterministic coverage for autosave generation validity

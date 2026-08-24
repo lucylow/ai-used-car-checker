@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getNewInspectionTransientResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport, formatCurrency, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getRestoreSourceLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, getVinWalkthroughStep, normalizeCarwiseSettings, getMotionDuration, getAnimatedProgressPercent, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance, toggleReportSection, getSavedInspectionDisplayName, getReportActionState, getReportPreviewCloseState, getReportActionStartState, getSettingsSaveErrorGuidance, getLocalSaveSuccessLabel, getRestoreSourceForFlow, getReportProvenanceLabel, isSettingsPersistenceReady, shouldScheduleLocalPersistence } from '../src/services/reportUtils.js';
+import { buildInspectionReport, formatCurrency, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getRestoreSourceLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, getVinWalkthroughStep, normalizeCarwiseSettings, getMotionDuration, getAnimatedProgressPercent, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance, toggleReportSection, getSavedInspectionDisplayName, getReportActionState, getReportPreviewCloseState, getReportActionStartState, getSettingsSaveErrorGuidance, getLocalSaveSuccessLabel, getRestoreSourceForFlow, getReportProvenanceLabel, isSettingsPersistenceReady, shouldScheduleLocalPersistence, isCurrentPersistenceGeneration } from '../src/services/reportUtils.js';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteEditorState, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from '../src/services/backupUtils.js';
 import { applyDecodedVehicle, canApplyDecodedVehicle, clearVinCache, decodeVin, getVinResultCompleteness } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
@@ -1266,6 +1266,14 @@ test('does not treat malformed truthy vehicle values as AI identity evidence', (
   const quality = getAiQualitySummary({ evidence: { score: 100, completedSections: 5, photoCount: 4 }, vehicle: { vin: { unsafe: true } } });
   assert.equal(quality.score, 80);
   assert.equal(quality.drivers.includes('VIN identified'), false);
+});
+
+test('accepts only the current autosave generation', () => {
+  assert.equal(isCurrentPersistenceGeneration({ generation: 2, currentGeneration: 2 }), true);
+  assert.equal(isCurrentPersistenceGeneration({ generation: 1, currentGeneration: 2 }), false);
+  assert.equal(isCurrentPersistenceGeneration({ generation: '2', currentGeneration: 2 }), true);
+  assert.equal(isCurrentPersistenceGeneration({ generation: -1, currentGeneration: -1 }), false);
+  assert.equal(isCurrentPersistenceGeneration(null), false);
 });
 
 test('gates active autosave scheduling until restore completes', () => {

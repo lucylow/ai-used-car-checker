@@ -8,7 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system/legacy';
-import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getRestoreSourceLabel, getMainFlowReadiness, getPhotoActionGuidance, getOperationStatusLabel, getMediaErrorGuidance, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getLocalRestoreErrorGuidance, getReportErrorGuidance, getReportActionStatus, getProcessingLabel, getDurablePhotoFileName, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, normalizeCarwiseSettings, getMotionDuration, getMotionFeedbackOpacity, getAnimatedProgressPercent, getErrorDetail, normalizeRecoveryLog, getAiErrorGuidance, buildDiagnosticExport, getSafeDateLabel, toggleReportSection, getRestoreSourceForFlow, getReportProvenanceLabel, getReportPreviewCloseState, getReportActionStartState, getSettingsSaveErrorGuidance, getLocalSaveSuccessLabel, isSettingsPersistenceReady, shouldScheduleLocalPersistence } from './src/services/reportUtils';
+import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getRestoreSourceLabel, getMainFlowReadiness, getPhotoActionGuidance, getOperationStatusLabel, getMediaErrorGuidance, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getLocalRestoreErrorGuidance, getReportErrorGuidance, getReportActionStatus, getProcessingLabel, getDurablePhotoFileName, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, normalizeCarwiseSettings, getMotionDuration, getMotionFeedbackOpacity, getAnimatedProgressPercent, getErrorDetail, normalizeRecoveryLog, getAiErrorGuidance, buildDiagnosticExport, getSafeDateLabel, toggleReportSection, getRestoreSourceForFlow, getReportProvenanceLabel, getReportPreviewCloseState, getReportActionStartState, getSettingsSaveErrorGuidance, getLocalSaveSuccessLabel, isSettingsPersistenceReady, shouldScheduleLocalPersistence, isCurrentPersistenceGeneration } from './src/services/reportUtils';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteEditorState, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from './src/services/backupUtils';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection, pruneComparisonSelection } from './src/services/historyUtils';
 import { getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked } from './src/services/uiUtils';
@@ -164,6 +164,7 @@ export default function App() {
   const reportActionTimer = useRef(null);
   const persistTimer = useRef(null);
   const persistQueue = useRef(Promise.resolve());
+  const persistGeneration = useRef(0);
   const repairTotal = useMemo(() => (Array.isArray(issues) ? issues : []).reduce((sum, issue) => sum + Math.max(0, Number(issue?.cost) || 0), 0), [issues]);
   const checklistComplete = checklist && typeof checklist === 'object' ? Object.values(checklist).filter(Boolean).length : 0;
   const riskScore = Math.min(100, (Array.isArray(issues) ? issues : []).reduce((score, issue) => score + ({ critical: 34, major: 20, minor: 8 }[issue?.severity] || 0), 0));
@@ -303,10 +304,12 @@ export default function App() {
 
   useEffect(() => {
     if (!shouldScheduleLocalPersistence({ restored })) return undefined;
+    const generation = persistGeneration.current + 1;
+    persistGeneration.current = generation;
     if (persistTimer.current) clearTimeout(persistTimer.current);
     persistTimer.current = setTimeout(() => {
       persistTimer.current = null;
-      persistQueue.current = persistQueue.current.catch(() => {}).then(() => persistLocalCopy());
+      persistQueue.current = persistQueue.current.catch(() => {}).then(() => isCurrentPersistenceGeneration({ generation, currentGeneration: persistGeneration.current }) ? persistLocalCopy() : false);
     }, getLocalSaveDelay(restored));
     return () => {
       if (persistTimer.current) {
