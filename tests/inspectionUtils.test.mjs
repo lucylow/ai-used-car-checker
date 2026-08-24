@@ -411,14 +411,14 @@ test('guards primitive VIN and malformed issue inputs', () => {
 });
 
 test('normalizes malformed active inspection data before restore', () => {
-  const normalized = normalizeActiveInspection({ vehicle: ['bad'], issues: [{ name: ' Brake ', severity: 'unknown', cost: '-5' }, null, { cost: 20 }], checklist: { Exterior: true, bad: 'yes' }, photos: 'bad' });
+  const normalized = normalizeActiveInspection({ vehicle: ['bad'], issues: [{ name: ' Brake ', severity: 'unknown', cost: '-5' }, null, { cost: 20 }], checklist: { Exterior: true, bad: 'yes' }, photos: [null, 'bad', { uri: 'file://valid.jpg' }, ['bad']] });
   assert.equal(normalized.vehicle.year, '');
   assert.equal(normalized.issues.length, 2);
   assert.equal(normalized.issues[0].severity, 'minor');
   assert.equal(normalized.issues[0].cost, 0);
   assert.equal(normalized.issues[1].name, 'Unnamed finding');
   assert.deepEqual(normalized.checklist, { Exterior: true });
-  assert.deepEqual(normalized.photos, []);
+  assert.deepEqual(normalized.photos, [{ uri: 'file://valid.jpg' }]);
 });
 
 test('coerces imported backup values before they reach active inspection calculations', () => {

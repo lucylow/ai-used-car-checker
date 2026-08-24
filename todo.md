@@ -1169,3 +1169,8 @@
 - [x] Improve the highest-impact reliability gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit remaining service and UI-state contracts for another high-impact reliability gap
+- [x] Improve the highest-impact reliability or maintainability gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
+- [x] Re-run full validation and save a new checkpoint

@@ -13,7 +13,7 @@ export function normalizeActiveInspection({ vehicle = {}, issues = [], checklist
   } : createNewInspectionState().vehicle;
   const safeIssues = (Array.isArray(issues) ? issues : []).filter((issue) => issue && typeof issue === 'object').map((issue, index) => ({ id: typeof issue.id === 'string' ? issue.id : `restored-issue-${index + 1}`, name: String(issue.name || 'Unnamed finding').trim().slice(0, 100), severity: ['critical', 'major', 'minor'].includes(issue.severity) ? issue.severity : 'minor', cost: Math.max(0, Number(issue.cost) || 0), note: typeof issue.note === 'string' ? issue.note.slice(0, 240) : '', photoId: typeof issue.photoId === 'string' ? issue.photoId : undefined })).filter((issue) => issue.name);
   const safeChecklist = checklist && typeof checklist === 'object' && !Array.isArray(checklist) ? Object.fromEntries(Object.entries(checklist).filter(([key, value]) => typeof key === 'string' && typeof value === 'boolean').slice(0, 20)) : {};
-  return { vehicle: safeVehicle, issues: safeIssues.slice(0, 80), checklist: safeChecklist, photos: Array.isArray(photos) ? photos : [] };
+  return { vehicle: safeVehicle, issues: safeIssues.slice(0, 80), checklist: safeChecklist, photos: Array.isArray(photos) ? photos.filter((photo) => photo && typeof photo === 'object' && !Array.isArray(photo)).slice(0, 80) : [] };
 }
 
 export function getDerivedInspectionResetState() {
