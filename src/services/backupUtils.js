@@ -11,7 +11,7 @@ export const filterToolNoteTimeline = (timeline, filter = 'all') => Array.isArra
 export const filterToolNoteTimelineBySource = (timeline, source = 'all') => Array.isArray(timeline) ? timeline.filter((entry) => source === 'all' || entry.source === source) : [];
 export const getToolNoteTimeline = (toolNotes) => { const labels = { market: 'Market', history: 'History', test: 'Test drive' }; return Object.entries(labels).map(([key, label]) => { const entry = isRecord(toolNotes?.[key]) ? toolNotes[key] : { note: toolNotes?.[key] }; const note = typeof entry.note === 'string' ? entry.note.trim().slice(0, 1000) : ''; const savedAt = typeof entry.savedAt === 'string' && !Number.isNaN(Date.parse(entry.savedAt)) ? entry.savedAt : null; return note ? { key, label, note, source: typeof entry.source === 'string' && entry.source.trim() ? entry.source.trim().slice(0, 80) : 'User-entered observation', savedAt } : null; }).filter(Boolean).sort((a, b) => (b.savedAt ? Date.parse(b.savedAt) : 0) - (a.savedAt ? Date.parse(a.savedAt) : 0)); };
 
-export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, toolNotes = {}, savedInspections, aiHistory = [] }) => JSON.stringify({
+export const serializeInspectionBackup = (input = {}) => { const safe = isRecord(input) ? input : {}; const { vehicle, issues, checklist, photos, toolNotes = {}, savedInspections, aiHistory = [] } = safe; return JSON.stringify({
   app: 'carwise',
   version: BACKUP_VERSION,
   exportedAt: new Date().toISOString(),
@@ -22,7 +22,7 @@ export const serializeInspectionBackup = ({ vehicle, issues, checklist, photos, 
   toolNotes: toolNotes && typeof toolNotes === 'object' && !Array.isArray(toolNotes) ? Object.fromEntries(Object.entries(toolNotes).filter(([key, value]) => ['market', 'history', 'test'].includes(key) && (typeof value === 'string' || (value && typeof value === 'object'))).map(([key, value]) => { const note = typeof value === 'string' ? value : value.note; return [key, { note: typeof note === 'string' ? note.slice(0, 1000) : '', savedAt: typeof value === 'object' && typeof value.savedAt === 'string' ? value.savedAt : null, source: typeof value === 'object' && typeof value.source === 'string' ? value.source.slice(0, 80) : 'User-entered observation' }]; }).filter(([, value]) => value.note)) : {},
   savedInspections,
   aiHistory: Array.isArray(aiHistory) ? aiHistory.slice(-6) : [],
-}, null, 2);
+}, null, 2); };
 
 export const parseInspectionBackup = (raw) => {
   if (typeof raw !== 'string' || !raw.trim()) throw new Error('Carwise backup is empty.');
@@ -40,10 +40,12 @@ export const parseInspectionBackup = (raw) => {
   };
 };
 
-export const getBackupMetadata = ({ backup = {}, serialized = '' } = {}) => {
-  const bytes = new TextEncoder().encode(String(serialized)).length;
+export const getBackupMetadata = (input = {}) => {
+  const safe = isRecord(input) ? input : {};
+  const backup = isRecord(safe.backup) ? safe.backup : {};
+  const bytes = new TextEncoder().encode(String(safe.serialized || '')).length;
   const sizeLabel = bytes < 1024 ? `${bytes} B` : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KB` : `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-  return { bytes, sizeLabel, savedInspections: Array.isArray(backup.savedInspections) ? backup.savedInspections.length : 0, activePhotos: Array.isArray(backup.photos) ? backup.photos.length : 0, aiSnapshots: Array.isArray(backup.aiHistory) ? backup.aiHistory.length : 0, exportedAt: backup.exportedAt || null };
+  return { bytes, sizeLabel, savedInspections: Array.isArray(backup.savedInspections) ? backup.savedInspections.length : 0, activePhotos: Array.isArray(backup.photos) ? backup.photos.length : 0, aiSnapshots: Array.isArray(backup.aiHistory) ? backup.aiHistory.length : 0, exportedAt: typeof backup.exportedAt === 'string' ? backup.exportedAt : null };
 };
 
-export const getBackupSummary = (backup = {}) => { const savedInspections = Array.isArray(backup.savedInspections) ? backup.savedInspections : []; const photos = Array.isArray(backup.photos) ? backup.photos : []; return `${savedInspections.length} saved inspection${savedInspections.length === 1 ? '' : 's'} · ${photos.length} active photo${photos.length === 1 ? '' : 's'}`; };
+export const getBackupSummary = (backup = {}) => { const safe = isRecord(backup) ? backup : {}; const savedInspections = Array.isArray(safe.savedInspections) ? safe.savedInspections : []; const photos = Array.isArray(safe.photos) ? safe.photos : []; return `${savedInspections.length} saved inspection${savedInspections.length === 1 ? '' : 's'} · ${photos.length} active photo${photos.length === 1 ? '' : 's'}`; };

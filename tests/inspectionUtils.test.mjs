@@ -167,6 +167,9 @@ test('handles malformed backup and recovery-log inputs safely', () => {
   assert.throws(() => parseInspectionBackup('not-json'), /not valid JSON/);
   assert.throws(() => parseInspectionBackup(''), /empty/);
   assert.equal(getBackupSummary({}), '0 saved inspections · 0 active photos');
+  assert.equal(getBackupSummary(null), '0 saved inspections · 0 active photos');
+  assert.equal(JSON.parse(serializeInspectionBackup(null)).app, 'carwise');
+  assert.equal(getBackupMetadata(null).sizeLabel, '0 B');
   assert.equal(getRecoveryLogTimeLabel('not-a-date'), 'Time unavailable');
   assert.match(getRecoveryLogTimeLabel('2026-01-01T00:00:00.000Z'), /2026/);
 });
@@ -577,6 +580,7 @@ test('reports main inspection flow readiness consistently', () => {
   assert.deepEqual(getMainFlowReadiness({ vehicle: { year: '2020', make: '  ', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).missing, ['vehicle details']);
   assert.equal(getMainFlowReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, 'Tires & brakes': true, 'Engine bay': true, Interior: true, 'Test drive': true }, photos: [{ uri: 'file://photo.jpg' }] }).ready, true);
   assert.equal(getMainFlowReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { alpha: true, beta: true, gamma: true, delta: true, epsilon: true }, photos: [{ uri: 'file://photo.jpg' }] }).ready, false);
+  assert.deepEqual(getMainFlowReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [null, 'invalid'] }).missing, ['photo evidence']);
 });
 
 test('formats functional action labels consistently', () => {
@@ -721,6 +725,7 @@ test('reports readiness with precise missing sections', () => {
   assert.deepEqual(getReportReadiness({ vehicle: null, checklist: null, photos: null }), { ready: false, missing: ['vehicle details', 'checklist', 'photo evidence'] });
   assert.deepEqual(getReportReadiness(null), { ready: false, missing: ['vehicle details', 'checklist', 'photo evidence'] });
   assert.equal(getReportReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { alpha: true, beta: true, gamma: true, delta: true, epsilon: true }, photos: [{ id: 'p1' }] }).ready, false);
+  assert.deepEqual(getReportReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true }, photos: [null, 'invalid'] }).missing, ['photo evidence']);
 });
 
 test('formats saved-inspection risk and completion metadata consistently', () => {
