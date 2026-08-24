@@ -1287,3 +1287,5 @@
 - [x] Add deterministic coverage for autosave generation validity
 - [x] Cancel all pending AI, report, autosave, and undo timers when App unmounts
 - [x] Add deterministic coverage for transient timer cleanup state
+- [x] Prevent failed local-save retries from restoring obsolete snapshots after newer edits
+- [x] Add deterministic coverage for stale retry generation handling
