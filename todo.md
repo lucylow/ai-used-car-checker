@@ -1269,3 +1269,8 @@
 - [x] Harden AI scoring, fair-price, repair-total, and recommendation outputs against unsafe numeric metadata
 - [x] Add deterministic regression coverage for AI numeric sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit AI evidence and vehicle identity completeness gates for malformed truthy values
+- [x] Harden AI readiness, quality, and audit summaries against unsafe identity metadata
+- [x] Add deterministic regression coverage for evidence-gate sanitization
+- [x] Re-run full validation and save a new checkpoint

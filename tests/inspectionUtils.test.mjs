@@ -1258,3 +1258,12 @@ test('bounds malformed AI money and recommendation inputs', () => {
   assert.equal(getAiRecommendation({ issues: [], repairTotal: Number.MAX_VALUE, confidence: Infinity, evidenceScore: Infinity }).tier, 'NEGOTIATE');
   assert.equal(getAiPriorityPlan({ issues: [{ name: 'Large estimate', cost: Number.MAX_VALUE }], evidenceScore: Infinity })[0].cost, 100000000);
 });
+
+test('does not treat malformed truthy vehicle values as AI identity evidence', () => {
+  const audit = getEvidenceAudit({ vehicle: { year: { unsafe: true }, make: [], model: { unsafe: true }, asking: { unsafe: true } }, checklist: { Exterior: true }, photos: [{ uri: 'file://photo.jpg' }] });
+  assert.equal(audit.confirmed.includes('Vehicle identity'), false);
+  assert.equal(audit.missing.includes('asking price'), true);
+  const quality = getAiQualitySummary({ evidence: { score: 100, completedSections: 5, photoCount: 4 }, vehicle: { vin: { unsafe: true } } });
+  assert.equal(quality.score, 80);
+  assert.equal(quality.drivers.includes('VIN identified'), false);
+});
