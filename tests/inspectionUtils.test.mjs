@@ -920,6 +920,7 @@ test('filters field-note timeline by category without mutating source data', () 
   assert.equal(filterToolNoteTimeline(timeline, 'all').length, 3);
   assert.deepEqual(filterToolNoteTimeline(timeline, 'unknown'), []);
   assert.equal(timeline.length, 3);
+  assert.deepEqual(filterToolNoteTimeline([null, 'invalid', ...timeline], 'all').map((entry) => entry.key), ['history', 'test', 'market']);
 });
 
 test('filters field-note timeline by provenance source without mutating order', () => {
@@ -928,6 +929,7 @@ test('filters field-note timeline by provenance source without mutating order', 
   assert.equal(filterToolNoteTimelineBySource(timeline, 'Mechanic')[0].key, 'history');
   assert.equal(filterToolNoteTimelineBySource(timeline, 'all').length, 3);
   assert.deepEqual(filterToolNoteTimelineBySource(null, 'Seller'), []);
+  assert.deepEqual(filterToolNoteTimelineBySource([null, 'invalid', ...timeline], 'all').map((entry) => entry.key), ['history', 'test', 'market']);
 });
 
 test('preserves field-note provenance when normalizing saved inspections', () => {
