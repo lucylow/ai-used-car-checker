@@ -1214,3 +1214,8 @@
 - [x] Harden local backup normalization and restore summaries against malformed fields
 - [x] Add deterministic regression coverage for backup metadata sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit VIN decoding and cache boundaries for malformed external responses
+- [x] Harden VIN response normalization and cache safety against unsafe fields
+- [x] Add deterministic regression coverage for VIN response sanitization
+- [x] Re-run full validation and save a new checkpoint

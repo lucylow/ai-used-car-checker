@@ -1184,3 +1184,15 @@ test('normalizes malformed retry entries and bounds diagnostic metadata', async 
   assert.equal(enqueueRetry({ key: 'invalid-run', run: 'bad' }), false);
   clearRetryQueue();
 });
+
+test('sanitizes malformed VIN response fields and protects cached results', async () => {
+  clearVinCache();
+  const result = await decodeVin('3CZRE4H59AG700001', { fetchImpl: async () => ({ ok: true, async json() { return { Results: [{ ModelYear: { unsafe: true }, Make: ' Honda ', Model: ' Accord ', Trim: 'x'.repeat(200), DisplacementL: 'bad', EngineCylinders: 99 }] }; } }) });
+  assert.deepEqual(result.vehicle, { year: '', make: 'Honda', model: 'Accord', trim: 'x'.repeat(120), bodyClass: '', engine: '' });
+  result.vehicle.make = 'Mutated';
+  const cached = await decodeVin('3CZRE4H59AG700001', { fetchImpl: async () => { throw new Error('cache should be used'); } });
+  assert.equal(cached.vehicle.make, 'Honda');
+  clearVinCache();
+  const malformedPayload = await decodeVin('JH4KA9650MC012345', { fetchImpl: async () => ({ ok: true, async json() { return { Results: [null] }; } }) });
+  assert.equal(malformedPayload.status, 'fallback');
+});
