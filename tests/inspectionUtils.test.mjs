@@ -169,6 +169,13 @@ test('handles malformed backup and recovery-log inputs safely', () => {
   assert.equal(getBackupSummary({}), '0 saved inspections · 0 active photos');
   assert.equal(getBackupSummary(null), '0 saved inspections · 0 active photos');
   assert.equal(JSON.parse(serializeInspectionBackup(null)).app, 'carwise');
+  const serialized = JSON.parse(serializeInspectionBackup({ vehicle: 'bad', issues: [null, 'bad', { name: 'Valid issue' }], checklist: ['bad'], photos: [null, 'bad', { uri: 'file://valid.jpg' }], savedInspections: [null, 'bad', { id: 'saved-1' }], aiHistory: [null, 'bad', { confidence: 80 }] }));
+  assert.equal(serialized.vehicle, null);
+  assert.deepEqual(serialized.issues, [{ name: 'Valid issue' }]);
+  assert.deepEqual(serialized.checklist, {});
+  assert.deepEqual(serialized.photos, [{ uri: 'file://valid.jpg' }]);
+  assert.deepEqual(serialized.savedInspections, [{ id: 'saved-1' }]);
+  assert.deepEqual(serialized.aiHistory, [{ confidence: 80 }]);
   assert.equal(getBackupMetadata(null).sizeLabel, '0 B');
   assert.equal(getRecoveryLogTimeLabel('not-a-date'), 'Time unavailable');
   assert.match(getRecoveryLogTimeLabel('2026-01-01T00:00:00.000Z'), /2026/);

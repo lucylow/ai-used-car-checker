@@ -574,10 +574,10 @@
 - [x] Verify animation behavior does not block or change action semantics
 - [x] Re-run full validation and save a new checkpoint
 
-- [ ] Add reduced-motion-aware feedback to photo capture actions
-- [ ] Add reduced-motion-aware feedback to report export actions
-- [ ] Animate local recovery feedback without changing recovery behavior
-- [ ] Re-run full validation and save a new checkpoint
+- [x] Add reduced-motion-aware feedback to photo capture actions
+- [x] Add reduced-motion-aware feedback to report export actions
+- [x] Animate local recovery feedback without changing recovery behavior
+- [x] Re-run full validation and save a new checkpoint
 
 - [x] Add first-use onboarding orientation for the inspection workflow
 - [x] Explain local-first privacy and inspection evidence expectations during onboarding
@@ -1083,4 +1083,89 @@
 - [x] Inspect current logs and reproduce failures or warnings
 - [x] Apply the smallest safe fix for the reproduced issue
 - [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit remaining AI, report, and local-data contracts for another high-impact reliability gap
+- [x] Improve the highest-impact reliability gap found in the audit
+- [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint

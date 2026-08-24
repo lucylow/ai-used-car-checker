@@ -15,13 +15,13 @@ export const serializeInspectionBackup = (input = {}) => { const safe = isRecord
   app: 'carwise',
   version: BACKUP_VERSION,
   exportedAt: new Date().toISOString(),
-  vehicle,
-  issues,
-  checklist,
-  photos,
+  vehicle: isRecord(vehicle) ? vehicle : null,
+  issues: Array.isArray(issues) ? issues.filter(isRecord) : [],
+  checklist: isRecord(checklist) ? checklist : {},
+  photos: Array.isArray(photos) ? photos.filter(isRecord) : [],
   toolNotes: toolNotes && typeof toolNotes === 'object' && !Array.isArray(toolNotes) ? Object.fromEntries(Object.entries(toolNotes).filter(([key, value]) => ['market', 'history', 'test'].includes(key) && (typeof value === 'string' || (value && typeof value === 'object'))).map(([key, value]) => { const note = typeof value === 'string' ? value : value.note; return [key, { note: typeof note === 'string' ? note.slice(0, 1000) : '', savedAt: typeof value === 'object' && typeof value.savedAt === 'string' ? value.savedAt : null, source: typeof value === 'object' && typeof value.source === 'string' ? value.source.slice(0, 80) : 'User-entered observation' }]; }).filter(([, value]) => value.note)) : {},
-  savedInspections,
-  aiHistory: Array.isArray(aiHistory) ? aiHistory.slice(-6) : [],
+  savedInspections: Array.isArray(savedInspections) ? savedInspections.filter(isRecord) : [],
+  aiHistory: Array.isArray(aiHistory) ? aiHistory.filter(isRecord).slice(-6) : [],
 }, null, 2); };
 
 export const parseInspectionBackup = (raw) => {
