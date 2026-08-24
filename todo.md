@@ -1229,3 +1229,8 @@
 - [x] Harden active inspection restoration against object-string leakage and invalid known values
 - [x] Add deterministic regression coverage for active inspection field sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit UI photo asset normalization for malformed dimensions and metadata
+- [x] Harden photo replacement and evidence helpers against unsafe asset fields
+- [x] Add deterministic regression coverage for photo asset sanitization
+- [x] Re-run full validation and save a new checkpoint
