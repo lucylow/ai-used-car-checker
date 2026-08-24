@@ -2,6 +2,10 @@ const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, (character)
 
 const getSafeMoneyValue = (value) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.max(0, numeric) : 0; };
 const getSafeCount = (value) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.max(0, Math.floor(numeric)) : 0; };
+const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
+const safeReportText = (value, fallback = '', maxLength = 240) => (typeof value === 'string' || typeof value === 'number') ? String(value).trim().slice(0, maxLength) : fallback;
+const normalizeReportIssue = (issue) => { const safe = isRecord(issue) ? issue : {}; const severity = safeReportText(safe.severity, 'review', 40).toLowerCase(); return { ...safe, name: safeReportText(safe.name, 'Unspecified issue', 160), severity: ['critical', 'major', 'minor'].includes(severity) ? severity : 'review', cost: getSafeMoneyValue(safe.cost) }; };
+const normalizeReportPhoto = (photo) => { const safe = isRecord(photo) ? photo : {}; const embeddedDataUri = typeof safe.embeddedDataUri === 'string' && /^data:image\/(?:jpeg|jpg|png|webp|gif|heic);base64,[a-z0-9+/=]+$/i.test(safe.embeddedDataUri) ? safe.embeddedDataUri : ''; return { ...safe, uri: safeReportText(safe.uri, '', 2000), fileName: safeReportText(safe.fileName, '', 120), embeddedDataUri }; };
 export const formatCurrency = (value) => `$${getSafeMoneyValue(value).toLocaleString('en-US')}`;
 export const getLocalSaveLabel = (state) => ({ saving: 'Saving locally…', saved: 'Saved locally', error: 'Save needs attention' }[state] || 'Local mode');
 export const getLocalSaveErrorGuidance = (queued = true) => queued ? 'Local save failed. A recovery copy is queued; tap Retry when storage is available.' : 'Local save failed again. Export a backup and try again when storage is available.';
@@ -56,25 +60,25 @@ export const formatPhotoEvidenceLabel = (photo = {}, index = 0) => {
   return `Photo ${Math.max(0, Number(index) || 0) + 1}${name}${dimensions}${source}`;
 };
 
-export const buildPhotoEvidenceHtml = (photos = []) => (Array.isArray(photos) ? photos : []).filter((photo) => photo && typeof photo === 'object').map((photo, index) => {
+export const buildPhotoEvidenceHtml = (photos = []) => (Array.isArray(photos) ? photos : []).filter(isRecord).map(normalizeReportPhoto).slice(0, 80).map((photo, index) => {
   const label = escapeHtml(formatPhotoEvidenceLabel(photo, index));
   if (photo.embeddedDataUri) {
-    return `<figure style="display:inline-block; vertical-align:top; width:31%; margin:0 1% 14px 0; padding:8px; border:1px solid #D0D5DD; border-radius:10px; box-sizing:border-box"><img src="${photo.embeddedDataUri}" alt="${label}" style="display:block; width:100%; height:120px; object-fit:cover; border-radius:7px"/><figcaption style="margin-top:7px; color:#475467; font-size:10px; line-height:1.35">${label}</figcaption></figure>`;
+    return `<figure style="display:inline-block; vertical-align:top; width:31%; margin:0 1% 14px 0; padding:8px; border:1px solid #D0D5DD; border-radius:10px; box-sizing:border-box"><img src="${escapeHtml(photo.embeddedDataUri)}" alt="${label}" style="display:block; width:100%; height:120px; object-fit:cover; border-radius:7px"/><figcaption style="margin-top:7px; color:#475467; font-size:10px; line-height:1.35">${label}</figcaption></figure>`;
   }
   return `<span style="display:inline-block; padding:8px 10px; margin:3px; border:1px solid #D0D5DD; border-radius:8px; color:#475467; font-size:11px">${label}</span>`;
 }).join('');
 
 export const getRepairPriority = (issue = {}) => ({ critical: 3, major: 2, minor: 1 }[issue.severity] || 0);
 
-export const formatRepairPriorityHtml = (issues = []) => (Array.isArray(issues) ? issues : []).filter((issue) => issue && typeof issue === 'object').sort((a, b) => getRepairPriority(b) - getRepairPriority(a) || getSafeMoneyValue(b.cost) - getSafeMoneyValue(a.cost)).map((issue, index) => `<li><strong>${escapeHtml(issue.severity || 'review').toUpperCase()}</strong> · ${escapeHtml(issue.name || 'Unspecified issue')} · ${formatCurrency(issue.cost)}${index === 0 ? ' · address first' : ''}</li>`).join('');
+export const formatRepairPriorityHtml = (issues = []) => (Array.isArray(issues) ? issues : []).filter(isRecord).map(normalizeReportIssue).slice(0, 80).sort((a, b) => getRepairPriority(b) - getRepairPriority(a) || getSafeMoneyValue(b.cost) - getSafeMoneyValue(a.cost)).map((issue, index) => `<li><strong>${escapeHtml(issue.severity).toUpperCase()}</strong> · ${escapeHtml(issue.name)} · ${formatCurrency(issue.cost)}${index === 0 ? ' · address first' : ''}</li>`).join('');
 
 export function buildInspectionReport(input = {}) {
   const safeInput = input && typeof input === 'object' && !Array.isArray(input) ? input : {};
   const { vehicle = {}, issues = [], checklist = {}, photos = [], toolNotes = {}, fairPrice, riskScore } = safeInput;
-  const safeVehicle = vehicle && typeof vehicle === 'object' && !Array.isArray(vehicle) ? vehicle : {};
-  const safeIssues = Array.isArray(issues) ? issues.filter((issue) => issue && typeof issue === 'object') : [];
+  const safeVehicle = vehicle && typeof vehicle === 'object' && !Array.isArray(vehicle) ? { ...vehicle, year: safeReportText(vehicle.year, '', 4), make: safeReportText(vehicle.make, '', 60), model: safeReportText(vehicle.model, '', 80), mileage: safeReportText(vehicle.mileage, '', 20) } : {};
+  const safeIssues = Array.isArray(issues) ? issues.filter(isRecord).map(normalizeReportIssue).slice(0, 80) : [];
   const safeChecklist = checklist && typeof checklist === 'object' && !Array.isArray(checklist) ? checklist : {};
-  const safePhotos = Array.isArray(photos) ? photos.filter((photo) => photo && typeof photo === 'object') : [];
+  const safePhotos = Array.isArray(photos) ? photos.filter(isRecord).map(normalizeReportPhoto).slice(0, 80) : [];
   const repairTotal = safeIssues.reduce((sum, issue) => sum + getSafeMoneyValue(issue.cost), 0);
   const completedSections = Object.values(safeChecklist).filter(Boolean).length;
   const criticalCount = safeIssues.filter((issue) => issue.severity === 'critical').length;
@@ -83,7 +87,7 @@ export function buildInspectionReport(input = {}) {
     'CARWISE INSPECTION REPORT',
     `${safeVehicle.year || ''} ${safeVehicle.make || ''} ${safeVehicle.model || ''}`.trim() || 'Vehicle details unavailable',
     `Mileage: ${safeVehicle.mileage || 'Not provided'}`,
-    `Risk score: ${riskScore}/100`,
+    `Risk score: ${Math.min(100, Math.max(0, Number(riskScore) || 0))}/100`,
     `Issues found: ${safeIssues.length} (${criticalCount} critical)`,
     `Estimated repairs: ${formatCurrency(repairTotal)}`,
     `AI fair price: ${Number.isFinite(Number(fairPrice)) && Number(fairPrice) > 0 ? formatCurrency(fairPrice) : 'Unavailable until AI analysis is completed'}`,

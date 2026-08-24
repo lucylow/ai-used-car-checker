@@ -1142,3 +1142,18 @@ test('filters malformed findings across AI merge and decision helpers', () => {
   assert.deepEqual(getAiPriorityPlan({ issues: malformed, evidenceScore: 80 }).map((issue) => issue.name), ['Unnamed finding', 'Valid finding']);
   assert.equal(getEvidenceAudit({ issues: malformed }).confirmed.at(-1), '1 recorded issue');
 });
+
+test('sanitizes malformed report export collections and embedded photo markup', () => {
+  const photoHtml = buildPhotoEvidenceHtml([{ embeddedDataUri: 'data:image/svg+xml,<svg onerror="bad">', fileName: { unsafe: true } }, { embeddedDataUri: 'data:image/jpeg;base64,abc123', fileName: 'front.jpg' }, ['invalid'], null]);
+  assert.equal((photoHtml.match(/<figure/g) || []).length, 1);
+  assert.doesNotMatch(photoHtml, /onerror=/);
+  const issueHtml = formatRepairPriorityHtml([{ name: { unsafe: true }, severity: { unsafe: true }, cost: 'bad' }, ['invalid'], { name: 'Brake wear', severity: 'major', cost: 400 }]);
+  assert.match(issueHtml, /Brake wear/);
+  assert.doesNotMatch(issueHtml, /\[object Object\]/);
+  const report = buildInspectionReport({ vehicle: { year: { unsafe: true }, make: ' Honda ', model: ' Accord ' }, issues: [['invalid'], { name: { unsafe: true }, severity: 'critical', cost: 500 }], photos: [['invalid'], { uri: 'file://valid.jpg' }], checklist: { Exterior: true }, riskScore: 140 });
+  assert.match(report, /Honda Accord/);
+  assert.match(report, /Issues found: 1 \(1 critical\)/);
+  assert.match(report, /Photo evidence: 1 item/);
+  assert.match(report, /Risk score: 100\/100/);
+  assert.doesNotMatch(report, /\[object Object\]/);
+});

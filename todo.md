@@ -1194,3 +1194,8 @@
 - [x] Exclude arrays and malformed records from report-preview photo and issue collections
 - [x] Add deterministic regression coverage for report-preview collection sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit report export helpers for array-valued and malformed issue/photo entries
+- [x] Harden report HTML and text generation against malformed collection metadata
+- [x] Add deterministic regression coverage for report export sanitization
+- [x] Re-run full validation and save a new checkpoint
