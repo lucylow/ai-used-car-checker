@@ -47,10 +47,13 @@ export const getInspectionNavigationLabel = (destination, action = 'back') => { 
 export const getInspectionActionGuidance = (input = {}) => { const safe = input && typeof input === 'object' && !Array.isArray(input) ? input : {}; const photoCount = Math.max(0, Number(safe.photoCount) || 0); const reportReady = Boolean(safe.reportReady); if (!reportReady) return photoCount ? 'Finish the required sections before sharing your report.' : 'Complete the checklist and add photo evidence before sharing.'; return photoCount ? `${photoCount} photo${photoCount === 1 ? '' : 's'} attached · report ready to share.` : 'Report ready to share; add photos for stronger evidence.'; };
 
 export const formatPhotoEvidenceLabel = (photo = {}, index = 0) => {
-  const name = photo.fileName ? ` · ${photo.fileName}` : '';
-  const dimensions = photo.width && photo.height ? ` · ${photo.width}×${photo.height}` : '';
-  const source = photo.embeddedDataUri ? ' · embedded image' : photo.uri ? ' · local asset unavailable for embed' : ' · metadata only';
-  return `Photo ${index + 1}${name}${dimensions}${source}`;
+  const safePhoto = photo && typeof photo === 'object' && !Array.isArray(photo) ? photo : {};
+  const name = typeof safePhoto.fileName === 'string' && safePhoto.fileName.trim() ? ` · ${safePhoto.fileName.trim().slice(0, 120)}` : '';
+  const width = Number(safePhoto.width);
+  const height = Number(safePhoto.height);
+  const dimensions = Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0 ? ` · ${Math.round(width)}×${Math.round(height)}` : '';
+  const source = safePhoto.embeddedDataUri ? ' · embedded image' : safePhoto.uri ? ' · local asset unavailable for embed' : ' · metadata only';
+  return `Photo ${Math.max(0, Number(index) || 0) + 1}${name}${dimensions}${source}`;
 };
 
 export const buildPhotoEvidenceHtml = (photos = []) => (Array.isArray(photos) ? photos : []).filter((photo) => photo && typeof photo === 'object').map((photo, index) => {

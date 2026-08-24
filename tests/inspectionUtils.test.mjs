@@ -855,6 +855,7 @@ test('renders embedded photo thumbnails and safe metadata fallbacks', () => {
   assert.match(html, /local asset unavailable for embed/);
   assert.match(html, /metadata only/);
   assert.equal(formatPhotoEvidenceLabel({ fileName: 'front.jpg', width: 1200, height: 900, embeddedDataUri: 'data:image\/jpeg;base64,abc' }, 0), 'Photo 1 · front.jpg · 1200×900 · embedded image');
+  assert.equal(formatPhotoEvidenceLabel({ fileName: { unexpected: true }, width: Infinity, height: { unexpected: true } }, -2), 'Photo 1 · metadata only');
   const escaped = buildPhotoEvidenceHtml([{ fileName: '<script>alert(1)</script>', uri: 'file://unsafe.jpg' }]);
   assert.doesNotMatch(escaped, /<script>alert/);
   assert.match(escaped, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
