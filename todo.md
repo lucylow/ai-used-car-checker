@@ -1289,3 +1289,5 @@
 - [x] Add deterministic coverage for transient timer cleanup state
 - [x] Prevent failed local-save retries from restoring obsolete snapshots after newer edits
 - [x] Add deterministic coverage for stale retry generation handling
+- [x] Prevent late photo-processing results from mutating a newer inspection
+- [x] Add deterministic coverage for photo action generation validity
