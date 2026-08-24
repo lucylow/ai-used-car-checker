@@ -1174,3 +1174,8 @@
 - [x] Improve the highest-impact reliability or maintainability gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit AI photo-review state for malformed collection entries
+- [x] Harden photo-review updates to retain only valid photo records and safe review metadata
+- [x] Add deterministic regression coverage for malformed photo-review updates
+- [x] Re-run full validation and save a new checkpoint

@@ -5,7 +5,7 @@ import { buildInspectionReport, formatCurrency, buildPhotoEvidenceHtml, formatPh
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteEditorState, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from '../src/services/backupUtils.js';
 import { applyDecodedVehicle, canApplyDecodedVehicle, clearVinCache, decodeVin, getVinResultCompleteness } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getEvidenceCoverage, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
 import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount, getStablePhotoKey, normalizeReportPreviewCollections } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection, pruneComparisonSelection, getSavedIssueDisplay } from '../src/services/historyUtils.js';
 
@@ -1113,4 +1113,12 @@ test('blocks applying incomplete decoded VIN identity', () => {
   assert.equal(canApplyDecodedVehicle({ year: '2020', make: 'Ford', model: 'Focus' }), true);
   assert.equal(canApplyDecodedVehicle({ year: '2020', make: 'Ford' }), false);
   assert.equal(canApplyDecodedVehicle(null), false);
+});
+
+test('filters malformed photo records across AI evidence review boundaries', () => {
+  const photos = [null, 'invalid', [], { uri: ' ' }, { id: 'photo-1', uri: ' file://valid.jpg ' }, { id: 'object-uri', uri: { unexpected: true } }];
+  assert.equal(getPhotoEvidenceReview(photos).length, 1);
+  assert.equal(getEvidenceCoverage({ photos }).photoCount, 1);
+  assert.equal(getEvidenceAudit({ photos }).usablePhotoCount, 1);
+  assert.deepEqual(updatePhotoReview(photos, 'photo-1', { unexpected: true }, { unexpected: true }), [{ id: 'photo-1', uri: ' file://valid.jpg ', reviewStatus: 'needs-confirmation', reviewNote: '' }]);
 });
