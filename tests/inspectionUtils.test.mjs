@@ -32,6 +32,8 @@ test('keeps AI evidence helpers safe for null top-level payloads', () => {
   assert.deepEqual({ id: review.id, label: review.label, status: review.status, note: review.note }, { id: 'photo-1', label: 'Photo 1', status: 'needs-confirmation', note: '' });
   assert.doesNotMatch(getAiFindingExplanation({ evidence: { unexpected: true } }), /\[object Object\]/);
   assert.match(getAiPriorityPlan({ issues: [{ severity: { unexpected: true }, cost: 10 }] })[0].why, /^Minor concern/);
+  assert.deepEqual(getAiPriorityPlan({ issues: [null, 'invalid', { name: 'Valid issue', severity: 'minor' }] }).map((issue) => issue.name), ['Valid issue']);
+  assert.equal(getAiRecommendation({ issues: [null, 'invalid'], confidence: 80, evidenceScore: 80 }).tier, 'PROCEED');
 });
 
 test('formats actionable AI failure guidance for each recovery path', () => {

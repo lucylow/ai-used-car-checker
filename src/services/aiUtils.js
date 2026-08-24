@@ -114,7 +114,7 @@ export const mergeAiFindings = (existingIssues = [], pendingFindings = []) => {
 
 export const getAiPriorityPlan = (input = {}) => {
   const safe = asRecord(input);
-  const list = Array.isArray(safe.issues) ? safe.issues : [];
+  const list = (Array.isArray(safe.issues) ? safe.issues : []).filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue));
   const evidenceScore = clamp(safeFinite(safe.evidenceScore), 0, 100);
   const photos = Array.isArray(safe.photos) ? safe.photos : [];
   const usablePhotos = Array.isArray(photos) ? photos.filter((photo) => photo?.uri) : [];
@@ -131,7 +131,7 @@ export const getAiPriorityPlan = (input = {}) => {
 
 export const getAiRecommendation = (input = {}) => {
   const safe = asRecord(input);
-  const list = Array.isArray(safe.issues) ? safe.issues : [];
+  const list = (Array.isArray(safe.issues) ? safe.issues : []).filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue));
   const repairTotal = Math.max(0, safeFinite(safe.repairTotal));
   const confidence = clamp(safeFinite(safe.confidence), 0, 100);
   const evidenceScore = clamp(safeFinite(safe.evidenceScore), 0, 100);
