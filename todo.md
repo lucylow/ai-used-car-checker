@@ -1285,3 +1285,5 @@
 - [x] Add deterministic coverage for local-save scheduling guards
 - [x] Prevent obsolete queued autosave snapshots from overwriting newer local inspection state
 - [x] Add deterministic coverage for autosave generation validity
+- [x] Cancel all pending AI, report, autosave, and undo timers when App unmounts
+- [x] Add deterministic coverage for transient timer cleanup state
