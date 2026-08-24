@@ -1293,3 +1293,5 @@
 - [x] Add deterministic coverage for photo action generation validity
 - [x] Prevent delayed AI analysis results from updating a newer inspection
 - [x] Add deterministic coverage for AI action generation validity
+- [x] Escape user-entered vehicle, issue, and report text before embedding it in PDF HTML
+- [x] Add deterministic coverage for report HTML escaping and unsafe markup
