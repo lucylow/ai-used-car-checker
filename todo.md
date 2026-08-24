@@ -1069,3 +1069,18 @@
 - [x] Improve the highest-impact reliability gap found in the audit
 - [x] Add deterministic regression coverage for the new behavior
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect logs and reproduce the current Carwise error surface
+- [x] Apply the focused error-handling fix
+- [x] Add deterministic regression coverage for the resolved error
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
+
+- [x] Inspect current logs and reproduce failures or warnings
+- [x] Apply the smallest safe fix for the reproduced issue
+- [x] Add deterministic regression coverage for the resolved issue
+- [x] Re-run full validation and save a new checkpoint
