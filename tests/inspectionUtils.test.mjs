@@ -28,6 +28,8 @@ test('keeps AI evidence helpers safe for null top-level payloads', () => {
   assert.deepEqual(buildPhotoFindingDraft(null), { name: 'Photo evidence · Inspection photo', severity: 'minor', cost: 0, note: 'User-confirmed photo evidence requires in-person verification.', photoId: null, source: 'user-confirmed photo evidence' });
   assert.deepEqual(buildPhotoFindingDraft({ label: { unexpected: true }, note: { unexpected: true }, id: { unexpected: true } }), { name: 'Photo evidence · Inspection photo', severity: 'minor', cost: 0, note: 'User-confirmed photo evidence requires in-person verification.', photoId: null, source: 'user-confirmed photo evidence' });
   assert.deepEqual(filterPhotoEvidenceReviews([null, 'bad', { status: 'confirmed' }], 'all'), [{ status: 'confirmed' }]);
+  const review = getPhotoEvidenceReview([{ uri: 'file://photo.jpg', id: { unexpected: true }, fileName: { unexpected: true }, reviewStatus: { unexpected: true }, reviewNote: { unexpected: true } }])[0];
+  assert.deepEqual({ id: review.id, label: review.label, status: review.status, note: review.note }, { id: 'photo-1', label: 'Photo 1', status: 'needs-confirmation', note: '' });
   assert.doesNotMatch(getAiFindingExplanation({ evidence: { unexpected: true } }), /\[object Object\]/);
   assert.match(getAiPriorityPlan({ issues: [{ severity: { unexpected: true }, cost: 10 }] })[0].why, /^Minor concern/);
 });
