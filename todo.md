@@ -1224,3 +1224,8 @@
 - [x] Harden decoded vehicle field normalization against unsafe current-state metadata
 - [x] Add deterministic regression coverage for VIN application safety
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit active inspection normalization for unsafe vehicle and issue field coercion
+- [x] Harden active inspection restoration against object-string leakage and invalid known values
+- [x] Add deterministic regression coverage for active inspection field sanitization
+- [x] Re-run full validation and save a new checkpoint

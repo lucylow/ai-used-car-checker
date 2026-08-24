@@ -7,13 +7,61 @@ export function createNewInspectionState() {
   };
 }
 
-export function normalizeActiveInspection({ vehicle = {}, issues = [], checklist = {}, photos = [] } = {}) {
-  const safeVehicle = vehicle && typeof vehicle === 'object' && !Array.isArray(vehicle) ? {
-    year: String(vehicle.year || '').slice(0, 4), make: String(vehicle.make || '').trim().slice(0, 60), model: String(vehicle.model || '').trim().slice(0, 80), mileage: String(vehicle.mileage || '').slice(0, 20), vin: normalizeVin(vehicle.vin || ''), asking: String(vehicle.asking || '').slice(0, 30),
+const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
+const safeText = (value, maxLength = 240) => typeof value === 'string' ? value.trim().slice(0, maxLength) : typeof value === 'number' && Number.isFinite(value) ? String(value).slice(0, maxLength) : '';
+const safePhotoDimension = (value) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.min(10000, Math.max(0, Math.round(numeric))) : null; };
+const safeEmbeddedDataUri = (value) => typeof value === 'string' && /^data:image\/(?:jpeg|jpg|png|webp|gif|heic);base64,[a-z0-9+/=]+$/i.test(value) ? value.slice(0, 200000) : '';
+const normalizeActivePhoto = (photo) => {
+  if (!isRecord(photo)) return null;
+  const normalized = {};
+  const id = safeText(photo.id, 80);
+  const uri = safeText(photo.uri, 2000);
+  const fileName = safeText(photo.fileName, 120);
+  const mimeType = safeText(photo.mimeType, 80);
+  const note = safeText(photo.note, 240);
+  const reviewNote = safeText(photo.reviewNote, 240);
+  const embeddedDataUri = safeEmbeddedDataUri(photo.embeddedDataUri);
+  const width = safePhotoDimension(photo.width);
+  const height = safePhotoDimension(photo.height);
+  if (id) normalized.id = id;
+  if (uri) normalized.uri = uri;
+  if (fileName) normalized.fileName = fileName;
+  if (mimeType) normalized.mimeType = mimeType;
+  if (note) normalized.note = note;
+  if (reviewNote) normalized.reviewNote = reviewNote;
+  if (embeddedDataUri) normalized.embeddedDataUri = embeddedDataUri;
+  if (width !== null) normalized.width = width;
+  if (height !== null) normalized.height = height;
+  if (['needs-review', 'reviewed', 'confirmed'].includes(photo.reviewStatus)) normalized.reviewStatus = photo.reviewStatus;
+  return Object.keys(normalized).length ? normalized : null;
+};
+
+export function normalizeActiveInspection(input = {}) {
+  const source = isRecord(input) ? input : {};
+  const { vehicle = {}, issues = [], checklist = {}, photos = [] } = source;
+  const safeVehicle = isRecord(vehicle) ? {
+    year: safeText(vehicle.year, 4),
+    make: safeText(vehicle.make, 60),
+    model: safeText(vehicle.model, 80),
+    mileage: safeText(vehicle.mileage, 20),
+    vin: normalizeVin(safeText(vehicle.vin, 30)),
+    asking: safeText(vehicle.asking, 30),
   } : createNewInspectionState().vehicle;
-  const safeIssues = (Array.isArray(issues) ? issues : []).filter((issue) => issue && typeof issue === 'object').map((issue, index) => ({ id: typeof issue.id === 'string' ? issue.id : `restored-issue-${index + 1}`, name: String(issue.name || 'Unnamed finding').trim().slice(0, 100), severity: ['critical', 'major', 'minor'].includes(issue.severity) ? issue.severity : 'minor', cost: Math.max(0, Number(issue.cost) || 0), note: typeof issue.note === 'string' ? issue.note.slice(0, 240) : '', photoId: typeof issue.photoId === 'string' ? issue.photoId : undefined })).filter((issue) => issue.name);
-  const safeChecklist = checklist && typeof checklist === 'object' && !Array.isArray(checklist) ? Object.fromEntries(Object.entries(checklist).filter(([key, value]) => typeof key === 'string' && typeof value === 'boolean').slice(0, 20)) : {};
-  return { vehicle: safeVehicle, issues: safeIssues.slice(0, 80), checklist: safeChecklist, photos: Array.isArray(photos) ? photos.filter((photo) => photo && typeof photo === 'object' && !Array.isArray(photo)).slice(0, 80) : [] };
+  const safeIssues = (Array.isArray(issues) ? issues : [])
+    .filter(isRecord)
+    .map((issue, index) => {
+      const id = safeText(issue.id, 80) || `restored-issue-${index + 1}`;
+      const name = safeText(issue.name, 100) || 'Unnamed finding';
+      const severityValue = safeText(issue.severity, 20).toLowerCase();
+      const numericCost = Number(issue.cost);
+      const photoId = safeText(issue.photoId, 80);
+      return { id, name, severity: ['critical', 'major', 'minor'].includes(severityValue) ? severityValue : 'minor', cost: Number.isFinite(numericCost) ? Math.max(0, numericCost) : 0, note: safeText(issue.note, 240), ...(photoId ? { photoId } : {}) };
+    })
+    .filter((issue) => issue.name)
+    .slice(0, 80);
+  const safeChecklist = isRecord(checklist) ? Object.fromEntries(Object.entries(checklist).filter(([key, value]) => typeof key === 'string' && typeof value === 'boolean').slice(0, 20)) : {};
+  const safePhotos = (Array.isArray(photos) ? photos : []).map(normalizeActivePhoto).filter(Boolean).slice(0, 80);
+  return { vehicle: safeVehicle, issues: safeIssues, checklist: safeChecklist, photos: safePhotos };
 }
 
 export function getDerivedInspectionResetState() {
