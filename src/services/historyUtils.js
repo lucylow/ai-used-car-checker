@@ -4,6 +4,8 @@ const riskScore = (item = {}) => getIssueList(item).reduce((sum, issue) => sum +
 const repairTotal = (item = {}) => getIssueList(item).reduce((sum, issue) => sum + safeCost(issue.cost), 0);
 const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 const safeText = (value, maxLength) => (typeof value === 'string' || typeof value === 'number') ? String(value).trim().slice(0, maxLength) : '';
+const normalizeSavedAt = (value) => typeof value === 'string' && !Number.isNaN(Date.parse(value)) ? value : new Date(0).toISOString();
+const getSavedAtTime = (value) => typeof value === 'string' && !Number.isNaN(Date.parse(value)) ? Date.parse(value) : 0;
 const normalizeSavedVehicle = (vehicle = {}) => ({
   year: safeText(vehicle.year, 4),
   make: safeText(vehicle.make, 60),
@@ -18,11 +20,11 @@ export const normalizeSavedInspection = (item = {}) => {
   return {
     ...item,
     vehicle: normalizeSavedVehicle(item.vehicle),
-    issues: Array.isArray(item.issues) ? item.issues.filter(isRecord) : [],
+    issues: Array.isArray(item.issues) ? item.issues.filter(isRecord).slice(0, 80) : [],
     checklist: isRecord(item.checklist) ? item.checklist : {},
-    photos: Array.isArray(item.photos) ? item.photos.filter(isRecord) : [],
+    photos: Array.isArray(item.photos) ? item.photos.filter(isRecord).slice(0, 80) : [],
     aiHistory: Array.isArray(item.aiHistory) ? item.aiHistory.filter(isRecord).slice(-6) : [],
-    savedAt: item.savedAt || new Date(0).toISOString(),
+    savedAt: normalizeSavedAt(item.savedAt),
   };
 };
 
@@ -78,6 +80,6 @@ export const filterAndSortInspections = (inspections = [], query = '', sort = 'n
     .sort((a, b) => {
       if (sort === 'repairs') return repairTotal(b) - repairTotal(a);
       if (sort === 'risk') return riskScore(b) - riskScore(a);
-      return new Date(b.savedAt || 0).getTime() - new Date(a.savedAt || 0).getTime();
+      return getSavedAtTime(b.savedAt) - getSavedAtTime(a.savedAt);
     });
 };

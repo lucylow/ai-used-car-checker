@@ -1157,3 +1157,16 @@ test('sanitizes malformed report export collections and embedded photo markup', 
   assert.match(report, /Risk score: 100\/100/);
   assert.doesNotMatch(report, /\[object Object\]/);
 });
+
+test('normalizes saved-history timestamps and bounds nested collections', () => {
+  const normalized = normalizeSavedInspection({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, savedAt: { unsafe: true }, issues: Array.from({ length: 90 }, () => ({ name: 'Issue' })), photos: Array.from({ length: 90 }, () => ({ id: 'photo' })), aiHistory: Array.from({ length: 8 }, (_, index) => ({ confidence: index })) });
+  assert.equal(normalized.savedAt, '1970-01-01T00:00:00.000Z');
+  assert.equal(normalized.issues.length, 80);
+  assert.equal(normalized.photos.length, 80);
+  assert.equal(normalized.aiHistory.length, 6);
+  const sorted = filterAndSortInspections([
+    { id: 'invalid-date', vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, savedAt: { unsafe: true } },
+    { id: 'dated', vehicle: { year: '2021', make: 'Honda', model: 'Civic' }, savedAt: '2026-08-24T00:00:00.000Z' },
+  ]);
+  assert.deepEqual(sorted.map((item) => item.id), ['dated', 'invalid-date']);
+});

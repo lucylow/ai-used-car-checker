@@ -1199,3 +1199,8 @@
 - [x] Harden report HTML and text generation against malformed collection metadata
 - [x] Add deterministic regression coverage for report export sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit saved-history normalization for unsafe timestamps and nested collection values
+- [x] Harden saved-history display and comparison inputs against malformed metadata
+- [x] Add deterministic regression coverage for saved-history sanitization
+- [x] Re-run full validation and save a new checkpoint
