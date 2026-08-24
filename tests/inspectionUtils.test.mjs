@@ -523,6 +523,9 @@ test('reports backup metadata without changing serialized content', () => {
   assert.equal(metadata.aiSnapshots, 1);
   assert.equal(metadata.bytes, 11);
   assert.equal(metadata.sizeLabel, '11 B');
+  const malformed = { savedInspections: [{ id: 'kept' }, null, 'bad'], photos: [{ uri: 'x' }, null, 'bad'], aiHistory: [{ confidence: 70 }, null, 'bad'] };
+  assert.deepEqual(getBackupMetadata({ backup: malformed, serialized: '' }), { bytes: 0, sizeLabel: '0 B', savedInspections: 1, activePhotos: 1, aiSnapshots: 1, exportedAt: null });
+  assert.equal(getBackupSummary(malformed), '1 saved inspection · 1 active photo');
 });
 
 test('normalizes saved inspections without allowing malformed nested data to crash screens', () => {

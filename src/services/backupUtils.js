@@ -45,7 +45,10 @@ export const getBackupMetadata = (input = {}) => {
   const backup = isRecord(safe.backup) ? safe.backup : {};
   const bytes = new TextEncoder().encode(String(safe.serialized || '')).length;
   const sizeLabel = bytes < 1024 ? `${bytes} B` : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KB` : `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-  return { bytes, sizeLabel, savedInspections: Array.isArray(backup.savedInspections) ? backup.savedInspections.length : 0, activePhotos: Array.isArray(backup.photos) ? backup.photos.length : 0, aiSnapshots: Array.isArray(backup.aiHistory) ? backup.aiHistory.length : 0, exportedAt: typeof backup.exportedAt === 'string' ? backup.exportedAt : null };
+  const savedInspections = Array.isArray(backup.savedInspections) ? backup.savedInspections.filter(isRecord) : [];
+  const photos = Array.isArray(backup.photos) ? backup.photos.filter(isRecord) : [];
+  const aiHistory = Array.isArray(backup.aiHistory) ? backup.aiHistory.filter(isRecord) : [];
+  return { bytes, sizeLabel, savedInspections: savedInspections.length, activePhotos: photos.length, aiSnapshots: aiHistory.length, exportedAt: typeof backup.exportedAt === 'string' ? backup.exportedAt : null };
 };
 
-export const getBackupSummary = (backup = {}) => { const safe = isRecord(backup) ? backup : {}; const savedInspections = Array.isArray(safe.savedInspections) ? safe.savedInspections : []; const photos = Array.isArray(safe.photos) ? safe.photos : []; return `${savedInspections.length} saved inspection${savedInspections.length === 1 ? '' : 's'} · ${photos.length} active photo${photos.length === 1 ? '' : 's'}`; };
+export const getBackupSummary = (backup = {}) => { const safe = isRecord(backup) ? backup : {}; const savedInspections = Array.isArray(safe.savedInspections) ? safe.savedInspections.filter(isRecord) : []; const photos = Array.isArray(safe.photos) ? safe.photos.filter(isRecord) : []; return `${savedInspections.length} saved inspection${savedInspections.length === 1 ? '' : 's'} · ${photos.length} active photo${photos.length === 1 ? '' : 's'}`; };
