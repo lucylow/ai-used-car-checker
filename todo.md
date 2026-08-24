@@ -1259,3 +1259,8 @@
 - [x] Harden selection pruning, deletion matching, and duplicate checks against unsafe identifiers
 - [x] Add deterministic regression coverage for saved-history ID sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit active inspection issue and checklist merge boundaries for unsafe keys
+- [x] Harden issue and checklist updates against prototype-like, array, and malformed key inputs
+- [x] Add deterministic regression coverage for merge-key sanitization
+- [x] Re-run full validation and save a new checkpoint

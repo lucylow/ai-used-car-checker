@@ -59,7 +59,7 @@ export function normalizeActiveInspection(input = {}) {
     })
     .filter((issue) => issue.name)
     .slice(0, 80);
-  const safeChecklist = isRecord(checklist) ? Object.fromEntries(Object.entries(checklist).filter(([key, value]) => typeof key === 'string' && typeof value === 'boolean').slice(0, 20)) : {};
+  const safeChecklist = isRecord(checklist) ? Object.fromEntries(Object.entries(checklist).map(([key, value]) => [safeText(key, 80), value]).filter(([key, value]) => key && !['__proto__', 'prototype', 'constructor'].includes(key.toLowerCase()) && typeof value === 'boolean').slice(0, 20)) : {};
   const safePhotos = (Array.isArray(photos) ? photos : []).map(normalizeActivePhoto).filter(Boolean).slice(0, 80);
   return { vehicle: safeVehicle, issues: safeIssues, checklist: safeChecklist, photos: safePhotos };
 }
@@ -95,12 +95,15 @@ export function getNewInspectionTransientResetState() {
 }
 
 export function isSameIssue(issue = {}, target = {}) {
+  if (!isRecord(issue) || !isRecord(target)) return false;
   if (issue === target) return true;
-  return Boolean(issue.id && target.id && issue.id === target.id);
+  const issueId = safeText(issue.id, 80);
+  const targetId = safeText(target.id, 80);
+  return Boolean(issueId && targetId && issueId === targetId);
 }
 
 export function normalizeVin(value = '') {
-  return String(value ?? '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 17);
+  return safeText(value, 30).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 17);
 }
 
 export function isValidVin(value = '') {

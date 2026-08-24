@@ -1239,3 +1239,13 @@ test('rejects object-valued saved-history identities during selection and duplic
   assert.equal(shouldReplaceSavedInspection({ vin: { unsafe: true } }, { vin: { unsafe: true } }), false);
   assert.equal(shouldReplaceSavedInspection({ vin: ' 1HGCM82633A004352 ' }, { vin: '1hgcm82633a004352' }), true);
 });
+
+test('sanitizes active merge keys and rejects malformed issue identities', () => {
+  const checklist = JSON.parse('{"Exterior":true,"__proto__":true,"constructor":false,"Tires & brakes":true,"unsafe":"yes"}');
+  const normalized = normalizeActiveInspection({ checklist });
+  assert.deepEqual(normalized.checklist, { Exterior: true, 'Tires & brakes': true });
+  assert.equal(isSameIssue({ id: { unsafe: true } }, { id: { unsafe: true } }), false);
+  assert.equal(isSameIssue([], []), false);
+  assert.equal(isSameIssue({ id: 'issue-1' }, { id: 'issue-1' }), true);
+  assert.equal(normalizeVin({ unsafe: true }), '');
+});
