@@ -1231,3 +1231,11 @@ test('bounds malformed saved-history comparison metrics', () => {
   assert.equal(rows.find((row) => row.key === 'checklist').left, 0);
   assert.equal(rows.find((row) => row.key === 'confidence').right, 0);
 });
+
+test('rejects object-valued saved-history identities during selection and duplicate checks', () => {
+  assert.equal(shouldClearSavedSelection({ id: 'same' }, { id: 'same' }), false);
+  assert.equal(shouldClearSavedSelection('saved-1', 'saved-1'), true);
+  assert.deepEqual(pruneComparisonSelection([{ unsafe: true }, 'saved-1', 'missing'], [{ id: 'saved-1' }]), ['saved-1']);
+  assert.equal(shouldReplaceSavedInspection({ vin: { unsafe: true } }, { vin: { unsafe: true } }), false);
+  assert.equal(shouldReplaceSavedInspection({ vin: ' 1HGCM82633A004352 ' }, { vin: '1hgcm82633a004352' }), true);
+});

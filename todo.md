@@ -1254,3 +1254,8 @@
 - [x] Harden comparison, repair-total, and risk-summary calculations against unsafe numeric metadata
 - [x] Add deterministic regression coverage for comparison metric sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit comparison selection and saved-history identity boundaries for malformed IDs
+- [x] Harden selection pruning, deletion matching, and duplicate checks against unsafe identifiers
+- [x] Add deterministic regression coverage for saved-history ID sanitization
+- [x] Re-run full validation and save a new checkpoint

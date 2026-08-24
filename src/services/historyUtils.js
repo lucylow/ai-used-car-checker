@@ -4,6 +4,7 @@ const riskScore = (item = {}) => Math.min(100, getIssueList(item).reduce((sum, i
 const repairTotal = (item = {}) => getIssueList(item).reduce((sum, issue) => sum + safeCost(issue.cost), 0);
 const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 const safeText = (value, maxLength) => typeof value === 'string' ? value.trim().slice(0, maxLength) : typeof value === 'number' && Number.isFinite(value) ? String(value).slice(0, maxLength) : '';
+const normalizeSavedIdentity = (value, maxLength = 120) => safeText(value, maxLength);
 const normalizeSavedAt = (value) => typeof value === 'string' && !Number.isNaN(Date.parse(value)) ? value : new Date(0).toISOString();
 const getSavedAtTime = (value) => typeof value === 'string' && !Number.isNaN(Date.parse(value)) ? Date.parse(value) : 0;
 const normalizeSavedVehicle = (vehicle = {}) => ({
@@ -71,16 +72,16 @@ export const getComparisonMetricRows = (comparison) => {
   return rows.map((row) => ({ ...row, leftRatio: getSafeMetricRatio(row.left, row.max), rightRatio: getSafeMetricRatio(row.right, row.max) }));
 };
 
-export const shouldClearSavedSelection = (selectedId, deletedId) => Boolean(selectedId && deletedId && String(selectedId) === String(deletedId));
+export const shouldClearSavedSelection = (selectedId, deletedId) => { const selected = normalizeSavedIdentity(selectedId); const deleted = normalizeSavedIdentity(deletedId); return Boolean(selected && deleted && selected === deleted); };
 export const pruneComparisonSelection = (selection = [], inspections = []) => {
-  const ids = new Set((Array.isArray(inspections) ? inspections : []).map((item) => String(item?.id)).filter(Boolean));
-  return (Array.isArray(selection) ? selection : []).filter((id) => ids.has(String(id))).slice(-2);
+  const ids = new Set((Array.isArray(inspections) ? inspections : []).map((item) => normalizeSavedIdentity(item?.id)).filter(Boolean));
+  return (Array.isArray(selection) ? selection : []).filter((id) => { const normalized = normalizeSavedIdentity(id); return normalized && ids.has(normalized); }).slice(-2);
 };
 export const shouldReplaceSavedInspection = (existingVehicle = {}, nextVehicle = {}) => {
   const safeExisting = isRecord(existingVehicle) ? existingVehicle : {};
   const safeNext = isRecord(nextVehicle) ? nextVehicle : {};
-  const nextVin = String(safeNext.vin || '').replace(/\s/g, '').toUpperCase();
-  const existingVin = String(safeExisting.vin || '').replace(/\s/g, '').toUpperCase();
+  const nextVin = normalizeSavedIdentity(safeNext.vin, 30).replace(/\s/g, '').toUpperCase();
+  const existingVin = normalizeSavedIdentity(safeExisting.vin, 30).replace(/\s/g, '').toUpperCase();
   return Boolean(nextVin && existingVin && nextVin === existingVin);
 };
 
