@@ -1268,6 +1268,14 @@ test('does not treat malformed truthy vehicle values as AI identity evidence', (
   assert.equal(quality.drivers.includes('VIN identified'), false);
 });
 
+test('rejects malformed persisted timestamps before date formatting', () => {
+  assert.equal(getSafeDateLabel({ toString: () => '2026-01-15' }), 'Date unavailable');
+  assert.equal(getSafeDateLabel(['2026-01-15']), 'Date unavailable');
+  assert.equal(getSafeDateLabel(0), 'Date unavailable');
+  assert.equal(getSafeDateLabel('   ', 'Time unavailable'), 'Time unavailable');
+  assert.notEqual(getSafeDateLabel('2026-01-15T00:00:00.000Z'), 'Date unavailable');
+});
+
 test('requires strict pending-cleanup state before warning after local save', () => {
   assert.match(getLocalSaveSuccessLabel({ pendingCleanupFailed: true }), /older pending copy/);
   assert.equal(getLocalSaveSuccessLabel({ pendingCleanupFailed: 1 }), 'Saved locally');

@@ -1299,3 +1299,5 @@
 - [x] Add deterministic coverage for malformed recovery-banner inputs
 - [x] Require strict boolean pending-cleanup state in local-save success messaging
 - [x] Add deterministic coverage for malformed local-save success inputs
+- [x] Reject non-string persisted timestamps before date parsing and formatting
+- [x] Add deterministic coverage for malformed date-label inputs
