@@ -1264,3 +1264,8 @@
 - [x] Harden issue and checklist updates against prototype-like, array, and malformed key inputs
 - [x] Add deterministic regression coverage for merge-key sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit AI confidence and recommendation numeric boundaries for non-finite values
+- [x] Harden AI scoring, fair-price, repair-total, and recommendation outputs against unsafe numeric metadata
+- [x] Add deterministic regression coverage for AI numeric sanitization
+- [x] Re-run full validation and save a new checkpoint

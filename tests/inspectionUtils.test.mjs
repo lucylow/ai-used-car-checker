@@ -1249,3 +1249,12 @@ test('sanitizes active merge keys and rejects malformed issue identities', () =>
   assert.equal(isSameIssue({ id: 'issue-1' }, { id: 'issue-1' }), true);
   assert.equal(normalizeVin({ unsafe: true }), '');
 });
+
+test('bounds malformed AI money and recommendation inputs', () => {
+  const analysis = buildAiAnalysis({ vehicle: { asking: { unsafe: true } }, issues: [{ name: 'Extreme reserve', severity: 'major', cost: Number.MAX_VALUE }] });
+  assert.equal(analysis.repairTotal, 100000000);
+  assert.equal(analysis.fairPrice, null);
+  assert.match(analysis.negotiation, /100,000,000/);
+  assert.equal(getAiRecommendation({ issues: [], repairTotal: Number.MAX_VALUE, confidence: Infinity, evidenceScore: Infinity }).tier, 'NEGOTIATE');
+  assert.equal(getAiPriorityPlan({ issues: [{ name: 'Large estimate', cost: Number.MAX_VALUE }], evidenceScore: Infinity })[0].cost, 100000000);
+});
