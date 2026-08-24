@@ -1281,3 +1281,5 @@
 - [x] Re-run full validation and save a new checkpoint
 - [x] Prevent settings persistence from racing ahead of asynchronous settings restoration
 - [x] Add deterministic coverage for settings persistence readiness gating
+- [x] Serialize debounced active-inspection saves to prevent older writes from racing newer state
+- [x] Add deterministic coverage for local-save scheduling guards
