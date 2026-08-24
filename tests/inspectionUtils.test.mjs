@@ -895,6 +895,8 @@ test('upserts field-note provenance deterministically and removes only the reque
   const updated = upsertToolNote(initial, 'market', `  ${'x'.repeat(1200)}  `, '2026-08-22T12:00:00.000Z', 'Mechanic');
   assert.equal(updated.market.note.length, 1000);
   assert.equal(updated.market.savedAt, '2026-08-22T12:00:00.000Z');
+  const malformed = upsertToolNote(null, 'market', { unexpected: true }, { unexpected: true }, { unexpected: true });
+  assert.deepEqual(malformed.market, { note: '', savedAt: null, source: 'User-entered observation' });
   assert.equal(updated.market.source, 'Mechanic');
   const roundTrip = parseInspectionBackup(serializeInspectionBackup({ vehicle: {}, issues: [], checklist: {}, photos: [], toolNotes: updated, savedInspections: [] }));
   assert.equal(roundTrip.toolNotes.market.source, 'Mechanic');
