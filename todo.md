@@ -1204,3 +1204,8 @@
 - [x] Harden saved-history display and comparison inputs against malformed metadata
 - [x] Add deterministic regression coverage for saved-history sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit local recovery queue and retry diagnostics for malformed entries
+- [x] Harden retry queue normalization and diagnostic reporting against unsafe metadata
+- [x] Add deterministic regression coverage for retry-state sanitization
+- [x] Re-run full validation and save a new checkpoint

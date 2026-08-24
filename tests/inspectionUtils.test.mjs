@@ -1170,3 +1170,17 @@ test('normalizes saved-history timestamps and bounds nested collections', () => 
   ]);
   assert.deepEqual(sorted.map((item) => item.id), ['dated', 'invalid-date']);
 });
+
+test('normalizes malformed retry entries and bounds diagnostic metadata', async () => {
+  clearRetryQueue();
+  assert.equal(enqueueRetry({ key: '  normalized-key  ', maxAttempts: 999, run: async () => { throw new Error('  offline  '); } }), true);
+  const first = await flushRetryQueue();
+  assert.deepEqual(first, { succeeded: 0, failed: 1, dropped: 0 });
+  const diagnostic = getRetryDiagnostics()[0];
+  assert.deepEqual({ key: diagnostic.key, attempts: diagnostic.attempts, maxAttempts: diagnostic.maxAttempts, detail: diagnostic.detail }, { key: 'normalized-key', attempts: 1, maxAttempts: 8, detail: 'offline' });
+  assert.equal(Number.isNaN(Date.parse(diagnostic.at)), false);
+  assert.equal(clearRetry(' normalized-key '), true);
+  assert.equal(enqueueRetry({ key: { unsafe: true }, run: async () => {} }), false);
+  assert.equal(enqueueRetry({ key: 'invalid-run', run: 'bad' }), false);
+  clearRetryQueue();
+});
