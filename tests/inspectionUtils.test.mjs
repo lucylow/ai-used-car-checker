@@ -1268,6 +1268,14 @@ test('does not treat malformed truthy vehicle values as AI identity evidence', (
   assert.equal(quality.drivers.includes('VIN identified'), false);
 });
 
+test('requires strict retry state before showing local recovery guidance', () => {
+  assert.equal(getLocalRecoveryBanner({ saveRetry: true })?.action, 'Retry local saves');
+  assert.equal(getLocalRecoveryBanner({ saveRetry: 1 }), null);
+  assert.equal(getLocalRecoveryBanner({ saveRetry: 'true' }), null);
+  assert.equal(getLocalRecoveryBanner({ saveRetry: {}, retryCount: 0 }), null);
+  assert.equal(getLocalRecoveryBanner({ retryCount: 1 })?.title, 'Local recovery needed');
+});
+
 test('escapes user-entered report text before HTML rendering', () => {
   assert.equal(escapeHtml('<script>alert("x")</script>'), '&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;');
   assert.equal(escapeHtml("A & B"), 'A &amp; B');
