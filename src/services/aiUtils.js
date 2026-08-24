@@ -12,11 +12,12 @@ export const getEvidenceAudit = (input = {}) => {
   const photos = Array.isArray(safe.photos) ? safe.photos : [];
   const issues = Array.isArray(safe.issues) ? safe.issues : [];
   const pendingFindings = Array.isArray(safe.pendingFindings) ? safe.pendingFindings : [];
+  const validIssues = issues.filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue));
   const completedSections = countCompletedChecklistSections(checklist);
   const usablePhotoCount = Array.isArray(photos) ? photos.filter((photo) => photo?.uri).length : 0;
-  const confirmed = [`${completedSections}/5 checklist sections`, `${Array.isArray(issues) ? issues.length : 0} recorded issue${issues?.length === 1 ? '' : 's'}`];
+  const confirmed = [`${completedSections}/5 checklist sections`, `${validIssues.length} recorded issue${validIssues.length === 1 ? '' : 's'}`];
   if (vehicle.year && vehicle.make && vehicle.model) confirmed.unshift('Vehicle identity');
-  const suggested = Array.isArray(pendingFindings) ? pendingFindings.filter((finding) => finding?.name).map((finding) => finding.name) : [];
+  const suggested = pendingFindings.filter((finding) => typeof finding?.name === 'string' && finding.name.trim()).map((finding) => finding.name.trim().slice(0, 120));
   const missing = [];
   if (!usablePhotoCount) missing.push('clear photo evidence');
   if (completedSections < 5) missing.push(`${5 - completedSections} checklist section${5 - completedSections === 1 ? '' : 's'}`);

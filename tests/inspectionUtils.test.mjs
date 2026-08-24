@@ -80,6 +80,10 @@ test('audits AI evidence into confirmed, suggested, and missing signals', () => 
   assert.match(audit.confirmed.join(' '), /Vehicle identity|1\/5|1 recorded issue/);
   assert.deepEqual(audit.suggested, ['Rust underneath']);
   assert.match(audit.missing.join(' '), /photo|checklist|asking/i);
+  const malformed = getEvidenceAudit({ issues: [null, 'bad', { name: 'Valid issue' }], pendingFindings: [{ name: { unexpected: true } }, { name: '  Valid suggestion  ' }] });
+  assert.match(malformed.confirmed[0], /0\/5/);
+  assert.equal(malformed.confirmed[1], '1 recorded issue');
+  assert.deepEqual(malformed.suggested, ['Valid suggestion']);
 });
 
 test('links AI priorities to usable evidence photos when available', () => {
