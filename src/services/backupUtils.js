@@ -1,7 +1,7 @@
 const BACKUP_VERSION = 1;
 
 const isUsableBackupPayload = (raw) => { if (typeof raw !== 'string' || !raw.trim()) return false; try { const parsed = JSON.parse(raw); return parsed?.app === 'carwise' && parsed?.version === BACKUP_VERSION; } catch (_) { return false; } };
-export const selectInspectionRestorePayload = (primaryPayload, pendingPayload) => [pendingPayload, primaryPayload].find(isUsableBackupPayload) || pendingPayload || primaryPayload || null;
+export const selectInspectionRestorePayload = (primaryPayload, pendingPayload) => [pendingPayload, primaryPayload].find(isUsableBackupPayload) || [pendingPayload, primaryPayload].find((payload) => typeof payload === 'string' && payload.trim()) || null;
 const isRecord = (value) => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 
 export const upsertToolNote = (toolNotes, type, note, savedAt = new Date().toISOString(), source = 'User-entered observation') => ({ ...(isRecord(toolNotes) ? toolNotes : {}), [type]: { note: String(note || '').trim().slice(0, 1000), savedAt, source } });

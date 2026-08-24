@@ -320,6 +320,7 @@ test('selects a usable backup copy without letting malformed pending data mask p
   assert.equal(selectInspectionRestorePayload(primary, '{broken-json'), primary);
   assert.equal(selectInspectionRestorePayload('', '{broken-json'), '{broken-json');
   assert.equal(selectInspectionRestorePayload(null, null), null);
+  assert.equal(selectInspectionRestorePayload({ malformed: true }, ['invalid']), null);
 });
 
 test('serializes and restores a versioned local backup', () => {
