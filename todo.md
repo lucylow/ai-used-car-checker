@@ -1279,3 +1279,5 @@
 - [x] Harden severity normalization and decision counts against unsafe case and type variants
 - [x] Add deterministic regression coverage for AI severity sanitization
 - [x] Re-run full validation and save a new checkpoint
+- [x] Prevent settings persistence from racing ahead of asynchronous settings restoration
+- [x] Add deterministic coverage for settings persistence readiness gating
