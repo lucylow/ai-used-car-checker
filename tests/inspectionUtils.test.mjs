@@ -1204,3 +1204,12 @@ test('does not treat empty or malformed evidence as report-ready', () => {
   assert.equal(getReportReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: completeChecklist, photos: [{ fileName: 'front.jpg' }] }).ready, true);
   assert.equal(getEvidenceHealth([{ photoId: { unsafe: true } }, ['invalid'], { photoId: 'photo-1' }], [{ id: 'photo-1', uri: 'file://one.jpg' }]).linkedCount, 1);
 });
+
+test('sanitizes malformed report-operation diagnostics and guidance inputs', () => {
+  const parsed = JSON.parse(buildDiagnosticExport(null));
+  assert.equal(parsed.appVersion, 'unknown');
+  const diagnostics = JSON.parse(buildDiagnosticExport({ appVersion: { unsafe: true }, retryDiagnostics: [null, ['bad'], { key: { unsafe: true }, attempts: Infinity, maxAttempts: -4, detail: { unsafe: true } }] }));
+  assert.deepEqual(diagnostics.retryQueue, [{ key: 'unknown', attempts: 0, maxAttempts: 0, detail: 'Needs attention or retry.' }]);
+  assert.equal(getDurablePhotoFileName({ unsafe: true }, Infinity).startsWith('carwise-'), true);
+  assert.match(getInspectionActionGuidance({ photoCount: Infinity, reportReady: true }), /add photos/i);
+});

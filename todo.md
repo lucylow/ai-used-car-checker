@@ -1239,3 +1239,8 @@
 - [x] Harden readiness and evidence-health calculations against unsafe issue and photo links
 - [x] Add deterministic regression coverage for readiness and evidence-link sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit report action helpers for malformed generated output and retry state
+- [x] Harden report preview, sharing, and PDF action boundaries against unsafe values
+- [x] Add deterministic regression coverage for report action sanitization
+- [x] Re-run full validation and save a new checkpoint
