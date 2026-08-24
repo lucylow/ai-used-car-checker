@@ -1197,3 +1197,10 @@ test('sanitizes malformed VIN response fields and protects cached results', asyn
   const malformedPayload = await decodeVin('JH4KA9650MC012345', { fetchImpl: async () => ({ ok: true, async json() { return { Results: [null] }; } }) });
   assert.equal(malformedPayload.status, 'fallback');
 });
+
+test('does not treat empty or malformed evidence as report-ready', () => {
+  const completeChecklist = { Exterior: true, Tires: true, Engine: true, Interior: true, Test: true };
+  assert.deepEqual(getReportReadiness({ vehicle: { year: { unsafe: true }, make: 'Honda', model: 'Accord' }, checklist: completeChecklist, photos: [{}, { id: { unsafe: true } }, ['invalid']] }).missing, ['vehicle details', 'photo evidence']);
+  assert.equal(getReportReadiness({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, checklist: completeChecklist, photos: [{ fileName: 'front.jpg' }] }).ready, true);
+  assert.equal(getEvidenceHealth([{ photoId: { unsafe: true } }, ['invalid'], { photoId: 'photo-1' }], [{ id: 'photo-1', uri: 'file://one.jpg' }]).linkedCount, 1);
+});

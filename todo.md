@@ -1234,3 +1234,8 @@
 - [x] Harden photo replacement and evidence helpers against unsafe asset fields
 - [x] Add deterministic regression coverage for photo asset sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit report readiness and photo evidence gates for malformed linked findings
+- [x] Harden readiness and evidence-health calculations against unsafe issue and photo links
+- [x] Add deterministic regression coverage for readiness and evidence-link sanitization
+- [x] Re-run full validation and save a new checkpoint
