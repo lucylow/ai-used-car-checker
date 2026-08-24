@@ -23,6 +23,8 @@ test('keeps AI evidence helpers safe for null top-level payloads', () => {
   assert.equal(getAiConfidenceLabel(Infinity), 'Limited confidence');
   assert.deepEqual(getAiEvidenceActions(null), []);
   assert.equal(canReviewAiFindings(null), false);
+  assert.deepEqual(getEvidenceAudit({ checklist: { alpha: true, beta: true, gamma: true, delta: true, epsilon: true } }).confirmed[0], '0/5 checklist sections');
+  assert.equal(buildAiAnalysis({ checklist: { alpha: true, beta: true, gamma: true, delta: true, epsilon: true }, photos: [] }).evidence.completedSections, 0);
   assert.deepEqual(buildPhotoFindingDraft(null), { name: 'Photo evidence · Inspection photo', severity: 'minor', cost: 0, note: 'User-confirmed photo evidence requires in-person verification.', photoId: null, source: 'user-confirmed photo evidence' });
   assert.deepEqual(buildPhotoFindingDraft({ label: { unexpected: true }, note: { unexpected: true }, id: { unexpected: true } }), { name: 'Photo evidence · Inspection photo', severity: 'minor', cost: 0, note: 'User-confirmed photo evidence requires in-person verification.', photoId: null, source: 'user-confirmed photo evidence' });
   assert.deepEqual(filterPhotoEvidenceReviews([null, 'bad', { status: 'confirmed' }], 'all'), [{ status: 'confirmed' }]);

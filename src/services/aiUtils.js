@@ -3,6 +3,8 @@ const safeFinite = (value, fallback = 0) => { const numeric = Number(value); ret
 const safeText = (value, fallback = '') => typeof value === 'string' && value.trim() ? value.trim() : fallback;
 
 const asRecord = (value) => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+const checklistSectionAliases = [['exterior'], ['tires', 'tires & brakes'], ['engine', 'engine bay'], ['interior'], ['test', 'test drive']];
+const countCompletedChecklistSections = (checklist = {}) => { const safeChecklist = asRecord(checklist); return checklistSectionAliases.filter((aliases) => aliases.some((alias) => Object.keys(safeChecklist).some((key) => String(key).trim().toLowerCase() === alias && Boolean(safeChecklist[key])))).length; };
 export const getEvidenceAudit = (input = {}) => {
   const safe = asRecord(input);
   const vehicle = asRecord(safe.vehicle);
@@ -10,7 +12,7 @@ export const getEvidenceAudit = (input = {}) => {
   const photos = Array.isArray(safe.photos) ? safe.photos : [];
   const issues = Array.isArray(safe.issues) ? safe.issues : [];
   const pendingFindings = Array.isArray(safe.pendingFindings) ? safe.pendingFindings : [];
-  const completedSections = Object.values(checklist).filter(Boolean).length;
+  const completedSections = countCompletedChecklistSections(checklist);
   const usablePhotoCount = Array.isArray(photos) ? photos.filter((photo) => photo?.uri).length : 0;
   const confirmed = [`${completedSections}/5 checklist sections`, `${Array.isArray(issues) ? issues.length : 0} recorded issue${issues?.length === 1 ? '' : 's'}`];
   if (vehicle.year && vehicle.make && vehicle.model) confirmed.unshift('Vehicle identity');
@@ -49,7 +51,7 @@ export const getEvidenceCoverage = (input = {}) => {
   const safe = asRecord(input);
   const checklist = asRecord(safe.checklist);
   const photos = Array.isArray(safe.photos) ? safe.photos : [];
-  const completedSections = Object.values(checklist).filter(Boolean).length;
+  const completedSections = countCompletedChecklistSections(checklist);
   const photoCount = Array.isArray(photos) ? photos.filter((photo) => photo?.uri).length : 0;
   return { completedSections, photoCount, totalSections: 5, score: clamp(Math.round((completedSections / 5) * 70 + Math.min(photoCount, 6) / 6 * 30), 0, 100) };
 };
