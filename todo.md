@@ -1189,3 +1189,8 @@
 - [x] Filter invalid existing and pending findings before merge operations
 - [x] Add deterministic regression coverage for unsafe finding merges
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit report-preview collection normalization for array-valued entries
+- [x] Exclude arrays and malformed records from report-preview photo and issue collections
+- [x] Add deterministic regression coverage for report-preview collection sanitization
+- [x] Re-run full validation and save a new checkpoint

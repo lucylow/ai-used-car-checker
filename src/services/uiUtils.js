@@ -42,6 +42,6 @@ export const getStablePhotoKey = (photo = {}, index = 0) => {
   return id || uri || `photo-${index + 1}`;
 };
 export const normalizeReportPreviewCollections = (input = {}) => { const safe = input && typeof input === 'object' && !Array.isArray(input) ? input : {}; const { photos = [], issues = [] } = safe; return {
-  photos: Array.isArray(photos) ? photos.filter((photo) => photo && typeof photo === 'object') : [],
-  issues: Array.isArray(issues) ? issues.filter((issue) => issue && typeof issue === 'object') : [],
+  photos: Array.isArray(photos) ? photos.filter((photo) => photo && typeof photo === 'object' && !Array.isArray(photo)).slice(0, 80) : [],
+  issues: Array.isArray(issues) ? issues.filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue)).slice(0, 80) : [],
 }; };

@@ -1093,9 +1093,10 @@ test('creates stable keys for saved photo evidence', () => {
 });
 
 test('normalizes report-preview evidence collections safely', () => {
-  const normalized = normalizeReportPreviewCollections({ photos: [{ uri: 'file://photo.jpg' }, null], issues: [{ name: 'Brake noise' }, 'invalid'] });
-  assert.equal(normalized.photos.length, 1);
+  const normalized = normalizeReportPreviewCollections({ photos: [{ uri: 'file://photo.jpg' }, null, ['invalid'], { id: 'metadata-only' }], issues: [{ name: 'Brake noise' }, 'invalid', ['invalid']] });
+  assert.equal(normalized.photos.length, 2);
   assert.equal(normalized.issues.length, 1);
+  assert.deepEqual(normalized.photos[1], { id: 'metadata-only' });
   assert.deepEqual(normalizeReportPreviewCollections({ photos: null, issues: null }), { photos: [], issues: [] });
 });
 
