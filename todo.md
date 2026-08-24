@@ -1209,3 +1209,8 @@
 - [x] Harden retry queue normalization and diagnostic reporting against unsafe metadata
 - [x] Add deterministic regression coverage for retry-state sanitization
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit backup serialization and parsing for unsafe nested metadata
+- [x] Harden local backup normalization and restore summaries against malformed fields
+- [x] Add deterministic regression coverage for backup metadata sanitization
+- [x] Re-run full validation and save a new checkpoint
