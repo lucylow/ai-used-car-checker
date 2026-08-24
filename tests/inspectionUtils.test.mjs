@@ -1132,3 +1132,12 @@ test('sanitizes malformed existing issues before AI analysis calculations', () =
   assert.equal(result.repairTotal, 850);
   assert.equal(result.recommendation.tier, 'PAUSE');
 });
+
+test('filters malformed findings across AI merge and decision helpers', () => {
+  const malformed = [null, 'invalid', [], { name: { unexpected: true }, severity: 'critical' }, { name: 'Valid finding', severity: 'minor', cost: 120 }];
+  const merged = mergeAiFindings(malformed, [{ name: { unexpected: true }, severity: 'critical' }, { name: 'New finding', severity: 'major', cost: 300 }]);
+  assert.deepEqual(merged.map((issue) => issue.name), ['Valid finding', 'New finding']);
+  assert.deepEqual(patchIssueByName(malformed, 'Valid finding', { cost: 250 }).map((issue) => issue.name), ['Valid finding']);
+  assert.deepEqual(getAiPriorityPlan({ issues: malformed, evidenceScore: 80 }).map((issue) => issue.name), ['Unnamed finding', 'Valid finding']);
+  assert.equal(getEvidenceAudit({ issues: malformed }).confirmed.at(-1), '1 recorded issue');
+});

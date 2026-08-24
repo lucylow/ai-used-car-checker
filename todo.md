@@ -1184,3 +1184,8 @@
 - [x] Sanitize existing issues before AI scoring, pricing, recommendations, and result presentation
 - [x] Add deterministic regression coverage for malformed AI issue inputs
 - [x] Re-run full validation and save a new checkpoint
+
+- [x] Audit AI finding acceptance and Undo merge boundaries for malformed records
+- [x] Filter invalid existing and pending findings before merge operations
+- [x] Add deterministic regression coverage for unsafe finding merges
+- [x] Re-run full validation and save a new checkpoint

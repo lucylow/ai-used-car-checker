@@ -4,6 +4,8 @@ const safeText = (value, fallback = '') => typeof value === 'string' && value.tr
 const isUsablePhoto = (photo) => photo && typeof photo === 'object' && !Array.isArray(photo) && typeof photo.uri === 'string' && photo.uri.trim();
 const safeReviewStatus = (status) => ['confirmed', 'rejected', 'needs-confirmation'].includes(status) ? status : 'needs-confirmation';
 const safeReviewNote = (note) => typeof note === 'string' ? note.trim().slice(0, 240) : '';
+const isIssueRecord = (issue) => issue && typeof issue === 'object' && !Array.isArray(issue);
+const isValidFinding = (finding) => isIssueRecord(finding) && typeof finding.name === 'string' && finding.name.trim();
 
 const asRecord = (value) => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
 const normalizeAnalysisIssues = (issues) => (Array.isArray(issues) ? issues : []).map((issue) => {
@@ -32,7 +34,7 @@ export const getEvidenceAudit = (input = {}) => {
   const photos = (Array.isArray(safe.photos) ? safe.photos : []).filter(isUsablePhoto);
   const issues = Array.isArray(safe.issues) ? safe.issues : [];
   const pendingFindings = Array.isArray(safe.pendingFindings) ? safe.pendingFindings : [];
-  const validIssues = issues.filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue));
+  const validIssues = issues.filter(isValidFinding);
   const completedSections = countCompletedChecklistSections(checklist);
   const usablePhotoCount = photos.length;
   const confirmed = [`${completedSections}/5 checklist sections`, `${validIssues.length} recorded issue${validIssues.length === 1 ? '' : 's'}`];
@@ -53,7 +55,7 @@ export const getPhotoEvidenceReview = (photos = []) => {
 export const updatePhotoReview = (photos = [], photoId, status, note = '') => (Array.isArray(photos) ? photos : []).filter(isUsablePhoto).map((photo) => photo.id === photoId ? { ...photo, reviewStatus: safeReviewStatus(status), reviewNote: safeReviewNote(note) } : photo);
 export const buildPhotoFindingDraft = (review = {}) => { const safe = asRecord(review); const label = safeText(safe.label, 'Inspection photo'); const note = safeText(safe.note, safeText(safe.guidance, 'User-confirmed photo evidence requires in-person verification.')); const photoId = safeText(safe.id, '') || null; return { name: `Photo evidence · ${label}`, severity: 'minor', cost: 0, note, photoId, source: 'user-confirmed photo evidence' }; };
 export const filterPhotoEvidenceReviews = (reviews = [], filter = 'all') => (Array.isArray(reviews) ? reviews : []).filter((review) => review && typeof review === 'object' && (filter === 'all' || review.status === filter));
-export const patchIssueByName = (issues = [], issueName, patch = {}) => (Array.isArray(issues) ? issues : []).map((issue) => issue?.name === issueName ? { ...issue, ...patch, cost: Math.max(0, Number(patch.cost ?? issue.cost) || 0) } : issue);
+export const patchIssueByName = (issues = [], issueName, patch = {}) => (Array.isArray(issues) ? issues : []).filter(isValidFinding).map((issue) => issue.name === issueName ? { ...issue, ...patch, cost: Math.max(0, Number(patch.cost ?? issue.cost) || 0) } : issue);
 
 export const resetAiHistory = () => [];
 
@@ -127,14 +129,14 @@ export const buildAiAnalysis = (input = {}) => {
 };
 
 export const mergeAiFindings = (existingIssues = [], pendingFindings = []) => {
-  const existing = Array.isArray(existingIssues) ? existingIssues : [];
-  const pending = Array.isArray(pendingFindings) ? pendingFindings : [];
-  return [...existing, ...pending.filter((finding) => finding?.name && !existing.some((issue) => issue?.name === finding.name))];
+  const existing = (Array.isArray(existingIssues) ? existingIssues : []).filter(isValidFinding);
+  const pending = (Array.isArray(pendingFindings) ? pendingFindings : []).filter(isValidFinding);
+  return [...existing, ...pending.filter((finding) => !existing.some((issue) => issue.name === finding.name))];
 };
 
 export const getAiPriorityPlan = (input = {}) => {
   const safe = asRecord(input);
-  const list = (Array.isArray(safe.issues) ? safe.issues : []).filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue));
+  const list = (Array.isArray(safe.issues) ? safe.issues : []).filter(isIssueRecord).map((issue) => ({ ...issue, name: safeText(issue.name, 'Unnamed finding').slice(0, 100), severity: ['critical', 'major', 'minor'].includes(issue.severity) ? issue.severity : 'minor', cost: Math.max(0, safeFinite(issue.cost)), note: safeText(issue.note).slice(0, 240) }));
   const evidenceScore = clamp(safeFinite(safe.evidenceScore), 0, 100);
   const photos = Array.isArray(safe.photos) ? safe.photos : [];
   const usablePhotos = photos.filter(isUsablePhoto);
@@ -151,7 +153,7 @@ export const getAiPriorityPlan = (input = {}) => {
 
 export const getAiRecommendation = (input = {}) => {
   const safe = asRecord(input);
-  const list = (Array.isArray(safe.issues) ? safe.issues : []).filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue));
+  const list = (Array.isArray(safe.issues) ? safe.issues : []).filter(isIssueRecord);
   const repairTotal = Math.max(0, safeFinite(safe.repairTotal));
   const confidence = clamp(safeFinite(safe.confidence), 0, 100);
   const evidenceScore = clamp(safeFinite(safe.evidenceScore), 0, 100);
