@@ -1418,6 +1418,15 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards camera and library callbacks after permission and picker awaits', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /requestMediaLibraryPermissionsAsync\(\); if \(!mountedRef\.current\) return; if \(permission\.status/);
+  assert.match(appSource, /launchImageLibraryAsync\(\{ mediaTypes: \['images'\]/);
+  assert.match(appSource, /launchImageLibraryAsync\(\{ mediaTypes: \['images'\][\s\S]*?\}\); if \(!mountedRef\.current\) return; if \(result\.canceled/);
+  assert.match(appSource, /requestCameraPermissionsAsync\(\); if \(!mountedRef\.current\) return; if \(permission\.status/);
+  assert.match(appSource, /launchCameraAsync\(\{ allowsEditing: true[\s\S]*?\}\); if \(!mountedRef\.current\) return; if \(result\.canceled/);
+});
+
 test('guards backup-import cancellation handling after document picker awaits', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /const result = await DocumentPicker\.getDocumentAsync\(\{ type: 'application\/json', copyToCacheDirectory: true \}\); if \(!mountedRef\.current\) return; if \(result\.canceled/);
