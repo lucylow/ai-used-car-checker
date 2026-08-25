@@ -1418,6 +1418,12 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards direct finding and tool-note mutations against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const removeAiFinding = \(issue\) => \{ if \(!mountedRef\.current\) return;/);
+  assert.match(appSource, /const deleteToolNote = \(type\) => \{ if \(!mountedRef\.current\) return;/);
+});
+
 test('guards report preview close callbacks against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /const closeReportPreview = \(\) => \{ if \(!mountedRef\.current\) return; const next = getReportPreviewCloseState\(\);/);
