@@ -1327,3 +1327,5 @@
 - [x] Add deterministic coverage for transparent VIN confidence labeling
 - [x] Avoid claiming a market range exists when only an asking price is provided
 - [x] Add deterministic coverage for incomplete market-guidance states
+- [x] Avoid range conclusions when only one comparable bound is provided
+- [x] Add deterministic coverage for partial market-range guidance

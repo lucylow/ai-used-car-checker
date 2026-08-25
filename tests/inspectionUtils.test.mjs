@@ -1290,8 +1290,8 @@ test('preserves validated market comparison through saved inspection normalizati
 
 test('does not claim a range exists when market bounds are incomplete', async () => {
   const { getMarketComparisonSummary } = await import('../src/services/marketUtils.js');
-  assert.match(getMarketComparisonSummary({ askingPrice: 22000 }), /Add comparable bounds/);
-  assert.match(getMarketComparisonSummary({ askingPrice: 22000, comparableLow: 20000 }), /Within the entered comparable range/);
+  assert.match(getMarketComparisonSummary({ askingPrice: 22000 }), /Add both comparable bounds/);
+  assert.match(getMarketComparisonSummary({ askingPrice: 22000, comparableLow: 20000 }), /Add both comparable bounds/);
 });
 
 test('blocks invalid market drafts before persistence', async () => {
