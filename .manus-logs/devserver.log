@@ -7832,3 +7832,6 @@
 [2026-08-25T02:04:00.503Z] Web Bundled 475ms index.js (500 modules)
 [2026-08-25T02:04:02.720Z] Waiting on http://localhost:8081
 [2026-08-25T02:04:02.720Z] Logs for your project will appear below.
+[2026-08-25T02:08:08.784Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-25T02:08:10.020Z] Web Bundled 1236ms index.js (1 module)
+[2026-08-25T02:08:10.355Z] LOG  [web] Logs will appear in the browser console

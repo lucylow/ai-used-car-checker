@@ -1365,6 +1365,13 @@ test('normalizes offline demo and deterministic failure settings safely', () => 
   assert.deepEqual(normalized.failureToggles, { camera: true, photo: true, report: true, storage: false });
 });
 
+test('guards asynchronous photo cleanup against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const mountedRef = useRef\(true\)/);
+  assert.match(appSource, /mountedRef\.current = false/);
+  assert.match(appSource, /finally \{ if \(mountedRef\.current\) setPhotoBusy\(false\); \}/);
+});
+
 test('exposes VIN retry and Settings-controlled demo data without hiding live failure state', () => {
   const vinSource = readFileSync(new URL('../components/vin-tool.js', import.meta.url), 'utf8');
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
