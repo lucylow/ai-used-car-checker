@@ -1354,6 +1354,13 @@ test('accepts only the current autosave generation', () => {
   assert.equal(isCurrentPersistenceGeneration(null), false);
 });
 
+test('keeps market-comparison changes inside the autosave contract', async () => {
+  const { normalizeMarketComparison } = await import('../src/services/marketUtils.js');
+  const market = normalizeMarketComparison({ askingPrice: '22000', comparableLow: '20000', comparableHigh: '24000' });
+  assert.equal(market.askingPrice, 22000);
+  assert.equal(shouldScheduleLocalPersistence({ restored: true }), true);
+});
+
 test('gates active autosave scheduling until restore completes', () => {
   assert.equal(shouldScheduleLocalPersistence({ restored: false }), false);
   assert.equal(shouldScheduleLocalPersistence({ restored: true }), true);

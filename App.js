@@ -309,6 +309,7 @@ export default function App() {
 
   useEffect(() => {
     if (!shouldScheduleLocalPersistence({ restored })) return undefined;
+    setSaveState('saving');
     const generation = getNextPersistenceGeneration(persistGeneration.current);
     persistGeneration.current = generation;
     if (persistTimer.current) clearTimeout(persistTimer.current);
@@ -322,7 +323,7 @@ export default function App() {
         persistTimer.current = null;
       }
     };
-  }, [vehicle, issues, checklist, photos, toolNotes, savedInspections, aiHistory, restored]);
+  }, [vehicle, issues, checklist, photos, toolNotes, marketComparison, savedInspections, aiHistory, restored]);
 
   useEffect(() => () => { if (undoTimer.current) clearTimeout(undoTimer.current); if (findingUndoTimer.current) clearTimeout(findingUndoTimer.current); if (aiTimer.current) clearTimeout(aiTimer.current); if (reportActionTimer.current) clearTimeout(reportActionTimer.current); if (persistTimer.current) clearTimeout(persistTimer.current); }, []);
 

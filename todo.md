@@ -1306,3 +1306,6 @@
 - [x] Add visible local-save status feedback for saving, saved, and recovery states
 - [x] Add deterministic coverage for market validation, VIN confidence gating, and save status
 - [x] Run full validation and save a recoverable feature checkpoint
+- [x] Include structured market-comparison changes in active-inspection autosave dependencies
+- [x] Mark local save status as pending while debounced market changes await persistence
+- [x] Add deterministic coverage for market persistence scheduling inputs
