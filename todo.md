@@ -1317,3 +1317,5 @@
 - [x] Add deterministic coverage for safe saved-market summary formatting
 - [x] Distinguish missing market prices from legitimate zero values in saved-history display
 - [x] Add deterministic coverage for unavailable market display labels
+- [x] Import React state and effect hooks required by the structured market form
+- [x] Add deterministic coverage or static validation for market-form hook availability
