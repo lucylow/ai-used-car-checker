@@ -1538,4 +1538,11 @@
 - [x] Implement the selected improvement while preserving local-first integrity
 - [x] Add deterministic regression coverage for the new improvement
 - [x] Run TypeScript, ESLint, tests, and Expo web export validation
-- [ ] Save a recoverable checkpoint for the completed improvement
+- [x] Save a recoverable checkpoint for the completed improvement
+
+# Photo viewer lifecycle hardening
+
+- [x] Guard photo viewer navigation callbacks against unmounted state updates
+- [x] Add deterministic regression coverage for photo viewer navigation guards
+- [x] Run the full validation suite after the photo viewer hardening
+- [ ] Save a recoverable checkpoint for the photo viewer hardening

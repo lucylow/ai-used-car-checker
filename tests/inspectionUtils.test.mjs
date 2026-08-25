@@ -1757,3 +1757,9 @@ test('normalizes AI severity values before decision helpers count issues', () =>
   assert.equal(getAiPriorityPlan({ issues: [{ name: 'Transmission concern', severity: ' MAJOR ', cost: 420 }], evidenceScore: 70 })[0].nextAction, 'Request service records and obtain a repair estimate.');
   assert.equal(patchIssueByName([{ name: 'Brake risk', severity: 'minor', cost: 10 }], 'Brake risk', { severity: ' CRITICAL ' })[0].severity, 'critical');
 });
+
+test('guards photo viewer navigation callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const selectViewerPhoto = \(photo\) => \{ if \(!mountedRef\.current\) return; pinchScale\.stopAnimation\(\);/);
+  assert.match(appSource, /onPress=\{\(\) => selectViewerPhoto\(viewerPhotos\[/);
+});
