@@ -1365,6 +1365,13 @@ test('normalizes offline demo and deterministic failure settings safely', () => 
   assert.deepEqual(normalized.failureToggles, { camera: true, photo: true, report: true, storage: false });
 });
 
+test('guards delayed undo timers against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /findingUndoTimer\.current = setTimeout\(\(\) => \{ if \(mountedRef\.current\) setFindingUndoItem\(null\)/);
+  assert.match(appSource, /undoTimer\.current = setTimeout\(\(\) => \{ if \(mountedRef\.current\) setUndoItem\(null\)/);
+  assert.match(appSource, /noteUndoTimer\.current = setTimeout\(\(\) => \{ if \(mountedRef\.current\) setNoteUndoItem\(null\)/);
+});
+
 test('guards initial restore and pending-camera recovery against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /useEffect\(\(\) => \{\s*let mounted = true;\s*Promise\.all\(\[AsyncStorage\.getItem\('carwise-inspection'/);
