@@ -1418,6 +1418,11 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards onboarding completion before navigation and persistence state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const finishOnboarding = async \(destination = null\) => \{ if \(!mountedRef\.current\) return;/);
+});
+
 test('guards tab selection before navigation overlay cleanup and state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /const handleTabSelect = \(item\) => \{ if \(!mountedRef\.current\) return; closeNavigationOverlays\(\); setTab\(item\);/);
