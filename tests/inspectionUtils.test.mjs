@@ -1288,6 +1288,12 @@ test('preserves validated market comparison through saved inspection normalizati
   assert.deepEqual(normalized.marketComparison, normalizeMarketComparison({ askingPrice: '22000', comparableLow: '20000', comparableHigh: '24000' }));
 });
 
+test('does not claim a range exists when market bounds are incomplete', async () => {
+  const { getMarketComparisonSummary } = await import('../src/services/marketUtils.js');
+  assert.match(getMarketComparisonSummary({ askingPrice: 22000 }), /Add comparable bounds/);
+  assert.match(getMarketComparisonSummary({ askingPrice: 22000, comparableLow: 20000 }), /Within the entered comparable range/);
+});
+
 test('blocks invalid market drafts before persistence', async () => {
   const { shouldPersistMarketComparison } = await import('../src/services/marketUtils.js');
   assert.equal(shouldPersistMarketComparison({ askingPrice: 22000, comparableLow: 25000, comparableHigh: 20000 }), false);

@@ -1325,3 +1325,5 @@
 - [x] Add deterministic coverage for rejecting invalid market drafts before persistence
 - [x] Clearly distinguish format-based VIN candidate confidence from true OCR confidence
 - [x] Add deterministic coverage for transparent VIN confidence labeling
+- [x] Avoid claiming a market range exists when only an asking price is provided
+- [x] Add deterministic coverage for incomplete market-guidance states

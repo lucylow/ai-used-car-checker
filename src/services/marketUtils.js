@@ -41,7 +41,8 @@ export const getMarketComparisonSummary = (input = {}) => {
   const { value } = validateMarketComparison(input);
   if (!value.askingPrice) return 'Add an asking price to compare this vehicle.';
   if (value.comparableLow && value.comparableHigh && value.comparableLow > value.comparableHigh) return 'Fix the comparable range before using negotiation guidance.';
-  if (value.comparableLow && value.askingPrice < value.comparableLow) return 'Below the comparable range; verify condition and history before negotiating.';
+  if (!value.comparableLow && !value.comparableHigh) return 'Add comparable bounds to estimate where this asking price sits in the market.';
+  if (value.comparableLow && value.comparableLow > value.askingPrice) return 'Below the comparable range; verify condition and history before negotiating.';
   if (value.comparableHigh && value.askingPrice > value.comparableHigh) return 'Above the comparable range; use verified issues as negotiation evidence.';
   return 'Within the entered comparable range; weigh condition, mileage, and history together.';
 };
