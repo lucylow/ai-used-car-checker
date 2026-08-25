@@ -1,4 +1,7 @@
+import { normalizeMarketComparison } from './marketUtils.js';
+
 const getIssueList = (item = {}) => Array.isArray(item?.issues) ? item.issues.filter((issue) => issue && typeof issue === 'object' && !Array.isArray(issue)) : [];
+
 const safeCost = (value) => { const numeric = Number(value); return Number.isFinite(numeric) ? Math.max(0, numeric) : 0; };
 const riskScore = (item = {}) => Math.min(100, getIssueList(item).reduce((sum, issue) => sum + ({ critical: 34, major: 20, minor: 8 }[issue.severity] || 0), 0));
 const repairTotal = (item = {}) => getIssueList(item).reduce((sum, issue) => sum + safeCost(issue.cost), 0);
@@ -24,6 +27,7 @@ export const normalizeSavedInspection = (item = {}) => {
     issues: Array.isArray(item.issues) ? item.issues.filter(isRecord).slice(0, 80) : [],
     checklist: isRecord(item.checklist) ? item.checklist : {},
     photos: Array.isArray(item.photos) ? item.photos.filter(isRecord).slice(0, 80) : [],
+    marketComparison: normalizeMarketComparison(item.marketComparison),
     aiHistory: Array.isArray(item.aiHistory) ? item.aiHistory.filter(isRecord).slice(-6) : [],
     savedAt: normalizeSavedAt(item.savedAt),
   };

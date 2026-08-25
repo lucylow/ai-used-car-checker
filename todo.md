@@ -1309,3 +1309,5 @@
 - [x] Include structured market-comparison changes in active-inspection autosave dependencies
 - [x] Mark local save status as pending while debounced market changes await persistence
 - [x] Add deterministic coverage for market persistence scheduling inputs
+- [x] Preserve structured market-comparison fields through saved-history normalization and restore
+- [x] Add deterministic coverage for market data round-tripping in saved inspections

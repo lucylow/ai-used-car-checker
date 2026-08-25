@@ -1268,6 +1268,12 @@ test('does not treat malformed truthy vehicle values as AI identity evidence', (
   assert.equal(quality.drivers.includes('VIN identified'), false);
 });
 
+test('preserves validated market comparison through saved inspection normalization', async () => {
+  const { normalizeMarketComparison } = await import('../src/services/marketUtils.js');
+  const normalized = normalizeSavedInspection({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, marketComparison: { askingPrice: '22000', comparableLow: '20000', comparableHigh: '24000' } });
+  assert.deepEqual(normalized.marketComparison, normalizeMarketComparison({ askingPrice: '22000', comparableLow: '20000', comparableHigh: '24000' }));
+});
+
 test('validates structured market ranges and normalizes unsafe values', async () => {
   const { normalizeMarketComparison, validateMarketComparison, getMarketComparisonSummary } = await import('../src/services/marketUtils.js');
   const value = normalizeMarketComparison({ askingPrice: '<22000', comparableLow: 25000, comparableHigh: 20000, mileage: '48,200', condition: 'unknown' });
