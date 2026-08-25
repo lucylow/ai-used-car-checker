@@ -1418,6 +1418,12 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards VIN camera callbacks after permission and capture awaits', () => {
+  const vinSource = readFileSync(new URL('../components/vin-tool.js', import.meta.url), 'utf8');
+  assert.match(vinSource, /requestCameraPermissionsAsync\(\); if \(!mountedRef\.current\) return; if \(permission\.status/);
+  assert.match(vinSource, /launchCameraAsync\(\{ mediaTypes: \['images'\][\s\S]*?\}\); if \(!mountedRef\.current\) return; if \(captured\.canceled/);
+});
+
 test('guards camera and library callbacks after permission and picker awaits', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /requestMediaLibraryPermissionsAsync\(\); if \(!mountedRef\.current\) return; if \(permission\.status/);
