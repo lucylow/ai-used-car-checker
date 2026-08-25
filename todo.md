@@ -1319,3 +1319,5 @@
 - [x] Add deterministic coverage for unavailable market display labels
 - [x] Import React state and effect hooks required by the structured market form
 - [x] Add deterministic coverage or static validation for market-form hook availability
+- [x] Guard VIN result rendering against malformed decoded vehicle containers
+- [x] Add deterministic coverage for safe decoded VIN vehicle rendering inputs

@@ -29,6 +29,8 @@ export const applyDecodedVehicle = (currentVehicle = {}, decodedVehicle = {}, vi
   };
 };
 
+export const getSafeDecodedVehicle = (vehicle) => isRecord(vehicle) ? { ...vehicle } : null;
+
 export const getVinResultCompleteness = (vehicle = {}) => {
   const fields = ['year', 'make', 'model'];
   const labels = { year: 'Year', make: 'Make', model: 'Model' };

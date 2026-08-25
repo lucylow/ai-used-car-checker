@@ -1297,6 +1297,13 @@ test('validates structured market ranges and normalizes unsafe values', async ()
   assert.match(getMarketComparisonSummary(value), /Fix the comparable range/);
 });
 
+test('guards malformed decoded VIN vehicles before result rendering', async () => {
+  const { getSafeDecodedVehicle } = await import('../src/services/vinService.js');
+  assert.equal(getSafeDecodedVehicle(null), null);
+  assert.equal(getSafeDecodedVehicle([]), null);
+  assert.deepEqual(getSafeDecodedVehicle({ year: '2020', make: 'Honda' }), { year: '2020', make: 'Honda' });
+});
+
 test('gates camera VIN confirmation by normalized length and confidence', () => {
   const candidate = normalizeVinCandidate('1HGCM82633A004352');
   assert.equal(getVinCaptureConfidence(candidate), 0.96);

@@ -7663,3 +7663,6 @@
 [2026-08-25T00:24:27.094Z] at process.messageListener (/home/ubuntu/ai-used-car-checker/node_modules/.pnpm/jest-worker@29.7.0/node_modules/jest-worker/build/workers/processChild.js:44:7)
 [2026-08-25T00:24:27.094Z] at process.emit (node:events:524:28)
 [2026-08-25T00:24:27.094Z] at emit (node:internal/child_process:949:14)
+[2026-08-25T00:26:00.800Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-25T00:26:00.827Z] Web Bundled 28ms index.js (1 module)
+[2026-08-25T00:26:01.141Z] LOG  [web] Logs will appear in the browser console
