@@ -1310,6 +1310,12 @@ test('guards malformed decoded VIN vehicles before result rendering', async () =
   assert.deepEqual(getSafeDecodedVehicle({ year: '2020', make: 'Honda' }), { year: '2020', make: 'Honda' });
 });
 
+test('discloses format-only VIN confidence to users', async () => {
+  const { getVinConfidenceDisclosure } = await import('../src/services/vinService.js');
+  assert.match(getVinConfidenceDisclosure(0.96), /Format-based confidence only/);
+  assert.match(getVinConfidenceDisclosure(0.38), /Format check is incomplete/);
+});
+
 test('gates camera VIN confirmation by normalized length and confidence', () => {
   const candidate = normalizeVinCandidate('1HGCM82633A004352');
   assert.equal(getVinCaptureConfidence(candidate), 0.96);

@@ -1323,3 +1323,5 @@
 - [x] Add deterministic coverage for safe decoded VIN vehicle rendering inputs
 - [x] Keep market edits local until validation succeeds on explicit save
 - [x] Add deterministic coverage for rejecting invalid market drafts before persistence
+- [x] Clearly distinguish format-based VIN candidate confidence from true OCR confidence
+- [x] Add deterministic coverage for transparent VIN confidence labeling
