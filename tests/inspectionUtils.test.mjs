@@ -1769,3 +1769,11 @@ test('guards saved-detail editable-report transitions against unmounted state up
   assert.match(appSource, /const openEditableReport = \(item\) => \{ if \(!mountedRef\.current \|\| !item\) return;/);
   assert.match(appSource, /onOpenEditableReport=\{openEditableReport\}/);
 });
+
+test('guards nested VIN and market callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const applyDecodedVehicleToInspection = \(decodedVehicle\) => \{ if \(!mountedRef\.current \|\| !decodedVehicle\) return;/);
+  assert.match(appSource, /const updateMarketComparison = \(next\) => \{ if \(!mountedRef\.current\) return;/);
+  assert.match(appSource, /onUse=\{applyDecodedVehicleToInspection\}/);
+  assert.match(appSource, /onChange=\{updateMarketComparison\}/);
+});

@@ -1551,4 +1551,10 @@
 - [x] Guard saved-detail editable-report transitions against unmounted state updates
 - [x] Add deterministic regression coverage for saved-detail lifecycle guards
 - [x] Run the full validation suite after the saved-detail hardening
-- [ ] Save a recoverable checkpoint for the saved-detail hardening
+- [x] Save a recoverable checkpoint for the saved-detail hardening
+
+- [x] Audit remaining inline tool callbacks for stale state updates after unmount
+- [x] Add mounted-safe VIN autofill and market-comparison handlers
+- [x] Add deterministic regression coverage for nested tool callback guards
+- [x] Run the full validation suite after nested tool hardening
+- [ ] Save a recoverable checkpoint for nested tool hardening
