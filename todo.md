@@ -1575,4 +1575,11 @@
 - [x] Add mounted-safe AI and summary navigation handlers
 - [x] Add deterministic regression coverage for AI and summary navigation
 - [x] Run the full validation suite after AI and summary hardening
-- [ ] Save a recoverable checkpoint for AI and summary hardening
+- [x] Save a recoverable checkpoint for AI and summary hardening
+
+- [x] Audit remaining inspection-step callbacks for stale state updates after unmount
+- [x] Add mounted-safe back, photo, and test navigation handlers
+- [x] Guard checklist section toggles before navigation or state mutation
+- [x] Add deterministic regression coverage for inspection-step navigation
+- [x] Run the full validation suite after inspection-step hardening
+- [ ] Save a recoverable checkpoint for inspection-step hardening

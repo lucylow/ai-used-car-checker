@@ -1797,3 +1797,12 @@ test('guards AI and summary navigation callbacks against unmounted state updates
   assert.match(appSource, /onPress=\{goAi\}/);
   assert.match(appSource, /onPress=\{goHome\}>‹ Home<\/Text>/);
 });
+
+test('guards inspection-step navigation callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const goNew = \(\) => \{ if \(!mountedRef\.current\) return; setScreen\('new'\); \}/);
+  assert.match(appSource, /const goPhotos = \(\) => \{ if \(!mountedRef\.current\) return; setScreen\('photos'\); \}/);
+  assert.match(appSource, /const goTest = \(\) => \{ if \(!mountedRef\.current\) return; setScreen\('test'\); \}/);
+  assert.match(appSource, /onBack=\{goNew\} onPhotos=\{goPhotos\}/);
+  assert.match(appSource, /if \(!mountedRef\.current\) return; if \(index === 4\) goTest\(\)/);
+});
