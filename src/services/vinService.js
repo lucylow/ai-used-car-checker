@@ -48,6 +48,17 @@ export const getVinFallback = (vin, message = 'Live VIN lookup unavailable. Revi
   status: 'fallback',
   message: safeText(message, 'Live VIN lookup unavailable. Review the VIN manually or try again when connected.', 180),
   vehicle: null,
+  isMock: false,
+  provenance: 'live-service-fallback',
+});
+
+export const getVinMockFallback = (vin) => ({
+  vin: normalizeVin(vin),
+  status: 'mock',
+  message: 'Demo vehicle loaded locally. This is mock data and was not returned by NHTSA vPIC.',
+  vehicle: { year: '2020', make: 'Honda', model: 'Accord', trim: 'Demo trim', bodyClass: 'Sedan', engine: '1.5L 4-cylinder' },
+  isMock: true,
+  provenance: 'offline-demo-data',
 });
 
 export const decodeVin = async (vin, { fetchImpl = fetch, timeoutMs = 8000 } = {}) => {

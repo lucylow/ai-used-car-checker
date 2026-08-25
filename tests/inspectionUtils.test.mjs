@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { createNewInspectionState, getDerivedInspectionResetState, getNewInspectionTransientResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, formatCurrency, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getRestoreSourceLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, getVinWalkthroughStep, normalizeCarwiseSettings, getMotionDuration, getAnimatedProgressPercent, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance, toggleReportSection, getSavedInspectionDisplayName, getReportActionState, getReportPreviewCloseState, getReportActionStartState, getSettingsSaveErrorGuidance, getLocalSaveSuccessLabel, getLocalSaveIndicator, getRestoreSourceForFlow, getReportProvenanceLabel, isSettingsPersistenceReady, shouldScheduleLocalPersistence, isCurrentPersistenceGeneration, escapeHtml, getTransientTimerCleanupKeys, getNextPersistenceGeneration, isCurrentActionGeneration } from '../src/services/reportUtils.js';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteEditorState, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from '../src/services/backupUtils.js';
-import { applyDecodedVehicle, canApplyDecodedVehicle, clearVinCache, decodeVin, getVinResultCompleteness, canConfirmVinCapture, getVinCaptureConfidence, normalizeVinCandidate } from '../src/services/vinService.js';
+import { applyDecodedVehicle, canApplyDecodedVehicle, clearVinCache, decodeVin, getVinResultCompleteness, canConfirmVinCapture, getVinCaptureConfidence, getVinMockFallback, normalizeVinCandidate } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, buildOfflineFallbackAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getEvidenceCoverage, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
 import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount, getStablePhotoKey, normalizeReportPreviewCollections } from '../src/services/uiUtils.js';
@@ -1356,6 +1356,15 @@ test('discloses format-only VIN confidence to users', async () => {
   const { getVinConfidenceDisclosure } = await import('../src/services/vinService.js');
   assert.match(getVinConfidenceDisclosure(0.96), /Format-based confidence only/);
   assert.match(getVinConfidenceDisclosure(0.38), /Format check is incomplete/);
+});
+
+test('labels VIN demo fallback data and keeps it opt-in', () => {
+  const demo = getVinMockFallback('1HGCM82633A004352');
+  assert.equal(demo.status, 'mock');
+  assert.equal(demo.isMock, true);
+  assert.equal(demo.provenance, 'offline-demo-data');
+  assert.equal(demo.vehicle.make, 'Honda');
+  assert.match(demo.message, /mock data|not returned/i);
 });
 
 test('gates camera VIN confirmation by normalized length and confidence', () => {

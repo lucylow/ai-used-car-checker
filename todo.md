@@ -1342,3 +1342,7 @@
 - [x] Strengthen remaining failure-path error handling without hiding data-integrity issues
 - [x] Add or extend clearly labeled fallback mock data for unavailable inspection services
 - [x] Add deterministic regression coverage and run full validation
+- [x] Audit latest runtime diagnostics and failure boundaries after the VIN fix
+- [x] Expand defensive handling for remaining native or external operation failures
+- [x] Add or extend clearly labeled fallback mock data without masking real failures
+- [x] Add deterministic regression coverage and run full validation
