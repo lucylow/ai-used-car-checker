@@ -329,6 +329,7 @@ export default function App() {
     if (persistTimer.current) clearTimeout(persistTimer.current);
     persistTimer.current = setTimeout(() => {
       persistTimer.current = null;
+      if (!mountedRef.current) return;
       persistQueue.current = persistQueue.current.catch(() => {}).then(() => isCurrentPersistenceGeneration({ generation, currentGeneration: persistGeneration.current }) ? persistLocalCopy() : false);
     }, getLocalSaveDelay(restored));
     return () => {
