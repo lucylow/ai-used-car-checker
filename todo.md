@@ -1606,4 +1606,10 @@
 - [x] Add mounted-safe Home history, summary, and tool navigation handlers
 - [x] Add deterministic regression coverage for Home navigation callbacks
 - [x] Run the full validation suite after shared lifecycle hardening
-- [ ] Save a recoverable checkpoint for shared lifecycle hardening
+- [x] Save a recoverable checkpoint for shared lifecycle hardening
+
+- [x] Audit lifecycle cancellation for transient AI and photo processing work
+- [x] Add an entry guard for photo processing against unmounted or missing assets
+- [x] Add deterministic regression coverage for the photo-processing entry boundary
+- [x] Run the full validation suite after photo-processing hardening
+- [ ] Save a recoverable checkpoint for photo-processing hardening

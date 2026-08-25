@@ -1843,3 +1843,8 @@ test('guards Home navigation callbacks against unmounted state updates', () => {
   assert.match(appSource, /onPress=\{goSummary\}/);
   assert.match(appSource, /onPress=\{\(\) => openTool\(label\)\}/);
 });
+
+test('guards photo processing entry against unmounted or missing assets', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const addPickedPhoto = async \(asset\) => \{ if \(!mountedRef\.current \|\| !asset\) return; const actionGeneration = persistGeneration\.current; setPhotoBusy\(true\);/);
+});
