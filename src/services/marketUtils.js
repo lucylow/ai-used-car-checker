@@ -14,8 +14,8 @@ export const normalizeMarketComparison = (input = {}) => {
   const comparableHigh = toMoney(safe.comparableHigh);
   return {
     askingPrice,
-    comparableLow: comparableLow && comparableHigh ? Math.min(comparableLow, comparableHigh) : comparableLow,
-    comparableHigh: comparableLow && comparableHigh ? Math.max(comparableLow, comparableHigh) : comparableHigh,
+    comparableLow,
+    comparableHigh,
     mileage: toMileage(safe.mileage),
     condition: CONDITIONS.includes(safe.condition) ? safe.condition : 'fair',
     source: text(safe.source, 120),
@@ -27,7 +27,7 @@ export const validateMarketComparison = (input = {}) => {
   const value = normalizeMarketComparison(input);
   const errors = [];
   if (!value.askingPrice) errors.push('Enter the asking price.');
-  if (value.comparableLow && value.comparableHigh && value.comparableLow > value.comparableHigh) errors.push('Comparable range is invalid.');
+  if (value.comparableLow && value.comparableHigh && value.comparableLow > value.comparableHigh) errors.push('Comparable low must be less than or equal to comparable high.');
   if (value.comparableLow && value.askingPrice < value.comparableLow * 0.25) errors.push('Asking price is unusually low; verify the amount.');
   if (value.comparableHigh && value.askingPrice > value.comparableHigh * 4) errors.push('Asking price is unusually high; verify the amount.');
   return { valid: errors.length === 0, errors, value };
@@ -36,6 +36,7 @@ export const validateMarketComparison = (input = {}) => {
 export const getMarketComparisonSummary = (input = {}) => {
   const { value } = validateMarketComparison(input);
   if (!value.askingPrice) return 'Add an asking price to compare this vehicle.';
+  if (value.comparableLow && value.comparableHigh && value.comparableLow > value.comparableHigh) return 'Fix the comparable range before using negotiation guidance.';
   if (value.comparableLow && value.askingPrice < value.comparableLow) return 'Below the comparable range; verify condition and history before negotiating.';
   if (value.comparableHigh && value.askingPrice > value.comparableHigh) return 'Above the comparable range; use verified issues as negotiation evidence.';
   return 'Within the entered comparable range; weigh condition, mileage, and history together.';

@@ -1311,3 +1311,5 @@
 - [x] Add deterministic coverage for market persistence scheduling inputs
 - [x] Preserve structured market-comparison fields through saved-history normalization and restore
 - [x] Add deterministic coverage for market data round-tripping in saved inspections
+- [x] Preserve reversed comparable-price input so validation can surface the error
+- [x] Add deterministic coverage for rejecting reversed market ranges

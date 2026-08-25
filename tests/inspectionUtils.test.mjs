@@ -1277,9 +1277,10 @@ test('preserves validated market comparison through saved inspection normalizati
 test('validates structured market ranges and normalizes unsafe values', async () => {
   const { normalizeMarketComparison, validateMarketComparison, getMarketComparisonSummary } = await import('../src/services/marketUtils.js');
   const value = normalizeMarketComparison({ askingPrice: '<22000', comparableLow: 25000, comparableHigh: 20000, mileage: '48,200', condition: 'unknown' });
-  assert.deepEqual(value, { askingPrice: 22000, comparableLow: 20000, comparableHigh: 25000, mileage: 48200, condition: 'fair', source: '', updatedAt: null });
+  assert.deepEqual(value, { askingPrice: 22000, comparableLow: 25000, comparableHigh: 20000, mileage: 48200, condition: 'fair', source: '', updatedAt: null });
+  assert.equal(validateMarketComparison(value).valid, false);
   assert.equal(validateMarketComparison({ askingPrice: 0 }).valid, false);
-  assert.match(getMarketComparisonSummary(value), /comparable range/);
+  assert.match(getMarketComparisonSummary(value), /Fix the comparable range/);
 });
 
 test('gates camera VIN confirmation by normalized length and confidence', () => {
