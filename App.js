@@ -264,6 +264,7 @@ export default function App() {
       if (payload.length > 250000) setSaveStatus('Inspection is large — keeping a compact local copy');
       if (settings.failureToggles?.storage) throw new Error('Deterministic storage failure is enabled in Settings.');
       await AsyncStorage.setItem('carwise-inspection', payload);
+      if (!mountedRef.current) return false;
       try {
         await AsyncStorage.removeItem('carwise-pending-inspection');
       } catch (_) {
@@ -276,6 +277,7 @@ export default function App() {
       setSaveStatus(getLocalSaveSuccessLabel({ pendingCleanupFailed, payloadLength: payload.length }));
       return true;
     } catch (error) {
+      if (!mountedRef.current) return false;
       if (queueOnFailure) {
         enqueueRetry({ key: 'active-inspection', run: () => persistLocalCopy({ queueOnFailure: false }) });
         try {
@@ -284,6 +286,7 @@ export default function App() {
             payload = JSON.stringify({ vehicle, issues, checklist, photos: persistedPhotos, toolNotes, marketComparison, savedInspections, aiHistory: aiHistory.slice(-6), recoveryLog: recoveryLog.slice(-6), lastLocalAction });
           }
           await AsyncStorage.setItem('carwise-pending-inspection', payload);
+          if (!mountedRef.current) return false;
           recoveryQueued = true;
         } catch (_) {
           recoveryQueued = false;
@@ -300,9 +303,11 @@ export default function App() {
   };
   const retryLocalSave = async () => {
     const result = await flushRetryQueue();
+    if (!mountedRef.current) return false;
     const diagnostics = getRetryDiagnostics();
     setRetryQueueCount(getRetryQueueSize());
     const saved = await persistLocalCopy();
+    if (!mountedRef.current) return saved;
     setRetryQueueCount(getRetryQueueSize());
     setSaveStatus(saved ? `Retry complete · ${result.succeeded} queued operation${result.succeeded === 1 ? '' : 's'} recovered` : `Retry attempted; ${diagnostics[0]?.detail || 'some local operations still need attention.'}`);
     recordRecoveryEvent('Retry all local saves', saved ? 'success' : 'error', saved ? 'Queued local work recovered.' : `${diagnostics[0]?.detail || 'Some local work remains queued.'}${diagnostics[0]?.attempts ? ` Attempt ${diagnostics[0].attempts}/${diagnostics[0].maxAttempts}.` : ''}`);

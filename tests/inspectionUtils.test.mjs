@@ -1365,6 +1365,14 @@ test('normalizes offline demo and deterministic failure settings safely', () => 
   assert.deepEqual(normalized.failureToggles, { camera: true, photo: true, report: true, storage: false });
 });
 
+test('guards local-save and retry-queue completion against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /await AsyncStorage\.setItem\('carwise-inspection', payload\);\s*if \(!mountedRef\.current\) return false;/);
+  assert.match(appSource, /catch \(error\) \{\s*if \(!mountedRef\.current\) return false;\s*if \(queueOnFailure\)/);
+  assert.match(appSource, /const result = await flushRetryQueue\(\);\s*if \(!mountedRef\.current\) return false;/);
+  assert.match(appSource, /const saved = await persistLocalCopy\(\);\s*if \(!mountedRef\.current\) return saved;/);
+});
+
 test('guards internal report share and PDF export awaits against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /const shareReport = async \(\) =>/);
