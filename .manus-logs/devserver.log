@@ -8073,3 +8073,8 @@
 [2026-08-25T03:25:59.043Z] Waiting on http://localhost:8081
 [2026-08-25T03:25:59.044Z] Logs for your project will appear below.
 [2026-08-25T03:25:59.044Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-25T03:25:59.509Z] Web Bundled 493ms index.js (497 modules)
+[2026-08-25T03:26:03.305Z] LOG  [web] Logs will appear in the browser console
+[2026-08-25T03:26:50.801Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-25T03:26:50.826Z] Web Bundled 25ms index.js (1 module)
+[2026-08-25T03:26:51.137Z] LOG  [web] Logs will appear in the browser console
