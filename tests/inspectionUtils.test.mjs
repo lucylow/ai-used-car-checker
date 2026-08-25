@@ -1418,6 +1418,13 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards saved inspection navigation and photo selection after unmount', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const goBackToHistory = \(\) => \{ if \(!mountedRef\.current\) return; closeNavigationOverlays\(\); setScreen\('historyTab'\); \}/);
+  assert.match(appSource, /const selectPhotoForViewer = \(photo\) => \{ if \(!mountedRef\.current\) return; setSelectedPhoto\(photo\); \}/);
+  assert.match(appSource, /onBack=\{goBackToHistory\} onSelectPhoto=\{selectPhotoForViewer\}/);
+});
+
 test('guards onboarding replay before state updates after unmount', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /const replayOnboarding = \(\) => \{ if \(!mountedRef\.current\) return;/);
