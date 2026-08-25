@@ -1558,3 +1558,9 @@
 - [x] Add deterministic regression coverage for nested tool callback guards
 - [x] Run the full validation suite after nested tool hardening
 - [ ] Save a recoverable checkpoint for nested tool hardening
+
+- [x] Audit remaining inline navigation callbacks for stale state updates after unmount
+- [x] Add shared mounted-safe home navigation handler for nested tools
+- [x] Add deterministic regression coverage for nested home navigation
+- [x] Run the full validation suite after home navigation hardening
+- [ ] Save a recoverable checkpoint for home navigation hardening

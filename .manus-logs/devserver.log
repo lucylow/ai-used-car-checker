@@ -8348,3 +8348,37 @@
 [2026-08-25T04:35:01.495Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
 [2026-08-25T04:35:02.088Z] Web Bundled 593ms index.js (1 module)
 [2026-08-25T04:35:02.420Z] LOG  [web] Logs will appear in the browser console
+[2026-08-25T04:37:21.416Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-25T04:37:22.000Z] Web Bundled 584ms index.js (1 module)
+[2026-08-25T04:37:22.311Z] LOG  [web] Logs will appear in the browser console
+[2026-08-25T14:29:42.863Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-25T14:29:43.456Z] Web Bundled 279ms index.js (1 module)
+[2026-08-25T14:29:44.625Z] LOG  [web] Logs will appear in the browser console
+[2026-08-25T14:30:09.518Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-25T14:30:09.545Z] Web Bundled 29ms index.js (1 module)
+[2026-08-25T14:30:09.674Z] [ELIFECYCLE] Command failed.
+[2026-08-25T14:30:09.680Z] Dev server exited with code -1
+[2026-08-25T14:30:10.774Z] Starting dev server with command: pnpm run dev
+[2026-08-25T14:30:12.016Z] $ expo start
+[2026-08-25T14:30:19.380Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-25T14:30:27.372Z] [ELIFECYCLE] Command failed.
+[2026-08-25T14:30:29.357Z] Dev server exited with code -1
+[2026-08-25T14:30:30.377Z] Starting dev server with command: pnpm run dev
+[2026-08-25T14:30:30.951Z] $ expo start
+[2026-08-25T14:30:31.313Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-25T14:30:35.388Z] [ELIFECYCLE] Command failed.
+[2026-08-25T14:30:37.188Z] Starting Metro Bundler
+[2026-08-25T14:30:37.289Z] Dev server exited with code -1
+[2026-08-25T14:30:38.386Z] Starting dev server with command: pnpm run dev
+[2026-08-25T14:30:38.928Z] $ expo start
+[2026-08-25T14:30:39.218Z] Starting project at /home/ubuntu/ai-used-car-checker
+[2026-08-25T14:30:40.007Z] Starting Metro Bundler
+[2026-08-25T14:30:43.312Z] Waiting on http://localhost:8081
+[2026-08-25T14:30:43.312Z] Logs for your project will appear below.
+[2026-08-25T14:30:50.367Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-25T14:30:53.867Z] Web ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 98.8% (168/169)
+[2026-08-25T14:30:53.867Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-25T14:30:57.343Z] Web ./index.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (169/169)
+[2026-08-25T14:30:57.343Z] Web ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[2026-08-25T14:30:59.065Z] Web Bundled 8726ms index.js (507 modules)
+[2026-08-25T14:30:59.113Z] Web Bundled 8503ms index.js (1 module)
