@@ -1563,4 +1563,10 @@
 - [x] Add shared mounted-safe home navigation handler for nested tools
 - [x] Add deterministic regression coverage for nested home navigation
 - [x] Run the full validation suite after home navigation hardening
-- [ ] Save a recoverable checkpoint for home navigation hardening
+- [x] Save a recoverable checkpoint for home navigation hardening
+
+- [x] Audit remaining checklist and photo navigation callbacks for stale state updates after unmount
+- [x] Add mounted-safe checklist navigation handler for photo and summary flows
+- [x] Add deterministic regression coverage for checklist navigation
+- [x] Run the full validation suite after checklist navigation hardening
+- [ ] Save a recoverable checkpoint for checklist navigation hardening

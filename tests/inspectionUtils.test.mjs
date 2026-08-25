@@ -1783,3 +1783,10 @@ test('guards nested home navigation callbacks against unmounted state updates', 
   assert.match(appSource, /const goHome = \(\) => \{ if \(!mountedRef\.current\) return; setScreen\('home'\); \}/);
   assert.match(appSource, /onHome=\{goHome\}/);
 });
+
+test('guards checklist navigation callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const goChecklist = \(\) => \{ if \(!mountedRef\.current\) return; setScreen\('checklist'\); \}/);
+  assert.match(appSource, /onChecklist=\{goChecklist\}/);
+  assert.match(appSource, /onPress=\{goChecklist\}/);
+});
