@@ -134,6 +134,35 @@ export const buildAiAnalysis = (input = {}) => {
   };
 };
 
+export const buildOfflineFallbackAnalysis = (input = {}, reason = '') => {
+  const safe = asRecord(input);
+  const vehicle = asRecord(safe.vehicle);
+  const issues = normalizeAnalysisIssues(safe.issues);
+  const checklist = asRecord(safe.checklist);
+  const photos = (Array.isArray(safe.photos) ? safe.photos : []).filter(isUsablePhoto);
+  const evidence = getEvidenceCoverage({ checklist, photos });
+  const repairTotal = Math.min(100000000, issues.reduce((sum, issue) => sum + safeMoney(issue.cost), 0));
+  const confidence = 25;
+  const recommendation = getAiRecommendation({ issues, repairTotal, confidence, evidenceScore: evidence.score });
+  return {
+    findings: [],
+    issues,
+    repairTotal,
+    fairPrice: null,
+    confidence,
+    evidence,
+    recommendation,
+    priorityPlan: getAiPriorityPlan({ issues, evidenceScore: evidence.score, photos }),
+    evidenceAudit: getEvidenceAudit({ vehicle, checklist, photos, issues }),
+    quality: getAiQualitySummary({ evidence, vehicle }),
+    limitations: 'Offline fallback screening is active. No AI finding was generated; verify all conditions in person before purchase.',
+    negotiation: repairTotal ? `Existing issue notes total $${repairTotal.toLocaleString('en-US')}; confirm each item before negotiating.` : 'No repair reserve is calculated in offline fallback mode.',
+    isFallback: true,
+    provenance: 'offline-fallback',
+    fallbackReason: safeText(reason, 'AI analysis was unavailable'),
+  };
+};
+
 export const mergeAiFindings = (existingIssues = [], pendingFindings = []) => {
   const existing = (Array.isArray(existingIssues) ? existingIssues : []).filter(isValidFinding);
   const pending = (Array.isArray(pendingFindings) ? pendingFindings : []).filter(isValidFinding);

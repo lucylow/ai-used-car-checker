@@ -6,7 +6,7 @@ import { buildInspectionReport, formatCurrency, buildPhotoEvidenceHtml, formatPh
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteEditorState, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from '../src/services/backupUtils.js';
 import { applyDecodedVehicle, canApplyDecodedVehicle, clearVinCache, decodeVin, getVinResultCompleteness, canConfirmVinCapture, getVinCaptureConfidence, normalizeVinCandidate } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
-import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getEvidenceCoverage, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
+import { buildAiAnalysis, buildOfflineFallbackAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getEvidenceCoverage, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
 import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount, getStablePhotoKey, normalizeReportPreviewCollections } from '../src/services/uiUtils.js';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRiskLabel, getInspectionRepairTotal, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection, pruneComparisonSelection, getSavedIssueDisplay } from '../src/services/historyUtils.js';
 
@@ -1282,6 +1282,25 @@ test('formats malformed saved market data safely for history review', async () =
   assert.equal(normalized.askingPrice, 0);
   assert.equal(normalized.mileage, 0);
   assert.match(getMarketComparisonSummary(normalized), /asking price/);
+});
+
+test('builds clearly labeled offline fallback analysis without fabricated pricing', () => {
+  const fallback = buildOfflineFallbackAnalysis({ vehicle: { year: '2020', make: 'Honda', model: 'Accord', asking: '22000' }, issues: [{ name: 'Brake wear', severity: 'major', cost: 600 }], checklist: {}, photos: [] }, 'network unavailable');
+  assert.equal(fallback.isFallback, true);
+  assert.equal(fallback.provenance, 'offline-fallback');
+  assert.equal(fallback.fairPrice, null);
+  assert.deepEqual(fallback.findings, []);
+  assert.equal(fallback.repairTotal, 600);
+  assert.match(fallback.limitations, /Offline fallback screening is active/);
+  assert.match(fallback.fallbackReason, /network unavailable/);
+});
+
+test('keeps offline fallback safe with malformed input', () => {
+  const fallback = buildOfflineFallbackAnalysis({ vehicle: [], issues: {}, checklist: [], photos: {} });
+  assert.equal(fallback.isFallback, true);
+  assert.equal(fallback.repairTotal, 0);
+  assert.equal(fallback.fairPrice, null);
+  assert.equal(fallback.evidence.photoCount, 0);
 });
 
 test('keeps market form hook imports available for runtime initialization', () => {

@@ -1334,3 +1334,7 @@
 - [x] Audit the current Carwise flows for the next high-impact reliability or usability gap
 - [x] Implement the selected improvement without weakening local-first integrity
 - [x] Add deterministic regression coverage and re-run full validation
+- [x] Audit current runtime errors and external-data fallback boundaries
+- [x] Add defensive error handling around failure-prone inspection flows
+- [x] Add clearly labeled offline fallback mock data without presenting it as live or persisted data
+- [x] Add deterministic regression coverage and run full validation
