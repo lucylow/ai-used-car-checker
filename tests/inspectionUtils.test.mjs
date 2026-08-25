@@ -1418,6 +1418,11 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards tool-note deletion confirmation callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /text: 'Delete', style: 'destructive', onPress: \(\) => \{ if \(!mountedRef\.current\) return; setSavedNote\(''\); setValue\(''\); setEditing\(false\); onDeleteNote\(type\); \}/);
+});
+
 test('guards the autosave debounce callback before queueing work', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /persistTimer\.current = setTimeout\(\(\) => \{\s*persistTimer\.current = null;\s*if \(!mountedRef\.current\) return;\s*persistQueue\.current/);
