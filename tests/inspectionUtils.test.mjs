@@ -1365,6 +1365,13 @@ test('normalizes offline demo and deterministic failure settings safely', () => 
   assert.deepEqual(normalized.failureToggles, { camera: true, photo: true, report: true, storage: false });
 });
 
+test('guards post-share backup and PDF photo-read callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /await Sharing\.shareAsync\(uri, \{ mimeType: 'application\/json'[\s\S]{0,180}if \(!mountedRef\.current\) return;/);
+  assert.match(appSource, /await Share\.share\(\{ message: backupPreview\.serialized, title: 'Carwise backup' \}\); if \(!mountedRef\.current\) return;/);
+  assert.match(appSource, /if \(mountedRef\.current\) recordRecoveryEvent\('PDF photo read'/);
+});
+
 test('guards onboarding and Settings persistence errors against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /carwise-onboarding-seen', '1'\); } catch \(error\) \{ if \(!mountedRef\.current\) return;/);
