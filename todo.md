@@ -1313,3 +1313,5 @@
 - [x] Add deterministic coverage for market data round-tripping in saved inspections
 - [x] Preserve reversed comparable-price input so validation can surface the error
 - [x] Add deterministic coverage for rejecting reversed market ranges
+- [x] Display normalized market-comparison details in saved inspection history
+- [x] Add deterministic coverage for safe saved-market summary formatting

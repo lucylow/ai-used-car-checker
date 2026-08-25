@@ -1268,6 +1268,14 @@ test('does not treat malformed truthy vehicle values as AI identity evidence', (
   assert.equal(quality.drivers.includes('VIN identified'), false);
 });
 
+test('formats malformed saved market data safely for history review', async () => {
+  const { normalizeMarketComparison, getMarketComparisonSummary } = await import('../src/services/marketUtils.js');
+  const normalized = normalizeMarketComparison({ askingPrice: {}, comparableLow: [], comparableHigh: 'bad', mileage: null });
+  assert.equal(normalized.askingPrice, 0);
+  assert.equal(normalized.mileage, 0);
+  assert.match(getMarketComparisonSummary(normalized), /asking price/);
+});
+
 test('preserves validated market comparison through saved inspection normalization', async () => {
   const { normalizeMarketComparison } = await import('../src/services/marketUtils.js');
   const normalized = normalizeSavedInspection({ vehicle: { year: '2020', make: 'Honda', model: 'Accord' }, marketComparison: { askingPrice: '22000', comparableLow: '20000', comparableHigh: '24000' } });
