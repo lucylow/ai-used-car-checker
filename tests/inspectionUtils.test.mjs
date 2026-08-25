@@ -1418,6 +1418,11 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards shared recovery logging against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const recordRecoveryEvent = \(operation, outcome, detail\) => \{ if \(!mountedRef\.current\) return; setRecoveryLog\(/);
+});
+
 test('guards AI timeline confirmation callbacks against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /const performClearAiHistory = \(\) => \{ if \(!mountedRef\.current\) return; setAiHistory\(resetAiHistory\(\)\);/);
