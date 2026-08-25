@@ -1412,6 +1412,12 @@ test('guards onboarding and Settings persistence errors against unmounted state 
   assert.match(appSource, /AsyncStorage\.setItem\('carwise-settings', JSON\.stringify\(settings\)\)\.catch\(\(error\) => \{ if \(!mountedRef\.current\) return;/);
 });
 
+test('guards delayed photo-delete confirmation callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const commit = \(\) => \{ if \(!mountedRef\.current\) return; setPhotos\(/);
+  assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
+});
+
 test('guards the autosave debounce callback before queueing work', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /persistTimer\.current = setTimeout\(\(\) => \{\s*persistTimer\.current = null;\s*if \(!mountedRef\.current\) return;\s*persistQueue\.current/);
