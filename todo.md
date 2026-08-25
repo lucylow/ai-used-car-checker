@@ -1315,3 +1315,5 @@
 - [x] Add deterministic coverage for rejecting reversed market ranges
 - [x] Display normalized market-comparison details in saved inspection history
 - [x] Add deterministic coverage for safe saved-market summary formatting
+- [x] Distinguish missing market prices from legitimate zero values in saved-history display
+- [x] Add deterministic coverage for unavailable market display labels

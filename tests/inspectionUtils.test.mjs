@@ -1268,6 +1268,12 @@ test('does not treat malformed truthy vehicle values as AI identity evidence', (
   assert.equal(quality.drivers.includes('VIN identified'), false);
 });
 
+test('formats unavailable saved market values without zero fabrication', async () => {
+  const { getMarketComparisonDisplay } = await import('../src/services/marketUtils.js');
+  assert.deepEqual(getMarketComparisonDisplay({}), { asking: 'Not provided', comparable: 'Not provided', mileage: 'Not provided', condition: 'fair' });
+  assert.deepEqual(getMarketComparisonDisplay({ askingPrice: '22000', comparableLow: '20000' }), { asking: '$22,000', comparable: '$20,000–Not provided', mileage: 'Not provided', condition: 'fair' });
+});
+
 test('formats malformed saved market data safely for history review', async () => {
   const { normalizeMarketComparison, getMarketComparisonSummary } = await import('../src/services/marketUtils.js');
   const normalized = normalizeMarketComparison({ askingPrice: {}, comparableLow: [], comparableHigh: 'bad', mileage: null });
