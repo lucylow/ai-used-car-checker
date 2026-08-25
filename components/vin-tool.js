@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { canApplyDecodedVehicle, decodeVin, getVinResultCompleteness, getSafeDecodedVehicle, canConfirmVinCapture, getVinCaptureConfidence, getVinConfidenceDisclosure, normalizeVinCandidate } from '../src/services/vinService';

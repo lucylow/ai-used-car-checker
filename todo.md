@@ -1338,3 +1338,7 @@
 - [x] Add defensive error handling around failure-prone inspection flows
 - [x] Add clearly labeled offline fallback mock data without presenting it as live or persisted data
 - [x] Add deterministic regression coverage and run full validation
+- [x] Re-audit current runtime errors and fallback boundaries after the prior offline fallback checkpoint
+- [x] Strengthen remaining failure-path error handling without hiding data-integrity issues
+- [x] Add or extend clearly labeled fallback mock data for unavailable inspection services
+- [x] Add deterministic regression coverage and run full validation

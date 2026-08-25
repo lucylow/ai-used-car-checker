@@ -1303,6 +1303,14 @@ test('keeps offline fallback safe with malformed input', () => {
   assert.equal(fallback.evidence.photoCount, 0);
 });
 
+test('keeps VIN tool hook imports available for runtime initialization', () => {
+  const source = readFileSync(new URL('../components/vin-tool.js', import.meta.url), 'utf8');
+  assert.match(source, /import React, \{ useEffect, useRef, useState \} from ['"]react['"];?/);
+  assert.equal((source.match(/\buseEffect\b/g) || []).length >= 2, true);
+  assert.equal((source.match(/\buseRef\b/g) || []).length >= 2, true);
+  assert.equal((source.match(/\buseState\b/g) || []).length >= 4, true);
+});
+
 test('keeps market form hook imports available for runtime initialization', () => {
   const source = readFileSync(new URL('../components/market-comparison-tool.js', import.meta.url), 'utf8');
   assert.match(source, /import React, \{ useEffect, useState \} from ['"]react['"];?/);
