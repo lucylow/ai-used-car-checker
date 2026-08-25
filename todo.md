@@ -1588,4 +1588,10 @@
 - [x] Add mounted-safe AI evidence, photo selection, photo-add, and filter handlers
 - [x] Add deterministic regression coverage for AI evidence and photo callbacks
 - [x] Run the full validation suite after AI evidence and photo hardening
-- [ ] Save a recoverable checkpoint for AI evidence and photo hardening
+- [x] Save a recoverable checkpoint for AI evidence and photo hardening
+
+- [x] Audit nested issue-editor and custom-finding callbacks for stale state updates after unmount
+- [x] Add mounted-safe custom-finding entry and modal cancellation handlers
+- [x] Add deterministic regression coverage for issue-editor and custom-finding callbacks
+- [x] Run the full validation suite after issue-editor and custom-finding hardening
+- [ ] Save a recoverable checkpoint for issue-editor and custom-finding hardening

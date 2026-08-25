@@ -1815,3 +1815,11 @@ test('guards AI evidence and photo callbacks against unmounted state updates', (
   assert.match(appSource, /const updatePhotoReviewFilter = \(nextFilter\) => \{ if \(!mountedRef\.current\) return; setPhotoReviewFilter\(nextFilter\); \}/);
   assert.match(appSource, /onEvidenceAction=\{handleEvidenceAction\} onViewPhoto=\{viewAiPhoto\} onAddPhoto=\{addAiPhoto\}/);
 });
+
+test('guards nested issue-editor and custom-finding callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const openCustomFinding = \(\) => \{ if \(!mountedRef\.current\) return; setCustomFindingError\(''\); setCustomFindingVisible\(true\); \}/);
+  assert.match(appSource, /onEdit=\{openIssueEditor\} onRemove=\{removeAiFinding\} onAdd=\{openCustomFinding\}/);
+  assert.match(appSource, /onPress=\{closeIssueEditor\}/);
+  assert.match(appSource, /onPress=\{closeCustomFinding\}/);
+});
