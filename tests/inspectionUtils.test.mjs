@@ -1418,6 +1418,16 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards native modal dismissal callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const closeRecoveryLog = \(\) => \{ if \(!mountedRef\.current\) return; setRecoveryLogVisible\(false\);/);
+  assert.match(appSource, /const closeIssueEditor = \(\) => \{ if \(!mountedRef\.current\) return; setEditingIssue\(null\);/);
+  assert.match(appSource, /const closeCustomFinding = \(\) => \{ if \(!mountedRef\.current\) return; setCustomFindingVisible\(false\);/);
+  assert.match(appSource, /onRequestClose=\{closeIssueEditor\}/);
+  assert.match(appSource, /onRequestClose=\{closeCustomFinding\}/);
+  assert.match(appSource, /onClose=\{closeRecoveryLog\}/);
+});
+
 test('guards history confirmation dismissal against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /const closeHistoryConfirmation = \(\) => \{ if \(!mountedRef\.current\) return; setHistoryConfirm\(null\);/);
