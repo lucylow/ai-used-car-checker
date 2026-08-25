@@ -1365,6 +1365,13 @@ test('normalizes offline demo and deterministic failure settings safely', () => 
   assert.deepEqual(normalized.failureToggles, { camera: true, photo: true, report: true, storage: false });
 });
 
+test('guards diagnostic sharing and backup export catch paths against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /await Share\.share\(\{ message: payload, title: 'Carwise diagnostic report' \}\); if \(!mountedRef\.current\) return;/);
+  assert.match(appSource, /catch \(error\) \{ if \(!mountedRef\.current\) return; const detail = getErrorDetail\(error, 'diagnostic export failed'\)/);
+  assert.match(appSource, /catch \(error\) \{ if \(!mountedRef\.current\) return; const detail = getErrorDetail\(error, 'backup export failed'\)/);
+});
+
 test('guards asynchronous backup flows against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /if \(!mountedRef\.current\) return; if \(await Sharing\.isAvailableAsync\(\)\)/);
