@@ -1365,6 +1365,12 @@ test('normalizes offline demo and deterministic failure settings safely', () => 
   assert.deepEqual(normalized.failureToggles, { camera: true, photo: true, report: true, storage: false });
 });
 
+test('surfaces onboarding persistence failures without blocking continuation', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /Onboarding preference could not be saved; you can continue using Carwise/);
+  assert.match(appSource, /recordRecoveryEvent\('Onboarding preference', 'error', detail\); setSaveStatus/);
+});
+
 test('guards delayed undo timers against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /findingUndoTimer\.current = setTimeout\(\(\) => \{ if \(mountedRef\.current\) setFindingUndoItem\(null\)/);

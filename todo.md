@@ -1383,3 +1383,6 @@
 - [x] Audit the latest Carwise implementation for the next high-impact reliability or usability gap
 - [x] Implement the selected improvement while preserving local-first integrity
 - [x] Add deterministic regression coverage and run full validation
+- [x] Audit the latest Carwise implementation for the next high-impact reliability or usability gap
+- [x] Implement the selected improvement while preserving local-first integrity
+- [x] Add deterministic regression coverage and run full validation
