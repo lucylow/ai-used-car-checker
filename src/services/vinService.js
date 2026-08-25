@@ -36,6 +36,9 @@ export const getVinResultCompleteness = (vehicle = {}) => {
   return { present: fields.length - missing.length, total: fields.length, complete: missing.length === 0, missing, missingLabels: missing.map((field) => labels[field]) };
 };
 export const canApplyDecodedVehicle = (vehicle = {}) => getVinResultCompleteness(vehicle).complete;
+export const normalizeVinCandidate = (value) => normalizeVin(value);
+export const getVinCaptureConfidence = (value) => { const normalized = normalizeVinCandidate(value); if (isValidVin(normalized)) return 0.96; if (normalized.length >= 14) return 0.62; if (normalized.length >= 10) return 0.38; return 0; };
+export const canConfirmVinCapture = ({ candidate = '', confidence = 0 } = {}) => isValidVin(normalizeVinCandidate(candidate)) && Number.isFinite(Number(confidence)) && Number(confidence) >= 0.8;
 
 export const getVinFallback = (vin, message = 'Live VIN lookup unavailable. Review the VIN manually or try again when connected.') => ({
   vin: normalizeVin(vin),

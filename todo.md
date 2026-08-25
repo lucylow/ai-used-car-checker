@@ -1301,3 +1301,8 @@
 - [x] Add deterministic coverage for malformed local-save success inputs
 - [x] Reject non-string persisted timestamps before date parsing and formatting
 - [x] Add deterministic coverage for malformed date-label inputs
+- [x] Add validated structured market-comparison fields with local backup persistence
+- [x] Add camera VIN capture with OCR candidate confidence and manual confirmation
+- [x] Add visible local-save status feedback for saving, saved, and recovery states
+- [x] Add deterministic coverage for market validation, VIN confidence gating, and save status
+- [x] Run full validation and save a recoverable feature checkpoint

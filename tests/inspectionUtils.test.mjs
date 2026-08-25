@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewInspectionState, getDerivedInspectionResetState, getNewInspectionTransientResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
-import { buildInspectionReport, formatCurrency, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getRestoreSourceLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, getVinWalkthroughStep, normalizeCarwiseSettings, getMotionDuration, getAnimatedProgressPercent, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance, toggleReportSection, getSavedInspectionDisplayName, getReportActionState, getReportPreviewCloseState, getReportActionStartState, getSettingsSaveErrorGuidance, getLocalSaveSuccessLabel, getRestoreSourceForFlow, getReportProvenanceLabel, isSettingsPersistenceReady, shouldScheduleLocalPersistence, isCurrentPersistenceGeneration, escapeHtml, getTransientTimerCleanupKeys, getNextPersistenceGeneration, isCurrentActionGeneration } from '../src/services/reportUtils.js';
+import { buildInspectionReport, formatCurrency, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getRestoreSourceLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, getVinWalkthroughStep, normalizeCarwiseSettings, getMotionDuration, getAnimatedProgressPercent, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance, toggleReportSection, getSavedInspectionDisplayName, getReportActionState, getReportPreviewCloseState, getReportActionStartState, getSettingsSaveErrorGuidance, getLocalSaveSuccessLabel, getLocalSaveIndicator, getRestoreSourceForFlow, getReportProvenanceLabel, isSettingsPersistenceReady, shouldScheduleLocalPersistence, isCurrentPersistenceGeneration, escapeHtml, getTransientTimerCleanupKeys, getNextPersistenceGeneration, isCurrentActionGeneration } from '../src/services/reportUtils.js';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteEditorState, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from '../src/services/backupUtils.js';
-import { applyDecodedVehicle, canApplyDecodedVehicle, clearVinCache, decodeVin, getVinResultCompleteness } from '../src/services/vinService.js';
+import { applyDecodedVehicle, canApplyDecodedVehicle, clearVinCache, decodeVin, getVinResultCompleteness, canConfirmVinCapture, getVinCaptureConfidence, normalizeVinCandidate } from '../src/services/vinService.js';
 import { clearRetry, clearRetryQueue, enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize } from '../src/services/retryQueue.js';
 import { buildAiAnalysis, getAiConfidenceLabel, getAiEvidenceActions, getAiFindingExplanation, getAiQualitySummary, getAiReadinessMessage, getAiPriorityPlan, getEvidenceCoverage, getPhotoEvidenceReview, filterPhotoEvidenceReviews, updatePhotoReview, buildPhotoFindingDraft, patchIssueByName, getAiRecommendation, getEvidenceAudit, mergeAiFindings, resetAiHistory, getAiAnalysisStartState, canReviewAiFindings, getAiReviewStateAfterIssueMutation } from '../src/services/aiUtils.js';
 import { formatComparisonMetricValue, getBackupPreviewRows, getIssueEvidencePhoto, getPhotoDeleteGuidance, getEvidenceHealth, replacePhotoAsset, normalizePhotoAssets, getNavigationOverlayCleanup, isPhotoActionLocked, getPhotoCount, getStablePhotoKey, normalizeReportPreviewCollections } from '../src/services/uiUtils.js';
@@ -1266,6 +1266,28 @@ test('does not treat malformed truthy vehicle values as AI identity evidence', (
   const quality = getAiQualitySummary({ evidence: { score: 100, completedSections: 5, photoCount: 4 }, vehicle: { vin: { unsafe: true } } });
   assert.equal(quality.score, 80);
   assert.equal(quality.drivers.includes('VIN identified'), false);
+});
+
+test('validates structured market ranges and normalizes unsafe values', async () => {
+  const { normalizeMarketComparison, validateMarketComparison, getMarketComparisonSummary } = await import('../src/services/marketUtils.js');
+  const value = normalizeMarketComparison({ askingPrice: '<22000', comparableLow: 25000, comparableHigh: 20000, mileage: '48,200', condition: 'unknown' });
+  assert.deepEqual(value, { askingPrice: 22000, comparableLow: 20000, comparableHigh: 25000, mileage: 48200, condition: 'fair', source: '', updatedAt: null });
+  assert.equal(validateMarketComparison({ askingPrice: 0 }).valid, false);
+  assert.match(getMarketComparisonSummary(value), /comparable range/);
+});
+
+test('gates camera VIN confirmation by normalized length and confidence', () => {
+  const candidate = normalizeVinCandidate('1HGCM82633A004352');
+  assert.equal(getVinCaptureConfidence(candidate), 0.96);
+  assert.equal(canConfirmVinCapture({ candidate, confidence: 0.96 }), true);
+  assert.equal(canConfirmVinCapture({ candidate: '1HGCM82633A00435', confidence: 0.96 }), false);
+  assert.equal(canConfirmVinCapture({ candidate, confidence: 0.62 }), false);
+});
+
+test('derives visible local-save indicator states', () => {
+  assert.deepEqual(getLocalSaveIndicator({ state: 'saving' }), { label: 'Saving locally…', tone: 'active' });
+  assert.deepEqual(getLocalSaveIndicator({ state: 'saved' }), { label: 'Saved locally', tone: 'success' });
+  assert.deepEqual(getLocalSaveIndicator({ state: 'error', retry: true }), { label: 'Local recovery needed', tone: 'warning' });
 });
 
 test('rejects malformed persisted timestamps before date formatting', () => {

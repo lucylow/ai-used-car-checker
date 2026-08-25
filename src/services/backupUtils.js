@@ -1,3 +1,5 @@
+import { normalizeMarketComparison } from './marketUtils.js';
+
 const BACKUP_VERSION = 1;
 const NOTE_TYPES = ['market', 'history', 'test'];
 const MAX_COLLECTION_ITEMS = 80;
@@ -35,7 +37,7 @@ export const filterToolNoteTimeline = (timeline, filter = 'all') => Array.isArra
 export const filterToolNoteTimelineBySource = (timeline, source = 'all') => Array.isArray(timeline) ? timeline.filter((entry) => isRecord(entry) && (source === 'all' || entry.source === source)) : [];
 export const getToolNoteTimeline = (toolNotes) => { const labels = { market: 'Market', history: 'History', test: 'Test drive' }; return Object.entries(normalizeToolNotes(toolNotes)).map(([key, entry]) => ({ key, label: labels[key], note: entry.note, source: entry.source, savedAt: entry.savedAt })).filter((entry) => entry.label).sort((a, b) => (b.savedAt ? Date.parse(b.savedAt) : 0) - (a.savedAt ? Date.parse(a.savedAt) : 0)); };
 
-export const serializeInspectionBackup = (input = {}) => { const safe = isRecord(input) ? input : {}; const { vehicle, issues, checklist, photos, toolNotes = {}, savedInspections, aiHistory = [] } = safe; return JSON.stringify({
+export const serializeInspectionBackup = (input = {}) => { const safe = isRecord(input) ? input : {}; const { vehicle, issues, checklist, photos, toolNotes = {}, marketComparison = {}, savedInspections, aiHistory = [] } = safe; return JSON.stringify({
   app: 'carwise',
   version: BACKUP_VERSION,
   exportedAt: new Date().toISOString(),
@@ -44,6 +46,7 @@ export const serializeInspectionBackup = (input = {}) => { const safe = isRecord
   checklist: isRecord(checklist) ? checklist : {},
   photos: filterRecords(photos),
   toolNotes: normalizeToolNotes(toolNotes),
+  marketComparison: normalizeMarketComparison(marketComparison),
   savedInspections: filterRecords(savedInspections),
   aiHistory: filterRecentRecords(aiHistory),
 }, null, 2); };
@@ -59,6 +62,7 @@ export const parseInspectionBackup = (raw) => {
     checklist: isRecord(parsed.checklist) ? parsed.checklist : {},
     photos: filterRecords(parsed.photos),
     toolNotes: normalizeToolNotes(parsed.toolNotes),
+    marketComparison: normalizeMarketComparison(parsed.marketComparison),
     savedInspections: filterRecords(parsed.savedInspections),
     aiHistory: filterRecentRecords(parsed.aiHistory),
   };
