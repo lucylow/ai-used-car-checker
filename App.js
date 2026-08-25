@@ -214,7 +214,9 @@ export default function App() {
   const photoPanResponder = useMemo(() => PanResponder.create({ onMoveShouldSetPanResponder: (_, gesture) => isPhotoZoomed.current || (Math.abs(gesture.dx) > 18 && Math.abs(gesture.dx) > Math.abs(gesture.dy)), onPanResponderGrant: () => { panX.setOffset(panX.__getValue()); panY.setOffset(panY.__getValue()); panX.setValue(0); panY.setValue(0); }, onPanResponderMove: (_, gesture) => { if (isPhotoZoomed.current) { panX.setValue(clamp(gesture.dx, -220, 220)); panY.setValue(clamp(gesture.dy, -180, 180)); } }, onPanResponderRelease: (_, gesture) => { panX.flattenOffset(); panY.flattenOffset(); if (isPhotoZoomed.current) { Animated.parallel([Animated.timing(panX, { toValue: clamp(panX.__getValue() + gesture.vx * 90, -220, 220), duration: 220, useNativeDriver: true }), Animated.timing(panY, { toValue: clamp(panY.__getValue() + gesture.vy * 90, -180, 180), duration: 220, useNativeDriver: true })]).start(); return; } if (gesture.dx < -40 && selectedPhotoIndex < viewerPhotos.length - 1) selectViewerPhoto(viewerPhotos[selectedPhotoIndex + 1]); if (gesture.dx > 40 && selectedPhotoIndex > 0) selectViewerPhoto(viewerPhotos[selectedPhotoIndex - 1]); const now = Date.now(); if (now - lastPhotoTap.current < 280 && Math.abs(gesture.dx) < 12 && Math.abs(gesture.dy) < 12) togglePhotoZoom(gesture.x0, gesture.y0); lastPhotoTap.current = now; } }), [selectedPhotoIndex, viewerPhotos]);
 
   useEffect(() => {
+    let mounted = true;
     Promise.all([AsyncStorage.getItem('carwise-inspection'), AsyncStorage.getItem('carwise-pending-inspection')]).then(([raw, pending]) => {
+      if (!mounted) return;
       try {
         const recoveryRaw = selectInspectionRestorePayload(raw, pending);
         if (!recoveryRaw) return;
@@ -235,22 +237,26 @@ export default function App() {
         setLastLocalAction('Local restore needs attention');
         setSaveStatus(`${getLocalRestoreErrorGuidance('malformed')} Detail: ${getErrorDetail(error, 'saved data could not be parsed')}`);
       } finally {
-        setRestored(true);
+        if (mounted) setRestored(true);
       }
       ImagePicker.getPendingResultAsync().then((result) => {
+        if (!mounted) return;
         if (result && !result.canceled && result.assets?.[0]) addPickedPhoto(result.assets[0]);
       }).catch((error) => {
+        if (!mounted) return;
         const detail = getErrorDetail(error, 'pending camera result could not be restored');
         recordRecoveryEvent('Pending camera restore', 'error', detail);
         setSaveStatus(`Could not restore a pending camera result; you can choose a photo again. Detail: ${detail}`);
       });
     }).catch((error) => {
+      if (!mounted) return;
       const detail = getErrorDetail(error, 'local storage could not be read');
       recordRecoveryEvent('Local restore', 'error', detail);
       setRestored(true);
       setSaveState('error');
       setSaveStatus(`${getLocalRestoreErrorGuidance('storage')} Detail: ${detail}`);
     });
+    return () => { mounted = false; };
   }, []);
 
   const persistLocalCopy = async ({ queueOnFailure = true } = {}) => {
