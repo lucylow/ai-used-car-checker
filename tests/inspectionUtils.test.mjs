@@ -1365,6 +1365,13 @@ test('normalizes offline demo and deterministic failure settings safely', () => 
   assert.deepEqual(normalized.failureToggles, { camera: true, photo: true, report: true, storage: false });
 });
 
+test('guards photo-processing failure callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /recordRecoveryEvent\('Photo local copy', 'error',/);
+  assert.match(appSource, /if \(mountedRef\.current\) recordRecoveryEvent\('Photo local copy'/);
+  assert.match(appSource, /catch \(error\) \{ if \(!mountedRef\.current\) return; const detail = getErrorDetail\(error, 'photo processing failed'\)/);
+});
+
 test('surfaces onboarding persistence failures without blocking continuation', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /Onboarding preference could not be saved; you can continue using Carwise/);
