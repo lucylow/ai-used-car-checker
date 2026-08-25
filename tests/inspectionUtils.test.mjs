@@ -1418,6 +1418,11 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards navigation overlay cleanup against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const closeNavigationOverlays = \(\) => \{ if \(!mountedRef\.current\) return;/);
+});
+
 test('guards backup and photo viewer close callbacks against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /const closePhotoViewer = \(\) => \{ if \(!mountedRef\.current\) return;/);
