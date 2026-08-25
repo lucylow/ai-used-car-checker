@@ -1763,3 +1763,9 @@ test('guards photo viewer navigation callbacks against unmounted state updates',
   assert.match(appSource, /const selectViewerPhoto = \(photo\) => \{ if \(!mountedRef\.current\) return; pinchScale\.stopAnimation\(\);/);
   assert.match(appSource, /onPress=\{\(\) => selectViewerPhoto\(viewerPhotos\[/);
 });
+
+test('guards saved-detail editable-report transitions against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const openEditableReport = \(item\) => \{ if \(!mountedRef\.current \|\| !item\) return;/);
+  assert.match(appSource, /onOpenEditableReport=\{openEditableReport\}/);
+});

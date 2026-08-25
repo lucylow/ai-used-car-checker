@@ -1546,3 +1546,9 @@
 - [x] Add deterministic regression coverage for photo viewer navigation guards
 - [x] Run the full validation suite after the photo viewer hardening
 - [ ] Save a recoverable checkpoint for the photo viewer hardening
+
+- [x] Audit the next asynchronous lifecycle boundary and harden any remaining stale callback
+- [x] Guard saved-detail editable-report transitions against unmounted state updates
+- [x] Add deterministic regression coverage for saved-detail lifecycle guards
+- [x] Run the full validation suite after the saved-detail hardening
+- [ ] Save a recoverable checkpoint for the saved-detail hardening
