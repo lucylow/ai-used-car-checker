@@ -1823,3 +1823,13 @@ test('guards nested issue-editor and custom-finding callbacks against unmounted 
   assert.match(appSource, /onPress=\{closeIssueEditor\}/);
   assert.match(appSource, /onPress=\{closeCustomFinding\}/);
 });
+
+test('guards issue and custom-finding draft field callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const updateIssueDraftField = \(field, value\) => \{ if \(!mountedRef\.current\) return; setIssueDraft\(/);
+  assert.match(appSource, /const updateCustomFindingDraftField = \(field, value\) => \{ if \(!mountedRef\.current\) return; setCustomFindingDraft\(/);
+  assert.match(appSource, /onPress=\{\(\) => updateIssueDraftField\('severity', level\)\}/);
+  assert.match(appSource, /onChangeText=\{\(cost\) => updateIssueDraftField\('cost', cost\)\}/);
+  assert.match(appSource, /onChangeText=\{\(name\) => updateCustomFindingDraftField\('name', name\)\}/);
+  assert.match(appSource, /onPress=\{\(\) => updateCustomFindingDraftField\('severity', level\)\}/);
+});

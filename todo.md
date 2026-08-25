@@ -1594,4 +1594,10 @@
 - [x] Add mounted-safe custom-finding entry and modal cancellation handlers
 - [x] Add deterministic regression coverage for issue-editor and custom-finding callbacks
 - [x] Run the full validation suite after issue-editor and custom-finding hardening
-- [ ] Save a recoverable checkpoint for issue-editor and custom-finding hardening
+- [x] Save a recoverable checkpoint for issue-editor and custom-finding hardening
+
+- [x] Audit nested issue-draft field callbacks for stale state updates after unmount
+- [x] Add mounted-safe issue and custom-finding draft field handlers
+- [x] Add deterministic regression coverage for issue-draft field callbacks
+- [x] Run the full validation suite after issue-draft hardening
+- [ ] Save a recoverable checkpoint for issue-draft hardening
