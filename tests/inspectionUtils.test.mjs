@@ -1418,6 +1418,11 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards backup-import cancellation handling after document picker awaits', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const result = await DocumentPicker\.getDocumentAsync\(\{ type: 'application\/json', copyToCacheDirectory: true \}\); if \(!mountedRef\.current\) return; if \(result\.canceled/);
+});
+
 test('guards tool-note deletion confirmation callbacks against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /text: 'Delete', style: 'destructive', onPress: \(\) => \{ if \(!mountedRef\.current\) return; setSavedNote\(''\); setValue\(''\); setEditing\(false\); onDeleteNote\(type\); \}/);

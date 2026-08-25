@@ -1401,3 +1401,9 @@
 - [x] Audit the latest Carwise implementation for the next high-impact reliability or usability gap
 - [x] Implement the selected improvement while preserving local-first integrity
 - [x] Add deterministic regression coverage and run full validation
+
+- [x] Audit the latest Carwise implementation for the next high-impact reliability or usability gap
+- [x] Implement the selected improvement while preserving local-first integrity
+- [x] Add deterministic regression coverage for the new improvement
+- [x] Run TypeScript, ESLint, tests, and Expo web export validation
+- [ ] Save a recoverable checkpoint for the completed improvement
