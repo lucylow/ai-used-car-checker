@@ -1331,3 +1331,6 @@
 - [x] Add deterministic coverage for partial market-range guidance
 - [x] Restore explicit React hook imports in the market-comparison component
 - [x] Add deterministic static coverage for required market-form hooks
+- [x] Audit the current Carwise flows for the next high-impact reliability or usability gap
+- [x] Implement the selected improvement without weakening local-first integrity
+- [x] Add deterministic regression coverage and re-run full validation
