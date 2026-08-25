@@ -1582,4 +1582,10 @@
 - [x] Guard checklist section toggles before navigation or state mutation
 - [x] Add deterministic regression coverage for inspection-step navigation
 - [x] Run the full validation suite after inspection-step hardening
-- [ ] Save a recoverable checkpoint for inspection-step hardening
+- [x] Save a recoverable checkpoint for inspection-step hardening
+
+- [x] Audit remaining AI evidence and photo callbacks for stale state updates after unmount
+- [x] Add mounted-safe AI evidence, photo selection, photo-add, and filter handlers
+- [x] Add deterministic regression coverage for AI evidence and photo callbacks
+- [x] Run the full validation suite after AI evidence and photo hardening
+- [ ] Save a recoverable checkpoint for AI evidence and photo hardening

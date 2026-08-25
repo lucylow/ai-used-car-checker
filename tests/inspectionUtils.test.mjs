@@ -1806,3 +1806,12 @@ test('guards inspection-step navigation callbacks against unmounted state update
   assert.match(appSource, /onBack=\{goNew\} onPhotos=\{goPhotos\}/);
   assert.match(appSource, /if \(!mountedRef\.current\) return; if \(index === 4\) goTest\(\)/);
 });
+
+test('guards AI evidence and photo callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const handleEvidenceAction = \(nextScreen\) => \{ if \(!mountedRef\.current \|\| !nextScreen\) return; setScreen\(nextScreen\); \}/);
+  assert.match(appSource, /const viewAiPhoto = \(photoId\) => \{ if \(!mountedRef\.current\) return;/);
+  assert.match(appSource, /const addAiPhoto = \(\) => \{ if \(!mountedRef\.current\) return; setScreen\('photos'\); \}/);
+  assert.match(appSource, /const updatePhotoReviewFilter = \(nextFilter\) => \{ if \(!mountedRef\.current\) return; setPhotoReviewFilter\(nextFilter\); \}/);
+  assert.match(appSource, /onEvidenceAction=\{handleEvidenceAction\} onViewPhoto=\{viewAiPhoto\} onAddPhoto=\{addAiPhoto\}/);
+});
