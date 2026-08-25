@@ -1833,3 +1833,13 @@ test('guards issue and custom-finding draft field callbacks against unmounted st
   assert.match(appSource, /onChangeText=\{\(name\) => updateCustomFindingDraftField\('name', name\)\}/);
   assert.match(appSource, /onPress=\{\(\) => updateCustomFindingDraftField\('severity', level\)\}/);
 });
+
+test('guards Home navigation callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const goHistoryTab = \(\) => \{ if \(!mountedRef\.current\) return; setScreen\('historyTab'\); \}/);
+  assert.match(appSource, /const goSummary = \(\) => \{ if \(!mountedRef\.current\) return; setScreen\('summary'\); \}/);
+  assert.match(appSource, /const openTool = \(label\) => \{ if \(!mountedRef\.current \|\| !label\) return; setScreen\(label\.toLowerCase\(\)\); \}/);
+  assert.match(appSource, /onPress=\{goHistoryTab\}/);
+  assert.match(appSource, /onPress=\{goSummary\}/);
+  assert.match(appSource, /onPress=\{\(\) => openTool\(label\)\}/);
+});

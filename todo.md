@@ -1600,4 +1600,10 @@
 - [x] Add mounted-safe issue and custom-finding draft field handlers
 - [x] Add deterministic regression coverage for issue-draft field callbacks
 - [x] Run the full validation suite after issue-draft hardening
-- [ ] Save a recoverable checkpoint for issue-draft hardening
+- [x] Save a recoverable checkpoint for issue-draft hardening
+
+- [x] Audit shared lifecycle handling and remaining repeated mounted checks
+- [x] Add mounted-safe Home history, summary, and tool navigation handlers
+- [x] Add deterministic regression coverage for Home navigation callbacks
+- [x] Run the full validation suite after shared lifecycle hardening
+- [ ] Save a recoverable checkpoint for shared lifecycle hardening
