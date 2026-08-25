@@ -1365,6 +1365,12 @@ test('normalizes offline demo and deterministic failure settings safely', () => 
   assert.deepEqual(normalized.failureToggles, { camera: true, photo: true, report: true, storage: false });
 });
 
+test('guards onboarding and Settings persistence errors against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /carwise-onboarding-seen', '1'\); } catch \(error\) \{ if \(!mountedRef\.current\) return;/);
+  assert.match(appSource, /AsyncStorage\.setItem\('carwise-settings', JSON\.stringify\(settings\)\)\.catch\(\(error\) => \{ if \(!mountedRef\.current\) return;/);
+});
+
 test('guards local-save and retry-queue completion against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /await AsyncStorage\.setItem\('carwise-inspection', payload\);\s*if \(!mountedRef\.current\) return false;/);
