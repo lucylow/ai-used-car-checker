@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { createNewInspectionState, getDerivedInspectionResetState, getNewInspectionTransientResetState, getRepairTotal, getRiskScore, isSameIssue, isValidVin, normalizeVin, normalizeActiveInspection } from '../src/services/inspectionUtils.js';
 import { buildInspectionReport, formatCurrency, buildPhotoEvidenceHtml, formatPhotoEvidenceLabel, formatRepairPriorityHtml, getCanceledFlowGuidance, getChecklistGuidance, getDurablePhotoFileName, getFunctionalActionLabel, getInspectionActionGuidance, getInspectionNavigationLabel, getLocalSaveDelay, getMainFlowReadiness, getPhotoActionGuidance, getPhotoScreenGuidance, getLocalSaveLabel, getRestoreSourceLabel, getLocalRestoreErrorGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getMediaErrorGuidance, getErrorDetail, normalizeRecoveryLog, filterRecoveryLogEntries, buildDiagnosticExport, getSafeDateLabel, getRecoveryLogTimeLabel, getReportErrorGuidance, getOperationStatusLabel, getProcessingLabel, getProgressSummaryLabel, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, getVinWalkthroughStep, normalizeCarwiseSettings, getMotionDuration, getAnimatedProgressPercent, getRecoveryGuidance, getRecoveryLogPresentation, getReportRetryLabel, getAiErrorGuidance, toggleReportSection, getSavedInspectionDisplayName, getReportActionState, getReportPreviewCloseState, getReportActionStartState, getSettingsSaveErrorGuidance, getLocalSaveSuccessLabel, getLocalSaveIndicator, getRestoreSourceForFlow, getReportProvenanceLabel, isSettingsPersistenceReady, shouldScheduleLocalPersistence, isCurrentPersistenceGeneration, escapeHtml, getTransientTimerCleanupKeys, getNextPersistenceGeneration, isCurrentActionGeneration } from '../src/services/reportUtils.js';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteEditorState, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from '../src/services/backupUtils.js';
@@ -1280,6 +1281,13 @@ test('formats malformed saved market data safely for history review', async () =
   assert.equal(normalized.askingPrice, 0);
   assert.equal(normalized.mileage, 0);
   assert.match(getMarketComparisonSummary(normalized), /asking price/);
+});
+
+test('keeps market form hook imports available for runtime initialization', () => {
+  const source = readFileSync(new URL('../components/market-comparison-tool.js', import.meta.url), 'utf8');
+  assert.match(source, /import React, \{ useEffect, useState \} from ['"]react['"];?/);
+  assert.equal((source.match(/\buseEffect\b/g) || []).length >= 2, true);
+  assert.equal((source.match(/\buseState\b/g) || []).length >= 3, true);
 });
 
 test('preserves validated market comparison through saved inspection normalization', async () => {

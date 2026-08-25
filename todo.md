@@ -1329,3 +1329,5 @@
 - [x] Add deterministic coverage for incomplete market-guidance states
 - [x] Avoid range conclusions when only one comparable bound is provided
 - [x] Add deterministic coverage for partial market-range guidance
+- [x] Restore explicit React hook imports in the market-comparison component
+- [x] Add deterministic static coverage for required market-form hooks
