@@ -1321,3 +1321,5 @@
 - [x] Add deterministic coverage or static validation for market-form hook availability
 - [x] Guard VIN result rendering against malformed decoded vehicle containers
 - [x] Add deterministic coverage for safe decoded VIN vehicle rendering inputs
+- [x] Keep market edits local until validation succeeds on explicit save
+- [x] Add deterministic coverage for rejecting invalid market drafts before persistence

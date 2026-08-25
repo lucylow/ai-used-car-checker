@@ -1288,6 +1288,12 @@ test('preserves validated market comparison through saved inspection normalizati
   assert.deepEqual(normalized.marketComparison, normalizeMarketComparison({ askingPrice: '22000', comparableLow: '20000', comparableHigh: '24000' }));
 });
 
+test('blocks invalid market drafts before persistence', async () => {
+  const { shouldPersistMarketComparison } = await import('../src/services/marketUtils.js');
+  assert.equal(shouldPersistMarketComparison({ askingPrice: 22000, comparableLow: 25000, comparableHigh: 20000 }), false);
+  assert.equal(shouldPersistMarketComparison({ askingPrice: 22000, comparableLow: 20000, comparableHigh: 24000 }), true);
+});
+
 test('validates structured market ranges and normalizes unsafe values', async () => {
   const { normalizeMarketComparison, validateMarketComparison, getMarketComparisonSummary } = await import('../src/services/marketUtils.js');
   const value = normalizeMarketComparison({ askingPrice: '<22000', comparableLow: 25000, comparableHigh: 20000, mileage: '48,200', condition: 'unknown' });

@@ -33,6 +33,8 @@ export const validateMarketComparison = (input = {}) => {
   return { valid: errors.length === 0, errors, value };
 };
 
+export const shouldPersistMarketComparison = (input = {}) => validateMarketComparison(input).valid;
+
 export const getMarketComparisonDisplay = (input = {}) => { const value = normalizeMarketComparison(input); return { asking: value.askingPrice ? `$${value.askingPrice.toLocaleString()}` : 'Not provided', comparable: value.comparableLow || value.comparableHigh ? `${value.comparableLow ? `$${value.comparableLow.toLocaleString()}` : 'Not provided'}–${value.comparableHigh ? `$${value.comparableHigh.toLocaleString()}` : 'Not provided'}` : 'Not provided', mileage: value.mileage ? value.mileage.toLocaleString() : 'Not provided', condition: value.condition }; };
 
 export const getMarketComparisonSummary = (input = {}) => {
