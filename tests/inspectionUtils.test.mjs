@@ -1406,6 +1406,11 @@ test('guards onboarding and Settings persistence errors against unmounted state 
   assert.match(appSource, /AsyncStorage\.setItem\('carwise-settings', JSON\.stringify\(settings\)\)\.catch\(\(error\) => \{ if \(!mountedRef\.current\) return;/);
 });
 
+test('does not start local persistence after App unmount', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const persistLocalCopy = async \(\{ queueOnFailure = true \} = \{\}\) => \{\s*if \(!mountedRef\.current\) return false;\s*setSaveState\('saving'\)/);
+});
+
 test('guards local-save and retry-queue completion against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /await AsyncStorage\.setItem\('carwise-inspection', payload\);\s*if \(!mountedRef\.current\) return false;/);

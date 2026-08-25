@@ -260,6 +260,7 @@ export default function App() {
   }, []);
 
   const persistLocalCopy = async ({ queueOnFailure = true } = {}) => {
+    if (!mountedRef.current) return false;
     setSaveState('saving');
     let payload = '';
     let recoveryQueued = false;
