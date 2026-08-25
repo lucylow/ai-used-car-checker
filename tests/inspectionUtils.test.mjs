@@ -1790,3 +1790,10 @@ test('guards checklist navigation callbacks against unmounted state updates', ()
   assert.match(appSource, /onChecklist=\{goChecklist\}/);
   assert.match(appSource, /onPress=\{goChecklist\}/);
 });
+
+test('guards AI and summary navigation callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const goAi = \(\) => \{ if \(!mountedRef\.current\) return; setScreen\('ai'\); \}/);
+  assert.match(appSource, /onPress=\{goAi\}/);
+  assert.match(appSource, /onPress=\{goHome\}>‹ Home<\/Text>/);
+});
