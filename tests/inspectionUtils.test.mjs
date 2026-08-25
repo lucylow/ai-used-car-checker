@@ -1365,6 +1365,12 @@ test('normalizes offline demo and deterministic failure settings safely', () => 
   assert.deepEqual(normalized.failureToggles, { camera: true, photo: true, report: true, storage: false });
 });
 
+test('guards delayed AI and photo success callbacks against unmounted state updates', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /aiTimer\.current = setTimeout\(\(\) => \{ if \(!mountedRef\.current \|\| !isCurrentActionGeneration/);
+  assert.match(appSource, /if \(!mountedRef\.current \|\| !isCurrentActionGeneration\(\{ generation: actionGeneration, currentGeneration: persistGeneration\.current \}\)\) return; setPhotos/);
+});
+
 test('guards photo-processing failure callbacks against unmounted state updates', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /recordRecoveryEvent\('Photo local copy', 'error',/);
