@@ -1418,6 +1418,12 @@ test('guards delayed photo-delete confirmation callbacks against unmounted state
   assert.match(appSource, /Alert\.alert\(guidance\.title, guidance\.message, \[\{ text: 'Cancel'/);
 });
 
+test('guards onboarding replay before state updates after unmount', () => {
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(appSource, /const replayOnboarding = \(\) => \{ if \(!mountedRef\.current\) return;/);
+  assert.match(appSource, /onPress=\{replayOnboarding\}/);
+});
+
 test('guards onboarding step transitions before state updates after unmount', () => {
   const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
   assert.match(appSource, /const goToPreviousOnboardingStep = \(\) => \{ if \(!mountedRef\.current\) return; setOnboardingStep/);
