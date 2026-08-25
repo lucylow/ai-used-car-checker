@@ -688,9 +688,9 @@ test('describes guided VIN lookup states without exposing unsafe input', () => {
 });
 
 test('normalizes persisted Carwise settings with safe defaults', () => {
-  assert.deepEqual(normalizeCarwiseSettings({ compactMode: 1, aiDisclosure: false, motionIntensity: 'lively' }), { compactMode: true, aiDisclosure: false, motionIntensity: 'lively' });
-  assert.deepEqual(normalizeCarwiseSettings({ compactMode: 'no', motionIntensity: 'unknown' }), { compactMode: true, aiDisclosure: true, motionIntensity: 'standard' });
-  assert.deepEqual(normalizeCarwiseSettings(null, { compactMode: true, aiDisclosure: false, motionIntensity: 'gentle' }), { compactMode: false, aiDisclosure: true, motionIntensity: 'gentle' });
+  assert.deepEqual(normalizeCarwiseSettings({ compactMode: 1, aiDisclosure: false, motionIntensity: 'lively' }), { compactMode: true, aiDisclosure: false, motionIntensity: 'lively', offlineDemoData: true, failureToggles: { camera: false, photo: false, report: false, storage: false } });
+  assert.deepEqual(normalizeCarwiseSettings({ compactMode: 'no', motionIntensity: 'unknown' }), { compactMode: true, aiDisclosure: true, motionIntensity: 'standard', offlineDemoData: true, failureToggles: { camera: false, photo: false, report: false, storage: false } });
+  assert.deepEqual(normalizeCarwiseSettings(null, { compactMode: true, aiDisclosure: false, motionIntensity: 'gentle' }), { compactMode: false, aiDisclosure: true, motionIntensity: 'gentle', offlineDemoData: true, failureToggles: { camera: false, photo: false, report: false, storage: false } });
 });
 
 test('routes onboarding actions to manual setup or VIN decoding', () => {
@@ -1217,8 +1217,9 @@ test('sanitizes malformed report-operation diagnostics and guidance inputs', () 
 });
 
 test('sanitizes malformed settings and motion preference values', () => {
-  assert.deepEqual(normalizeCarwiseSettings([], []), { compactMode: false, aiDisclosure: true, motionIntensity: 'standard' });
-  assert.deepEqual(normalizeCarwiseSettings({ motionIntensity: { unsafe: true } }, { motionIntensity: 'gentle' }), { compactMode: false, aiDisclosure: true, motionIntensity: 'gentle' });
+  assert.deepEqual(normalizeCarwiseSettings([], []), { compactMode: false, aiDisclosure: true, motionIntensity: 'standard', offlineDemoData: true, failureToggles: { camera: false, photo: false, report: false, storage: false } });
+  assert.deepEqual(normalizeCarwiseSettings({ motionIntensity: { unsafe: true } }, { motionIntensity: 'gentle' }), { compactMode: false, aiDisclosure: true, motionIntensity: 'gentle', offlineDemoData: true, failureToggles: { camera: false, photo: false, report: false, storage: false } });
+  assert.deepEqual(normalizeCarwiseSettings({ offlineDemoData: 0, failureToggles: { camera: 'yes', photo: 1, report: null, storage: [] } }), { compactMode: false, aiDisclosure: true, motionIntensity: 'standard', offlineDemoData: true, failureToggles: { camera: true, photo: true, report: false, storage: true } });
   assert.equal(getMotionDuration(Infinity, 'standard'), 40);
   assert.equal(getMotionDuration(999999, 'standard'), 2000);
 });
@@ -1356,6 +1357,22 @@ test('discloses format-only VIN confidence to users', async () => {
   const { getVinConfidenceDisclosure } = await import('../src/services/vinService.js');
   assert.match(getVinConfidenceDisclosure(0.96), /Format-based confidence only/);
   assert.match(getVinConfidenceDisclosure(0.38), /Format check is incomplete/);
+});
+
+test('normalizes offline demo and deterministic failure settings safely', () => {
+  const normalized = normalizeCarwiseSettings({ offlineDemoData: false, failureToggles: { camera: true, photo: 1, report: 'yes', storage: false } });
+  assert.equal(normalized.offlineDemoData, false);
+  assert.deepEqual(normalized.failureToggles, { camera: true, photo: true, report: true, storage: false });
+});
+
+test('exposes VIN retry and Settings-controlled demo data without hiding live failure state', () => {
+  const vinSource = readFileSync(new URL('../components/vin-tool.js', import.meta.url), 'utf8');
+  const appSource = readFileSync(new URL('../App.js', import.meta.url), 'utf8');
+  assert.match(vinSource, /Retry live lookup/);
+  assert.match(vinSource, /allowDemoData/);
+  assert.match(appSource, /offlineDemoData/);
+  assert.match(appSource, /failureToggles/);
+  assert.match(appSource, /Deterministic storage failure/);
 });
 
 test('labels VIN demo fallback data and keeps it opt-in', () => {

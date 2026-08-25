@@ -1346,3 +1346,7 @@
 - [x] Expand defensive handling for remaining native or external operation failures
 - [x] Add or extend clearly labeled fallback mock data without masking real failures
 - [x] Add deterministic regression coverage and run full validation
+- [x] Add a persisted Settings switch for enabling or disabling offline demo data
+- [x] Add deterministic failure toggles for camera, photo processing, report export, and local storage
+- [x] Add a visible retry-live-lookup action beside the VIN offline demo option
+- [x] Add deterministic regression coverage and run full validation
