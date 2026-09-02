@@ -1643,3 +1643,11 @@
 - [x] Add deterministic regression coverage for the hackathon demo flow
 - [x] Run TypeScript, ESLint, tests, and Expo web export validation
 - [ ] Save a recoverable checkpoint for the hackathon demo
+
+# Sponsor Prize Mock-Data Refinement
+
+- [x] Audit the current hackathon demo screens and mock-service data
+- [x] Design realistic sponsor-shaped payloads and mobile interaction states
+- [x] Refine the mobile UI and integrated mock prize flow
+- [x] Add regression coverage and run full validation
+- [ ] Save a recoverable checkpoint for the sponsor-prize refinement
