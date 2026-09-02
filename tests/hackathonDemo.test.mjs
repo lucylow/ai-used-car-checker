@@ -42,3 +42,20 @@ test('hackathon demo makes prize mapping and sandbox provenance visible', () => 
   assert.match(source, /7 CONNECTORS READY/);
   assert.match(source, /Market → Paint → Report → Certificate → Contract → eSign → Domain/);
 });
+
+test('hackathon demo includes compact operational telemetry and sponsor analytics', () => {
+  for (const marker of ['sponsorTelemetry', 'medianLatencyMs', 'fallbackPolicy', 'apiHealth', 'trend30d', 'demand', 'paintThicknessMicrons', 'glossIndex', 'evidenceCount', 'recommendedOffer', 'recipientNames', 'authentication', 'privacy', 'renewal']) {
+    assert.match(source, new RegExp(marker));
+  }
+  assert.match(source, /Deterministic fixture on timeout/);
+  assert.match(source, /All sponsor adapters operational/);
+});
+
+test('hackathon demo keeps sponsor mock data deterministic and clearly sandboxed', () => {
+  assert.match(source, /environment: 'sandbox'/);
+  assert.match(source, /run_carcheck_2026_004821/);
+  assert.match(source, /trace_7f2a91c4/);
+  assert.match(source, /127 comparable listings/);
+  assert.match(source, /Ed25519 verified/);
+  assert.match(source, /Email \+ passcode/);
+});

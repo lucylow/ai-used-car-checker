@@ -1658,3 +1658,11 @@
 - [x] Add deterministic tests for traceable sponsor payloads and sandbox provenance
 - [x] Run tests, TypeScript, ESLint, and Expo web export
 - [ ] Save a recoverable checkpoint for the sponsor refinement
+
+# Compact sponsor mock-data pass
+
+- [x] Add operational telemetry, latency, fallback, and activity fixtures
+- [x] Add market trend, paint measurement, report action, certificate signature, contract offer, eSign authentication, and domain renewal fixtures
+- [x] Add deterministic regression coverage for the compact mock-data pass
+- [x] Run the full validation suite
+- [ ] Save a recoverable checkpoint for the compact mock-data pass
