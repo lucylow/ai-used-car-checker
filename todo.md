@@ -1651,3 +1651,10 @@
 - [x] Refine the mobile UI and integrated mock prize flow
 - [x] Add regression coverage and run full validation
 - [ ] Save a recoverable checkpoint for the sponsor-prize refinement
+
+# Current sponsor refinement
+
+- [x] Add realistic sponsor identifiers, confidence scores, comparable listings, document metadata, and prize mappings
+- [x] Add deterministic tests for traceable sponsor payloads and sandbox provenance
+- [x] Run tests, TypeScript, ESLint, and Expo web export
+- [ ] Save a recoverable checkpoint for the sponsor refinement

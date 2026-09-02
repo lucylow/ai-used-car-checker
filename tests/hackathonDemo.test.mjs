@@ -25,3 +25,20 @@ test('hackathon demo is self-contained and uses deterministic mock services', ()
   assert.doesNotMatch(source, /from ['\"]@react-navigation/);
   assert.doesNotMatch(source, /process\.env/);
 });
+
+test('hackathon demo exposes realistic traceable sponsor payloads', () => {
+  for (const marker of ['requestId', 'jobId', 'reportId', 'contractId', 'envelope', 'registrar', 'confidence', 'comps', 'demoContext', 'runId', 'traceId']) {
+    assert.match(source, new RegExp(marker));
+  }
+  assert.match(source, /127 comparable listings/);
+  assert.match(source, /auditTrail/);
+  assert.match(source, /checklistVersion/);
+});
+
+test('hackathon demo makes prize mapping and sandbox provenance visible', () => {
+  assert.match(source, /\$3,000 prize/);
+  assert.match(source, /\$2,500 prize/);
+  assert.match(source, /environment: 'sandbox'/);
+  assert.match(source, /7 CONNECTORS READY/);
+  assert.match(source, /Market → Paint → Report → Certificate → Contract → eSign → Domain/);
+});
