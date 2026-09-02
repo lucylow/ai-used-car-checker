@@ -1612,4 +1612,34 @@
 - [x] Add an entry guard for photo processing against unmounted or missing assets
 - [x] Add deterministic regression coverage for the photo-processing entry boundary
 - [x] Run the full validation suite after photo-processing hardening
-- [ ] Save a recoverable checkpoint for photo-processing hardening
+- [x] Save a recoverable checkpoint for photo-processing hardening
+
+# Product Demo Video
+
+- [ ] Inspect the real Carwise screens and select authentic demo flows
+- [ ] Prepare a reusable 1–3 minute product-demo storyline and capture plan
+- [ ] Generate and assemble a polished 16:9 MP4 product-demo video
+- [ ] Perform a lightweight quality check and deliver the MP4
+
+# Screenshot-Driven Mobile Mockup Video
+
+- [x] Inspect and organize authentic Carwise screenshot assets
+- [x] Prepare phone mockup compositions and deterministic demo sequence
+- [x] Assemble the screenshot-driven MP4 with pan, zoom, and transitions
+- [x] Verify the MP4 and deliver the mobile mockup video
+
+# Expanded Screenshot Video
+
+- [x] Collect and inspect additional authentic Carwise screenshots
+- [x] Prepare an expanded approximately two-minute phone-mockup sequence
+- [x] Assemble and refine the extended MP4 with readable holds and transitions
+- [x] Verify and deliver the expanded video
+
+# DevNetwork Hackathon 2026 Demo
+
+- [x] Audit the active Expo project and existing Carwise architecture
+- [x] Design the compact mock sponsor flow and shared inspection data model
+- [x] Implement polished navigation, theme support, dashboard progress, and sponsor badges
+- [x] Add deterministic regression coverage for the hackathon demo flow
+- [x] Run TypeScript, ESLint, tests, and Expo web export validation
+- [ ] Save a recoverable checkpoint for the hackathon demo

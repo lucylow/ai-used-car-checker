@@ -1,4 +1,4 @@
 import { registerRootComponent } from 'expo';
-import App from './App';
+import DevNetworkHackathonApp from './DevNetworkHackathonApp';
 
-registerRootComponent(App);
+registerRootComponent(DevNetworkHackathonApp);
