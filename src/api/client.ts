@@ -20,9 +20,13 @@ export class ApiClient {
     });
 
     this.client.interceptors.request.use(async (config) => {
-      const token = await SecureStore.getItemAsync('access_token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+      try {
+        const token = await SecureStore.getItemAsync('access_token');
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+      } catch (error) {
+        captureException(error);
       }
       return config;
     });
@@ -31,7 +35,11 @@ export class ApiClient {
       (r) => r,
       async (error: AxiosError) => {
         if (error.response?.status === 401) {
-          await SecureStore.deleteItemAsync('access_token');
+          try {
+            await SecureStore.deleteItemAsync('access_token');
+          } catch (storageError) {
+            captureException(storageError);
+          }
         }
         if (error.response?.status && error.response.status >= 500) {
           captureException(error);

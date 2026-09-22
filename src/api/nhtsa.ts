@@ -14,19 +14,20 @@ interface NHTSAResponse {
  * Rate limit: reasonable use only.
  */
 export async function decodeVin(vin: string): Promise<VehicleSpecs | null> {
-  if (!isValidVin(vin)) return null;
+  const normalizedVin = typeof vin === 'string' ? vin.trim().toUpperCase() : '';
+  if (!isValidVin(normalizedVin)) return null;
 
   try {
     const { data } = await axios.get<NHTSAResponse>(
-      `${NHTSA_BASE}/DecodeVinValues/${vin}?format=json`,
+      `${NHTSA_BASE}/DecodeVinValues/${normalizedVin}?format=json`,
       { timeout: 10000 }
     );
 
-    if (!data.Results?.length) return null;
+    if (!data || !Array.isArray(data.Results) || !data.Results.length) return null;
     const r = data.Results[0];
 
     return {
-      vin: vin.toUpperCase(),
+      vin: normalizedVin,
       make: r.Make ?? '',
       model: r.Model ?? '',
       year: parseInt(r.ModelYear ?? '0', 10),

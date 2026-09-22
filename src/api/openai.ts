@@ -43,54 +43,80 @@ export async function analyzeVehiclePhoto(photoUri: string): Promise<AIPhotoResu
   if (!OPENAI_KEY) {
     throw new Error('OpenAI API key is not configured');
   }
+  if (typeof photoUri !== 'string' || !photoUri.trim()) {
+    throw new Error('A photo is required for AI analysis');
+  }
 
-  const base64 = await FileSystem.readAsStringAsync(photoUri, {
-    encoding: FileSystem.EncodingType.Base64,
-  });
+  let base64: string;
+  try {
+    base64 = await FileSystem.readAsStringAsync(photoUri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+  } catch (error) {
+    throw new Error(`Could not read the selected photo: ${getErrorMessage(error)}`);
+  }
 
-  const response = await fetch(OPENAI_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${OPENAI_KEY}`,
-    },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        {
-          role: 'user',
-          content: [
-            {
-              type: 'text',
-              text: 'Analyze this vehicle photo and return the JSON as specified.',
-            },
-            {
-              type: 'image_url',
-              image_url: {
-                url: `data:image/jpeg;base64,${base64}`,
-                detail: 'high',
+  let response: Response;
+  try {
+    response = await fetch(OPENAI_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${OPENAI_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: 'Analyze this vehicle photo and return the JSON as specified.',
               },
-            },
-          ],
-        },
-      ],
-      response_format: { type: 'json_object' },
-      max_tokens: 1500,
-      temperature: 0.2,
-    }),
-  });
+              {
+                type: 'image_url',
+                image_url: {
+                  url: `data:image/jpeg;base64,${base64}`,
+                  detail: 'high',
+                },
+              },
+            ],
+          },
+        ],
+        response_format: { type: 'json_object' },
+        max_tokens: 1500,
+        temperature: 0.2,
+      }),
+    });
+  } catch (error) {
+    throw new Error(`AI service is unavailable: ${getErrorMessage(error)}`);
+  }
 
   if (!response.ok) {
     const errText = await response.text();
     throw new Error(`OpenAI request failed: ${response.status} ${errText}`);
   }
 
-  const json = await response.json();
+  let json: { choices?: Array<{ message?: { content?: string } }> };
+  try {
+    json = await response.json();
+  } catch (error) {
+    throw new Error(`AI service returned invalid JSON: ${getErrorMessage(error)}`);
+  }
   const content = json.choices?.[0]?.message?.content;
   if (!content) throw new Error('Empty response from OpenAI');
 
-  const parsed = JSON.parse(content) as AIPhotoResult;
+  let parsed: AIPhotoResult;
+  try {
+    parsed = JSON.parse(content) as AIPhotoResult;
+  } catch (error) {
+    throw new Error(`AI analysis returned malformed data: ${getErrorMessage(error)}`);
+  }
+  if (!Array.isArray(parsed.findings)) {
+    throw new Error('AI analysis returned no valid findings list');
+  }
   return {
     ...parsed,
     findings: (parsed.findings ?? []).map((f) => ({
@@ -101,6 +127,10 @@ export async function analyzeVehiclePhoto(photoUri: string): Promise<AIPhotoResu
       confidence: f.confidence ?? 0.5,
     })),
   };
+}
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error && error.message ? error.message : 'unknown error';
 }
 
 /**
