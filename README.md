@@ -1,12 +1,12 @@
-# CarWise – AI‑Powered Used Car Inspection Platform
+﻿# CarWise ΓÇô AIΓÇæPowered Used Car Inspection Platform
 
-> **From VIN search to signed contract in minutes with real‑time price intelligence, AI paint inspection, smart contract generation, human‑in‑the‑loop e‑signatures, and verified certificates.**
+> **From VIN search to signed contract in minutes with realΓÇætime price intelligence, AI paint inspection, smart contract generation, humanΓÇæinΓÇætheΓÇæloop eΓÇæsignatures, and verified certificates.**
 
-CarWise is a comprehensive mobile application that revolutionises the used‑car buying experience. It combines real‑time market data, AI‑driven vehicle inspection, document generation, e‑signature, and domain registration into a single, seamless workflow. Built for the DevNetwork [API + Cloud + AI] Hackathon 2026, CarWise integrates seven sponsor APIs to deliver a complete, production‑ready solution.
+CarWise is a comprehensive mobile application that revolutionises the usedΓÇæcar buying experience. It combines realΓÇætime market data, AIΓÇædriven vehicle inspection, document generation, eΓÇæsignature, and domain registration into a single, seamless workflow. Built for the DevNetwork [API + Cloud + AI] Hackathon 2026, CarWise integrates seven sponsor APIs to deliver a complete, productionΓÇæready solution.
 
 ---
 
-## 📖 Table of Contents
+## ≡ƒôû Table of Contents
 
 1. [Overview](#overview)
 2. [Key Features](#key-features)
@@ -27,62 +27,62 @@ CarWise is a comprehensive mobile application that revolutionises the used‑car
 
 ## Overview
 
-CarWise is the world’s first end‑to‑end AI‑powered used‑car inspection and purchase platform. It guides users through the entire car‑buying journey, from initial search to final signature:
+CarWise is the worldΓÇÖs first endΓÇætoΓÇæend AIΓÇæpowered usedΓÇæcar inspection and purchase platform. It guides users through the entire carΓÇæbuying journey, from initial search to final signature:
 
-1. **Search & Market Data** – Real‑time car listings and price comparisons via SerpApi.
-2. **AI Paint Analysis** – Upload car photos and get a condition score using Perfect Corp’s AI.
-3. **Vehicle Inspection** – Step‑by‑step checklist with issue detection and severity scoring.
-4. **Trusted Certificates** – Generate tamper‑proof inspection certificates via Nutrient DWS.
-5. **Contract Generation** – Create legally binding purchase agreements with Doctavian’s smart templates.
-6. **e‑Signature** – Send documents for digital signature using Foxit eSign.
-7. **Domain Registration** – Automatically register a domain for the vehicle with name.com.
+1. **Search & Market Data** ΓÇô RealΓÇætime car listings and price comparisons via SerpApi.
+2. **AI Paint Analysis** ΓÇô Upload car photos and get a condition score using Perfect CorpΓÇÖs AI.
+3. **Vehicle Inspection** ΓÇô StepΓÇæbyΓÇæstep checklist with issue detection and severity scoring.
+4. **Trusted Certificates** ΓÇô Generate tamperΓÇæproof inspection certificates via Nutrient DWS.
+5. **Contract Generation** ΓÇô Create legally binding purchase agreements with DoctavianΓÇÖs smart templates.
+6. **eΓÇæSignature** ΓÇô Send documents for digital signature using Foxit eSign.
+7. **Domain Registration** ΓÇô Automatically register a domain for the vehicle with name.com.
 
-All data is synchronised across devices via Xano, a backend‑as‑a‑service, with full offline support and conflict resolution.
+All data is synchronised across devices via Xano, a backendΓÇæasΓÇæaΓÇæservice, with full offline support and conflict resolution.
 
 ---
 
 ## Key Features
 
-### 🔍 Real‑Time Market Data (SerpApi)
+### ≡ƒöì RealΓÇæTime Market Data (SerpApi)
 - Search for any vehicle by make, model, year, or VIN.
 - View current market prices, historical trends, and dealer ratings.
 - Price alerts and notifications for price drops.
 
-### 🖼️ AI Paint Analysis (Perfect Corp)
-- Upload car photos for AI‑based defect detection (scratches, rust, dents).
+### ≡ƒû╝∩╕Å AI Paint Analysis (Perfect Corp)
+- Upload car photos for AIΓÇæbased defect detection (scratches, rust, dents).
 - Get an overall paint condition score and detailed metrics.
 - Compare results across multiple photos.
 
-### 📋 Smart Inspection (Xano)
+### ≡ƒôï Smart Inspection (Xano)
 - Guided checklist covering exterior, interior, engine, and test drive.
 - Add photos, voice notes, and severity tags to each issue.
-- Real‑time sync with Xano backend; works offline with automatic sync.
+- RealΓÇætime sync with Xano backend; works offline with automatic sync.
 
-### 🛡️ Trusted Certificates (Nutrient DWS)
-- Generate a verifiable, tamper‑proof certificate for any inspection.
-- Includes audit trail, confidence scores, and human‑review flags.
+### ≡ƒ¢í∩╕Å Trusted Certificates (Nutrient DWS)
+- Generate a verifiable, tamperΓÇæproof certificate for any inspection.
+- Includes audit trail, confidence scores, and humanΓÇæreview flags.
 - Share certificates via QR code or link.
 
-### 📄 Contract Generation (Doctavian)
+### ≡ƒôä Contract Generation (Doctavian)
 - Generate purchase agreements, service contracts, and warranty documents.
 - Smart templates with conditional logic and dynamic data.
-- One‑click export to PDF.
+- OneΓÇæclick export to PDF.
 
-### ✍️ e‑Signature (Foxit eSign)
+### Γ£ì∩╕Å eΓÇæSignature (Foxit eSign)
 - Send contracts to buyers and sellers for digital signature.
 - Track signing progress in real time.
 - Webhook integration for completion notifications.
 
-### 🌐 Domain Registration (name.com)
+### ≡ƒîÉ Domain Registration (name.com)
 - Automatically check and register domains based on vehicle VIN.
-- Set up DNS records to point to the car’s inspection page.
-- Auto‑renewal and management dashboard.
+- Set up DNS records to point to the carΓÇÖs inspection page.
+- AutoΓÇærenewal and management dashboard.
 
 ---
 
 ## Architecture
 
-The app follows a modern, modular architecture with clear separation of concerns. Below is the high‑level architecture diagram:
+The app follows a modern, modular architecture with clear separation of concerns. Below is the highΓÇælevel architecture diagram:
 
 ```mermaid
 graph TB
@@ -94,13 +94,13 @@ graph TB
     end
 
     subgraph "Backend Services"
-        E[Xano – Backend as a Service]
-        F[SerpApi – Market Data]
-        G[Perfect Corp – AI Vision]
-        H[Nutrient DWS – Document Trust]
-        I[Foxit eSign – Digital Signatures]
-        J[Doctavian – Contract Generation]
-        K[name.com – Domain Registration]
+        E[Xano ΓÇô Backend as a Service]
+        F[SerpApi ΓÇô Market Data]
+        G[Perfect Corp ΓÇô AI Vision]
+        H[Nutrient DWS ΓÇô Document Trust]
+        I[Foxit eSign ΓÇô Digital Signatures]
+        J[Doctavian ΓÇô Contract Generation]
+        K[name.com ΓÇô Domain Registration]
     end
 
     A --> B
@@ -129,7 +129,7 @@ graph TB
 | **Redux State** | Centralised state management with slices for auth, inspection, market, documents, and billing. |
 | **Local Database** | SQLite for offline storage of inspections, vehicles, and user data. |
 | **Offline Sync** | Queue of actions that are automatically synced when the device comes online. |
-| **Xano** | Multi‑tenant backend with REST APIs, WebSocket for real‑time updates, and static hosting. |
+| **Xano** | MultiΓÇætenant backend with REST APIs, WebSocket for realΓÇætime updates, and static hosting. |
 | **Sponsor Services** | Dedicated clients for each sponsor API with circuit breakers, retries, and caching. |
 
 ---
@@ -145,8 +145,8 @@ graph TB
 | **UI Components** | Custom components with react-native-paper, react-native-vector-icons |
 | **Animations** | react-native-reanimated, Animated API |
 | **Networking** | Axios with interceptors, circuit breakers, retries |
-| **Real‑time** | Socket.io client for WebSocket updates |
-| **Backend** | Xano (low‑code backend) |
+| **RealΓÇætime** | Socket.io client for WebSocket updates |
+| **Backend** | Xano (lowΓÇæcode backend) |
 | **APIs** | SerpApi (market data), Perfect Corp (vision), Nutrient DWS (documents), Foxit eSign, Doctavian, name.com |
 | **Push Notifications** | Expo Notifications |
 | **Analytics** | Custom event tracking with Amplitude (optional) |
@@ -158,16 +158,16 @@ graph TB
 
 ## Sponsor Integrations
 
-CarWise leverages seven sponsor APIs to deliver a complete car‑buying experience. Each integration is implemented as a standalone service with robust error handling, caching, and offline support.
+CarWise leverages seven sponsor APIs to deliver a complete carΓÇæbuying experience. Each integration is implemented as a standalone service with robust error handling, caching, and offline support.
 
-### 1. SerpApi – Real‑Time Market Data
+### 1. SerpApi ΓÇô RealΓÇæTime Market Data
 
 **Purpose:** Provide live car listings, pricing, and dealer information.
 
 **Integration Points:**
-- `search()` – Query Google Shopping for vehicle listings.
-- `streamPrices()` – WebSocket for real‑time price updates.
-- `getPriceHistory()` – Historical price trends for a specific VIN.
+- `search()` ΓÇô Query Google Shopping for vehicle listings.
+- `streamPrices()` ΓÇô WebSocket for realΓÇætime price updates.
+- `getPriceHistory()` ΓÇô Historical price trends for a specific VIN.
 
 **Code Example:**
 ```javascript
@@ -175,18 +175,18 @@ const results = await serpApi.search({ make: 'Toyota', model: 'Camry', year: 202
 console.log(`Found ${results.total} listings, avg price $${results.avgPrice}`);
 ```
 
-**Error Handling:** Circuit breaker with 3 retries, exponential backoff, and stale‑while‑revalidate caching.
+**Error Handling:** Circuit breaker with 3 retries, exponential backoff, and staleΓÇæwhileΓÇærevalidate caching.
 
 ---
 
-### 2. Perfect Corp – AI Paint Analysis
+### 2. Perfect Corp ΓÇô AI Paint Analysis
 
 **Purpose:** Analyze car photos to detect scratches, rust, and paint condition.
 
 **Integration Points:**
-- `analyzeCarPaint(imageBase64)` – Single image analysis.
-- `batchAnalyze(imageArray)` – Process up to 5 images concurrently.
-- `classifyDefects(imageBase64)` – Return defect types with confidence scores.
+- `analyzeCarPaint(imageBase64)` ΓÇô Single image analysis.
+- `batchAnalyze(imageArray)` ΓÇô Process up to 5 images concurrently.
+- `classifyDefects(imageBase64)` ΓÇô Return defect types with confidence scores.
 
 **Code Example:**
 ```javascript
@@ -198,14 +198,14 @@ console.log(`Paint score: ${result.overallScore}/100`);
 
 ---
 
-### 3. Xano – Backend as a Service
+### 3. Xano ΓÇô Backend as a Service
 
 **Purpose:** Centralised data storage, user management, and offline sync.
 
 **Integration Points:**
-- `sync()` – Pull remote changes and push local updates.
-- `queueOfflineAction()` – Store actions when offline.
-- `processOfflineQueue()` – Execute pending actions when online.
+- `sync()` ΓÇô Pull remote changes and push local updates.
+- `queueOfflineAction()` ΓÇô Store actions when offline.
+- `processOfflineQueue()` ΓÇô Execute pending actions when online.
 
 **Code Example:**
 ```javascript
@@ -217,13 +217,13 @@ await xano.sync(); // Syncs inspections, vehicles, and user data
 
 ---
 
-### 4. Nutrient DWS – Document Trust
+### 4. Nutrient DWS ΓÇô Document Trust
 
-**Purpose:** Extract data from documents and generate tamper‑proof certificates.
+**Purpose:** Extract data from documents and generate tamperΓÇæproof certificates.
 
 **Integration Points:**
-- `extractDocument(imageUrl, schema)` – Extract VIN, mileage, etc. with confidence scores.
-- `generateCertificate(inspectionData)` – Create a verifiable certificate with audit trail.
+- `extractDocument(imageUrl, schema)` ΓÇô Extract VIN, mileage, etc. with confidence scores.
+- `generateCertificate(inspectionData)` ΓÇô Create a verifiable certificate with audit trail.
 
 **Code Example:**
 ```javascript
@@ -231,17 +231,17 @@ const extracted = await nutrient.extractDocument(photoUri, vinSchema);
 const cert = await nutrient.generateCertificate(inspection);
 ```
 
-**Error Handling:** Low‑confidence fields flagged for human review; certificate hashed and timestamped.
+**Error Handling:** LowΓÇæconfidence fields flagged for human review; certificate hashed and timestamped.
 
 ---
 
-### 5. Foxit eSign – Digital Signatures
+### 5. Foxit eSign ΓÇô Digital Signatures
 
 **Purpose:** Send documents for legally binding digital signatures.
 
 **Integration Points:**
-- `createAndSendEnvelope(doc, recipients, subject)` – Create and send signature request.
-- `getStatus(envelopeId)` – Poll for signing completion.
+- `createAndSendEnvelope(doc, recipients, subject)` ΓÇô Create and send signature request.
+- `getStatus(envelopeId)` ΓÇô Poll for signing completion.
 
 **Code Example:**
 ```javascript
@@ -256,13 +256,13 @@ const envelope = await foxit.createAndSendEnvelope(
 
 ---
 
-### 6. Doctavian – Contract Generation
+### 6. Doctavian ΓÇô Contract Generation
 
 **Purpose:** Generate dynamic, legally compliant documents using smart templates.
 
 **Integration Points:**
-- `generateDocument(templateId, data)` – Render document with data.
-- `batchGenerate(templateId, dataArray)` – Generate multiple documents.
+- `generateDocument(templateId, data)` ΓÇô Render document with data.
+- `batchGenerate(templateId, dataArray)` ΓÇô Generate multiple documents.
 
 **Code Example:**
 ```javascript
@@ -278,14 +278,14 @@ const contract = await doctavian.generateDocument('purchase_agreement', {
 
 ---
 
-### 7. name.com – Domain Registration
+### 7. name.com ΓÇô Domain Registration
 
-**Purpose:** Register domains and manage DNS records for vehicle‑specific landing pages.
+**Purpose:** Register domains and manage DNS records for vehicleΓÇæspecific landing pages.
 
 **Integration Points:**
-- `checkAvailability(domains)` – Bulk availability check.
-- `registerDomain(domain, contactInfo)` – Register domain.
-- `setDNSRecord(domain, record)` – Configure DNS.
+- `checkAvailability(domains)` ΓÇô Bulk availability check.
+- `registerDomain(domain, contactInfo)` ΓÇô Register domain.
+- `setDNSRecord(domain, record)` ΓÇô Configure DNS.
 
 **Code Example:**
 ```javascript
@@ -295,13 +295,13 @@ if (available[0].available) {
 }
 ```
 
-**Error Handling:** Auto‑renewal service (daily check); fallback to alternative domains.
+**Error Handling:** AutoΓÇærenewal service (daily check); fallback to alternative domains.
 
 ---
 
 ## System Flow
 
-The end‑to‑end user journey is orchestrated through a series of screens and service calls. The sequence diagram below illustrates the main flow:
+The endΓÇætoΓÇæend user journey is orchestrated through a series of screens and service calls. The sequence diagram below illustrates the main flow:
 
 ```mermaid
 sequenceDiagram
@@ -355,7 +355,7 @@ sequenceDiagram
 
 ## Data Flow
 
-Data flows through the app in a structured manner, with clear boundaries between local, remote, and third‑party services. The following diagram illustrates the data path for an inspection:
+Data flows through the app in a structured manner, with clear boundaries between local, remote, and thirdΓÇæparty services. The following diagram illustrates the data path for an inspection:
 
 ```mermaid
 graph LR
@@ -363,7 +363,7 @@ graph LR
     B --> C{Online?}
     C -->|Yes| D[Xano Sync]
     D --> E[Remote Database]
-    E --> F[Third‑Party APIs]
+    E --> F[ThirdΓÇæParty APIs]
     F --> E
     E --> D
     D --> B
@@ -374,16 +374,16 @@ graph LR
 
 ### Data Persistence Strategy
 
-1. **Local SQLite** – All user‑generated data (inspections, issues, photos) is stored locally immediately.
-2. **Offline Queue** – Actions are queued when offline and replayed in order when connectivity returns.
-3. **Xano Remote** – Single source of truth for all user data across devices.
-4. **Sponsor APIs** – Data is fetched on‑demand and cached with a TTL.
+1. **Local SQLite** ΓÇô All userΓÇægenerated data (inspections, issues, photos) is stored locally immediately.
+2. **Offline Queue** ΓÇô Actions are queued when offline and replayed in order when connectivity returns.
+3. **Xano Remote** ΓÇô Single source of truth for all user data across devices.
+4. **Sponsor APIs** ΓÇô Data is fetched onΓÇædemand and cached with a TTL.
 
 ### Conflict Resolution
 
-- **Remote Wins** – When conflicts occur (e.g., two users modify the same inspection), the remote version takes precedence.
-- **Manual Merge** – Users can review and accept/reject changes for critical fields (e.g., price).
-- **Audit Trail** – All changes are logged for accountability.
+- **Remote Wins** ΓÇô When conflicts occur (e.g., two users modify the same inspection), the remote version takes precedence.
+- **Manual Merge** ΓÇô Users can review and accept/reject changes for critical fields (e.g., price).
+- **Audit Trail** ΓÇô All changes are logged for accountability.
 
 ---
 
@@ -469,73 +469,73 @@ expo build:android
 
 ```
 carwise/
-├── .env                    # Environment variables
-├── .gitignore
-├── app.json
-├── package.json
-├── babel.config.js
-├── App.js                  # Root component
-├── src/
-│   ├── api/                # API clients for sponsors and Xano
-│   │   ├── client.js       # Unified client with circuit breaker
-│   │   ├── serpApi.js
-│   │   ├── perfectCorp.js
-│   │   ├── xanoClient.js
-│   │   ├── nutrientDWS.js
-│   │   ├── foxitESign.js
-│   │   ├── doctavian.js
-│   │   └── nameCom.js
-│   ├── components/         # Reusable UI components
-│   │   ├── ui/             # Buttons, inputs, cards, modals
-│   │   ├── animations/     # Fade, slide, scale wrappers
-│   │   ├── feedback/       # Toasts, skeletons, empty states
-│   │   └── ...             # Sponsor-specific cards
-│   ├── context/            # React Context providers
-│   │   ├── ThemeContext.js
-│   │   ├── SponsorContext.js
-│   │   ├── InspectionContext.js
-│   │   └── AuthContext.js
-│   ├── db/                 # SQLite database setup and queries
-│   │   ├── index.js
-│   │   ├── migrations.js
-│   │   └── models/
-│   ├── hooks/              # Custom React hooks
-│   │   ├── useAuth.js
-│   │   ├── useBilling.js
-│   │   ├── useSearch.js
-│   │   ├── useXanoStatus.js
-│   │   └── ...
-│   ├── navigation/         # React Navigation setup
-│   │   ├── AppNavigator.js
-│   │   └── SponsorNavigator.js
-│   ├── screens/            # All screens
-│   │   ├── auth/           # Login, Register, Forgot
-│   │   ├── inspection/     # Checklist, Issues, Summary
-│   │   ├── sponsor/        # Each sponsor's dedicated screen
-│   │   └── ...
-│   ├── services/           # Business logic services
-│   │   ├── BillingService.js
-│   │   ├── SearchService.js
-│   │   ├── DocumentService.js
-│   │   ├── CollaborationService.js
-│   │   └── ...
-│   ├── store/              # Redux Toolkit store
-│   │   ├── index.js
-│   │   ├── rootReducer.js
-│   │   └── slices/         # Auth, inspection, market, etc.
-│   ├── styles/             # Global styles, theme, spacing
-│   │   ├── theme.js
-│   │   ├── colors.js
-│   │   └── globalStyles.js
-│   └── utils/              # Utilities
-│       ├── cache.js
-│       ├── retry.js
-│       ├── logger.js
-│       ├── animations.js
-│       └── validators.js
-└── __tests__/              # Unit and integration tests
-    ├── services/
-    └── components/
+Γö£ΓöÇΓöÇ .env                    # Environment variables
+Γö£ΓöÇΓöÇ .gitignore
+Γö£ΓöÇΓöÇ app.json
+Γö£ΓöÇΓöÇ package.json
+Γö£ΓöÇΓöÇ babel.config.js
+Γö£ΓöÇΓöÇ App.js                  # Root component
+Γö£ΓöÇΓöÇ src/
+Γöé   Γö£ΓöÇΓöÇ api/                # API clients for sponsors and Xano
+Γöé   Γöé   Γö£ΓöÇΓöÇ client.js       # Unified client with circuit breaker
+Γöé   Γöé   Γö£ΓöÇΓöÇ serpApi.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ perfectCorp.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ xanoClient.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ nutrientDWS.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ foxitESign.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ doctavian.js
+Γöé   Γöé   ΓööΓöÇΓöÇ nameCom.js
+Γöé   Γö£ΓöÇΓöÇ components/         # Reusable UI components
+Γöé   Γöé   Γö£ΓöÇΓöÇ ui/             # Buttons, inputs, cards, modals
+Γöé   Γöé   Γö£ΓöÇΓöÇ animations/     # Fade, slide, scale wrappers
+Γöé   Γöé   Γö£ΓöÇΓöÇ feedback/       # Toasts, skeletons, empty states
+Γöé   Γöé   ΓööΓöÇΓöÇ ...             # Sponsor-specific cards
+Γöé   Γö£ΓöÇΓöÇ context/            # React Context providers
+Γöé   Γöé   Γö£ΓöÇΓöÇ ThemeContext.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ SponsorContext.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ InspectionContext.js
+Γöé   Γöé   ΓööΓöÇΓöÇ AuthContext.js
+Γöé   Γö£ΓöÇΓöÇ db/                 # SQLite database setup and queries
+Γöé   Γöé   Γö£ΓöÇΓöÇ index.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ migrations.js
+Γöé   Γöé   ΓööΓöÇΓöÇ models/
+Γöé   Γö£ΓöÇΓöÇ hooks/              # Custom React hooks
+Γöé   Γöé   Γö£ΓöÇΓöÇ useAuth.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ useBilling.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ useSearch.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ useXanoStatus.js
+Γöé   Γöé   ΓööΓöÇΓöÇ ...
+Γöé   Γö£ΓöÇΓöÇ navigation/         # React Navigation setup
+Γöé   Γöé   Γö£ΓöÇΓöÇ AppNavigator.js
+Γöé   Γöé   ΓööΓöÇΓöÇ SponsorNavigator.js
+Γöé   Γö£ΓöÇΓöÇ screens/            # All screens
+Γöé   Γöé   Γö£ΓöÇΓöÇ auth/           # Login, Register, Forgot
+Γöé   Γöé   Γö£ΓöÇΓöÇ inspection/     # Checklist, Issues, Summary
+Γöé   Γöé   Γö£ΓöÇΓöÇ sponsor/        # Each sponsor's dedicated screen
+Γöé   Γöé   ΓööΓöÇΓöÇ ...
+Γöé   Γö£ΓöÇΓöÇ services/           # Business logic services
+Γöé   Γöé   Γö£ΓöÇΓöÇ BillingService.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ SearchService.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ DocumentService.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ CollaborationService.js
+Γöé   Γöé   ΓööΓöÇΓöÇ ...
+Γöé   Γö£ΓöÇΓöÇ store/              # Redux Toolkit store
+Γöé   Γöé   Γö£ΓöÇΓöÇ index.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ rootReducer.js
+Γöé   Γöé   ΓööΓöÇΓöÇ slices/         # Auth, inspection, market, etc.
+Γöé   Γö£ΓöÇΓöÇ styles/             # Global styles, theme, spacing
+Γöé   Γöé   Γö£ΓöÇΓöÇ theme.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ colors.js
+Γöé   Γöé   ΓööΓöÇΓöÇ globalStyles.js
+Γöé   ΓööΓöÇΓöÇ utils/              # Utilities
+Γöé       Γö£ΓöÇΓöÇ cache.js
+Γöé       Γö£ΓöÇΓöÇ retry.js
+Γöé       Γö£ΓöÇΓöÇ logger.js
+Γöé       Γö£ΓöÇΓöÇ animations.js
+Γöé       ΓööΓöÇΓöÇ validators.js
+ΓööΓöÇΓöÇ __tests__/              # Unit and integration tests
+    Γö£ΓöÇΓöÇ services/
+    ΓööΓöÇΓöÇ components/
 ```
 
 ---
@@ -547,7 +547,7 @@ carwise/
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/search.json` | GET | Search vehicle listings. Parameters: `q`, `engine=google_shopping`, `num`, `start` |
-| WebSocket | stream | Real‑time price updates for a VIN |
+| WebSocket | stream | RealΓÇætime price updates for a VIN |
 
 ### Perfect Corp
 
@@ -680,8 +680,17 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 - **DevNetwork** for hosting the hackathon.
 - **All sponsors** for providing APIs and prizes.
-- The open‑source community for the libraries that made this project possible.
+- The openΓÇæsource community for the libraries that made this project possible.
+
+## Frontend Demo Layers
+
+- `src/redesign` is the default presentation layer.
+- `src/redesign-v3` is available through `v3-preview`.
+- `src/redesign-v4` is available through `design-system-v4`.
+- `src/carwise-ai-v5` and `AIShowcaseV5` are available through `ai-lab-v5`.
+
+V4 and V5 fixtures are for visual QA only. Mock findings, prices, media URLs, and async services must not replace production inspection state or ship as customer-facing results. See [README_V5_AI_MOCK.md](README_V5_AI_MOCK.md).
 
 ---
 
-**CarWise – Built with ❤️ for the DevNetwork [API + Cloud + AI] Hackathon 2026.**
+**CarWise ΓÇô Built with Γ¥ñ∩╕Å for the DevNetwork [API + Cloud + AI] Hackathon 2026.**

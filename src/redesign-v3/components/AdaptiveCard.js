@@ -1,0 +1,1 @@
+import React from 'react'; import {View} from 'react-native'; import {COLORS,RADIUS} from '../tokens'; export default function AdaptiveCard({children,style}){return <View style={[{padding:14,borderRadius:RADIUS.lg,borderWidth:1,borderColor:COLORS.line,backgroundColor:COLORS.surface},style]}>{children}</View>;}

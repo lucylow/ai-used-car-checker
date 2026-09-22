@@ -1,0 +1,1 @@
+import React from 'react'; import {View} from 'react-native'; import {COLORS} from '../tokens'; import Icon from './Icon'; export default function ReviewStars({value=4}){return <View style={{flexDirection:'row',gap:2}}>{[1,2,3,4,5].map(i=><Icon key={i} name={i<=value?'star':'star-outline'} size={15} color={i<=value?COLORS.amber:COLORS.muted}/>)}</View>;}

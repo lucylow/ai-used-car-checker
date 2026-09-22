@@ -1,0 +1,1 @@
+import React from 'react'; import Badge from './Badge'; export default function DocumentStatus({status='verified'}){return <Badge label={status==='verified'?'Verified':status==='review'?'Needs review':'Processing'} tone={status==='verified'?'success':status==='review'?'watch':'info'}/>;}

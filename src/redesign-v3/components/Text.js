@@ -1,0 +1,1 @@
+import React from 'react'; import {Text as T} from 'react-native'; import {COLORS,FONT} from '../tokens'; export default function Text({variant='body',color=COLORS.white,muted=false,style,children,...p}){return <T {...p} style={[FONT[variant]||FONT.body,{color:muted?COLORS.muted:color},style]}>{children}</T>;}

@@ -1,0 +1,1 @@
+import React from 'react'; import {View} from 'react-native'; import {COLORS} from '../tokens'; export default function CameraOverlay(){return <View pointerEvents="none" style={{position:'absolute',left:24,right:24,top:70,bottom:70,borderWidth:2,borderColor:COLORS.cyan,borderRadius:22}}/>;}

@@ -1,0 +1,13 @@
+export const ICONS={home:'home',inspect:'car',reports:'document-text',history:'time',profile:'person',vin:'barcode',camera:'camera',video:'videocam',voice:'mic',documents:'documents',ai:'sparkles',market:'analytics',costs:'construct',negotiate:'chatbubble-ellipses',contract:'document-text',signature:'create',certificate:'shield-checkmark',settings:'settings',privacy:'shield-checkmark-outline',help:'help-circle',notifications:'notifications'};
+export const SEVERITY={pass:{label:'Pass',icon:'checkmark-circle',token:'success'},watch:{label:'Watch',icon:'alert-circle',token:'watch'},major:{label:'Major',icon:'warning',token:'watch'},critical:{label:'Critical',icon:'warning',token:'danger'}};
+export const EVIDENCE_TYPES={photo:{label:'Photo',icon:'camera',supports:['capture','upload','annotate']},video:{label:'Video',icon:'videocam',supports:['capture','upload','timeline']},voice:{label:'Voice',icon:'mic',supports:['record','transcribe']},document:{label:'Document',icon:'document-text',supports:['upload','extract','verify']}};
+export const APP_STATES=['idle','loading','success','empty','error','offline','permission','review','complete'];
+export const INSPECTION_AREAS=['Exterior','Interior','Engine','Tires','Brakes','Electrical','Test Drive'];
+export const REPORT_SECTIONS=['Cover','Decision snapshot','Market intelligence','Condition findings','Evidence gallery','Repair costs','Negotiation brief','Documents','Certificate'];
+export const SCREEN_SIZE_HINTS={small:{maxWidth:360,padding:14,title:26},standard:{maxWidth:430,padding:16,title:28},large:{maxWidth:520,padding:20,title:30}};
+export const BREAKPOINTS={phone:0,largePhone:390,tablet:768};
+export const TOUCH_TARGETS={compact:44,standard:48,primary:52,floating:56};
+export const MOTION_DURATIONS={tap:120,fast:160,normal:220,slow:360,emphasis:520};
+export const MEDIA={heroAspect:1.65,tileWidth:106,tileHeight:118,fullBleedRatio:1.85,cameraHeight:360,viewerHeight:'75%'};
+export const COPY={brand:'CarWise',tagline:'See the car. Understand the risk. Know the price.',ai:'AI-assisted, evidence-linked',human:'Human review required',estimate:'Estimate · review evidence',offline:'Offline-safe · changes saved locally'};
+export const ACCESSIBILITY={minimumFont:12,minimumTap:44,contrastText:'WCAG AA target',statusNeedsLabel:true,animationsRespectReducedMotion:true};

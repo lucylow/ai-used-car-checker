@@ -1,0 +1,1 @@
+import React from 'react'; import Badge from './Badge'; export default function IssueBadge({severity='watch'}){return <Badge label={severity==='critical'?'Critical':severity==='major'?'Major':severity==='watch'?'Watch':'Pass'} tone={severity==='critical'||severity==='major'?'danger':severity==='watch'?'watch':'success'}/>;}

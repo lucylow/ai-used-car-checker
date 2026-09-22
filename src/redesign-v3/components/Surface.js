@@ -1,0 +1,1 @@
+import React from 'react'; import {View} from 'react-native'; import {COLORS,RADIUS,shadowSoft} from '../tokens'; export default function Surface({children,style,padded=true}){return <View style={[{borderRadius:RADIUS.lg,borderWidth:1,borderColor:COLORS.line,backgroundColor:COLORS.surface,padding:padded?16:0},shadowSoft,style]}>{children}</View>;}

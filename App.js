@@ -7,7 +7,7 @@ import { enqueueRetry, flushRetryQueue, getRetryDiagnostics, getRetryQueueSize }
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
-import * as FileSystem from 'expo-file-system/legacy';
+import * as FileSystem from 'expo-file-system';
 import { buildInspectionReport, buildPhotoEvidenceHtml, formatCurrency, formatRepairPriorityHtml, getInspectionActionGuidance, getCanceledFlowGuidance, getFunctionalActionLabel, getInspectionNavigationLabel, getLocalSaveLabel, getLocalSaveDelay, getRestoreSourceLabel, getMainFlowReadiness, getPhotoActionGuidance, getOperationStatusLabel, getMediaErrorGuidance, getPermissionGuidance, getToolInputGuidance, getProgressSummaryLabel, getRecoveryGuidance, getLocalSaveErrorGuidance, getLocalRecoveryBanner, getRecoveryLogEntry, getRestoreSanitizationNotice, getLocalRestoreErrorGuidance, getReportErrorGuidance, getReportActionStatus, getProcessingLabel, getDurablePhotoFileName, getOnboardingProgressPercent, getOnboardingActionDestination, getOnboardingTransitionOffset, getRecentRecoveryEntries, normalizeCarwiseSettings, getMotionDuration, getMotionFeedbackOpacity, getAnimatedProgressPercent, getErrorDetail, normalizeRecoveryLog, getAiErrorGuidance, buildDiagnosticExport, getSafeDateLabel, toggleReportSection, getRestoreSourceForFlow, getReportProvenanceLabel, getReportPreviewCloseState, getReportActionStartState, getSettingsSaveErrorGuidance, getLocalSaveSuccessLabel, getLocalSaveIndicator, isSettingsPersistenceReady, shouldScheduleLocalPersistence, isCurrentPersistenceGeneration, getTransientTimerCleanupKeys, getNextPersistenceGeneration, isCurrentActionGeneration, escapeHtml } from './src/services/reportUtils';
 import { getBackupMetadata, getBackupSummary, parseInspectionBackup, selectInspectionRestorePayload, serializeInspectionBackup, upsertToolNote, removeToolNote, getToolNoteEditorState, getToolNoteTimeline, filterToolNoteTimeline, filterToolNoteTimelineBySource } from './src/services/backupUtils';
 import { filterAndSortInspections, getHistoryActionMessage, getInspectionCompletion, getInspectionRepairTotal, getInspectionRiskLabel, getInspectionComparison, getComparisonMetricRows, getReportReadiness, normalizeSavedInspection, shouldClearSavedSelection, shouldReplaceSavedInspection, pruneComparisonSelection } from './src/services/historyUtils';
@@ -36,6 +36,10 @@ import ReportPreviewSections from './components/report-preview-sections';
 import ReportActions from './components/report-actions';
 import VinTool from './components/vin-tool';
 import MarketComparisonTool from './components/market-comparison-tool';
+import { RedesignShell } from './src/redesign';
+import RedesignV3Shell from './src/redesign-v3/RedesignV3Shell';
+import { ShowcaseIndex as RedesignV4Showcase } from './src/redesign-v4';
+import AIShowcaseV5 from './src/carwise-ai-v5/showcase/AIShowcaseV5';
 
 const COLORS = {
   bg: '#0B1220',
@@ -496,6 +500,103 @@ export default function App() {
   const closeIssueEditor = () => { if (!mountedRef.current) return; setEditingIssue(null); };
   const closeCustomFinding = () => { if (!mountedRef.current) return; setCustomFindingVisible(false); };
   const screens = { home: <Home />, new: <NewInspection />, checklist: <Checklist />, ai: <AI />, summary: <Summary />, vin: <VinTool Card={Card} ActionButton={ActionButton} colors={COLORS} styles={styles} allowDemoData={settings.offlineDemoData} onHome={goHome} onUse={applyDecodedVehicleToInspection} />, market: <MarketComparisonTool value={marketComparison} onChange={updateMarketComparison} onHome={goHome} Card={Card} colors={COLORS} styles={styles} />, history: <SimpleTool type="history" toolNotes={toolNotes} onSaveNote={saveToolNote} onDeleteNote={deleteToolNote} />, test: <SimpleTool type="test" toolNotes={toolNotes} onSaveNote={saveToolNote} onDeleteNote={deleteToolNote} />, photos: <Photos />, historyTab: <HistoryTab />, savedDetail: <SavedInspectionDetailScreen />, profile: <Profile /> };
+
+  const redesignState = useMemo(() => ({
+    vehicle,
+    issues,
+    checklist,
+    photos,
+    aiResult,
+    aiPendingFindings,
+    aiBusy,
+    savedInspections,
+    marketComparison,
+    settings,
+    toolNotes,
+    reportReadiness,
+    retryQueueCount,
+    recoveryLog,
+    userName: 'CarWise Driver',
+    userEmail: '',
+    plan: 'prototyping',
+  }), [vehicle, issues, checklist, photos, aiResult, aiPendingFindings, aiBusy, savedInspections, marketComparison, settings, toolNotes, reportReadiness, retryQueueCount, recoveryLog]);
+
+  const redesignV3Vehicle = useMemo(() => ({
+    ...vehicle,
+    name: [vehicle.year, vehicle.make, vehicle.model].filter(Boolean).join(' ') || 'Current vehicle',
+    askingPrice: Number(String(vehicle.asking || '').replace(/[^0-9.]/g, '')) || 0,
+    marketValue: Number(marketComparison?.fairPrice || marketComparison?.marketValue || 0),
+    risk: riskScore,
+    hero: photos.find((photo) => photo?.uri)?.uri || null,
+    photos: photos.map((photo) => photo?.uri).filter(Boolean),
+  }), [vehicle, marketComparison, photos, riskScore]);
+
+  const redesignActions = {
+    onNavigate: setScreen,
+    onBack: () => setScreen('home'),
+    onStartInspection: startInspection,
+    onResumeInspection: () => setScreen('checklist'),
+    onCreateInspection: (nextVehicle) => {
+      setVehicle((current) => ({ ...current, ...nextVehicle }));
+      setScreen('checklist');
+    },
+    onOpenVin: () => setScreen('vin'),
+    onOpenMedia: () => setScreen('photos'),
+    onOpenGallery: () => setScreen('photos'),
+    onOpenInspection: () => setScreen('checklist'),
+    onOpenFinding: () => setScreen('ai'),
+    onOpenPhoto: (photo) => setSelectedPhoto(photo),
+    onCapturePhoto: takeInspectionPhoto,
+    onCaptureVideo: () => setSaveStatus('Video capture is not enabled in this local flow.'),
+    onCaptureVoice: () => setSaveStatus('Voice notes are not enabled in this local flow.'),
+    onPickDocument: importLocalBackup,
+    onAddNote: openCustomFinding,
+    onRunAnalysis: runAnalysis,
+    onAcceptAiFindings: acceptAiFindings,
+    onDismissAiFindings: dismissAiFindings,
+    onSaveInspection: saveInspection,
+    onRetry: retryLocalSave,
+    onExportReport: exportReportPdf,
+    onShareReport: shareReport,
+    onNavigateToSummary: () => setScreen('summary'),
+    onNavigateToNegotiation: () => setScreen('negotiation'),
+    onNavigateToContract: () => setScreen('contract'),
+    onNavigateToCertificate: () => setScreen('certificate'),
+    onOpenSettings: () => setScreen('settings'),
+    onNotifications: () => setScreen('notifications'),
+  };
+
+  const USE_REDESIGN = true;
+
+  if (screen === 'v3-preview') {
+    return (
+      <RedesignV3Shell
+        initialRoute="home"
+        vehicle={redesignV3Vehicle}
+        onExit={() => setScreen('home')}
+      />
+    );
+  }
+
+  if (screen === 'design-system-v4') {
+    return <RedesignV4Showcase onExit={() => setScreen('home')} />;
+  }
+
+  if (screen === 'ai-lab-v5') {
+    return <AIShowcaseV5 onExit={() => setScreen('home')} />;
+  }
+
+  if (USE_REDESIGN) {
+    return (
+      <RedesignShell
+        screen={screen}
+        state={redesignState}
+        actions={redesignActions}
+        showNavigation
+      />
+    );
+  }
+
   return <SafeAreaView style={styles.safe}><StatusBar style="light" /><View style={styles.appHeader}><View><Text style={styles.brand}>CARWISE</Text><Text style={styles.headerSub}>AI USED CAR CHECKER</Text><Text accessibilityLiveRegion="polite" style={saveState === 'error' ? styles.saveError : styles.saveState}>{getLocalSaveLabel(saveState)}</Text>{lastLocalAction ? <Text style={styles.saveState}>{lastLocalAction}</Text> : null}{saveStatus ? <View style={styles.saveStatusRow}><Text style={styles.saveStatus}>{saveStatus}</Text>{saveRetry ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Retry local save" onPress={retryLocalSave}><Text style={styles.saveRetry}>Retry</Text></TouchableOpacity> : null}</View> : null}</View><View accessibilityRole="text" accessibilityLabel={`Local save status: ${localSaveIndicator.label}`} style={[styles.headerDot, { backgroundColor: localSaveIndicator.tone === 'warning' ? COLORS.amber : localSaveIndicator.tone === 'active' ? COLORS.blue : localSaveIndicator.tone === 'success' ? COLORS.mint : COLORS.muted }]} /></View><Animated.View style={[styles.body, { opacity: screenOpacity, transform: [{ translateY: screenTranslateY }] }]}>{screens[screen] || <Home />}</Animated.View><RNModal visible={Boolean(selectedPhoto)} transparent animationType="fade" onRequestClose={closePhotoViewer}><View style={styles.photoViewerBackdrop}><TouchableOpacity accessibilityRole="button" accessibilityLabel="Close photo viewer" accessibilityHint="Returns to the saved inspection details" style={styles.photoViewerClose} onPress={closePhotoViewer}><Text style={styles.photoViewerCloseText}>Close</Text></TouchableOpacity><PinchGestureHandler onGestureEvent={(event) => { const boundedScale = clamp(event.nativeEvent.scale, 1, 3); if (boundedScale > 1.05) isPhotoZoomed.current = true; pinchScale.setValue(boundedScale); }} onHandlerStateChange={({ nativeEvent }) => { if (nativeEvent.oldState === GestureState.ACTIVE) resetPhotoZoom(); }}><View {...photoPanResponder.panHandlers} accessibilityRole="image" accessibilityLabel={selectedPhoto?.fileName || 'Inspection photo'} accessibilityHint="Double tap or pinch to zoom up to three times. Drag while zoomed. Swipe left or right to browse saved photos" style={styles.photoViewerImageWrap} onLayout={({ nativeEvent }) => setPhotoViewerBounds({ width: nativeEvent.layout.width, height: nativeEvent.layout.height })}><Animated.View style={[styles.photoViewerImageAnimated, { transform: [{ translateX: panX }, { translateY: panY }, { scale: pinchScale }] }]}>{selectedPhoto?.uri ? <Image source={{ uri: selectedPhoto.uri }} style={styles.photoViewerImage} resizeMode="contain" fadeDuration={180} progressiveRenderingEnabled /> : null}</Animated.View></View></PinchGestureHandler><View style={styles.photoViewerControls}><TouchableOpacity accessibilityRole="button" accessibilityLabel="Previous photo" disabled={selectedPhotoIndex <= 0} onPress={() => selectViewerPhoto(viewerPhotos[selectedPhotoIndex - 1])}><Text style={[styles.photoViewerNav, selectedPhotoIndex <= 0 && styles.photoViewerDisabled]}>‹ Previous</Text></TouchableOpacity><Text style={styles.photoViewerCount}>{selectedPhotoIndex + 1} / {viewerPhotos.length}</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Next photo" disabled={selectedPhotoIndex < 0 || selectedPhotoIndex >= viewerPhotos.length - 1} onPress={() => selectViewerPhoto(viewerPhotos[selectedPhotoIndex + 1])}><Text style={[styles.photoViewerNav, selectedPhotoIndex >= viewerPhotos.length - 1 && styles.photoViewerDisabled]}>Next ›</Text></TouchableOpacity></View><Text style={styles.photoViewerMeta}>{selectedPhoto?.fileName || 'Inspection photo'} · {selectedPhoto?.width || '—'} × {selectedPhoto?.height || '—'}</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Reset photo zoom" onPress={resetPhotoZoom}><Text style={styles.photoViewerReset}>Reset zoom · max 3×</Text></TouchableOpacity></View></RNModal><Onboarding /><BackupPreviewModal preview={backupPreview} onClose={closeBackupPreview} onConfirm={confirmBackupExport} /><RecoveryLogModal visible={recoveryLogVisible} entries={recoveryLog} queuedCount={retryQueueCount} restoreSource={restoreSource} onClose={closeRecoveryLog} onRetry={retryLocalSave} onExportDiagnostics={exportDiagnostics} /><ReportPreviewModal visible={Boolean(reportPreview)} onClose={closeReportPreview} styles={styles}><View style={styles.reportModalHeader}><Text style={styles.pageTitle}>Report preview</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Close report preview" onPress={closeReportPreview}><Text style={styles.reportClose}>Close</Text></TouchableOpacity></View><ScrollView style={styles.reportScroll} contentContainerStyle={styles.reportScrollContent} showsVerticalScrollIndicator={false}><ReportPreviewSections reportPreview={reportPreview} reportSections={reportSections} onToggle={(section) => setReportSections((current) => toggleReportSection(current, section))} reportSectionFeedback={reportSectionFeedback} photos={photos} issues={issues} repairTotal={repairTotal} formatCurrency={formatCurrency} styles={styles} restoreSourceLabel={getReportProvenanceLabel(restoreSource)} /><ReportActions ActionButton={ActionButton} busy={reportBusy} action={reportAction} retry={reportRetry} retryKind={reportRetryKind} onRun={(status, kind) => runReportAction(status, kind === 'pdf' ? exportReportPdf : shareReport)} onClose={closeReportPreview} /></ScrollView></ReportPreviewModal><RNModal visible={Boolean(historyConfirm)} transparent animationType="fade" onRequestClose={closeHistoryConfirmation}><View style={styles.confirmBackdrop}><View style={styles.confirmCard}><Text style={styles.cardTitle}>{historyConfirm?.action === 'delete' ? 'Delete this inspection?' : 'Duplicate this inspection?'}</Text><Text style={styles.muted}>{historyConfirm?.item?.vehicle?.year} {historyConfirm?.item?.vehicle?.make} {historyConfirm?.item?.vehicle?.model}</Text><Text style={styles.muted}>{historyConfirm?.action === 'delete' ? 'This removes the saved record from this device.' : 'A separate copy will be added to your saved inspections.'}</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel={historyConfirm?.action === 'delete' ? 'Delete inspection record' : 'Duplicate inspection record'} style={styles.primaryButton} onPress={executeHistoryAction}><Text style={styles.primaryButtonText}>{historyConfirm?.action === 'delete' ? 'Delete record' : 'Duplicate record'}</Text><Text style={styles.buttonArrow}>→</Text></TouchableOpacity><TouchableOpacity style={styles.secondaryButton} onPress={closeHistoryConfirmation}><Text style={styles.secondaryButtonText}>Cancel</Text></TouchableOpacity></View></View></RNModal><View style={styles.tabBar}>{['Home', 'History', 'Profile'].map((item) => <TouchableOpacity key={item} accessibilityRole="tab" accessibilityLabel={`${item} tab`} accessibilityState={{ selected: tab === item }} style={styles.tab} onPress={() => handleTabSelect(item)}><Text style={[styles.tabText, tab === item && { color: COLORS.blue }]}>{item}</Text></TouchableOpacity>)}</View>{undoItem ? <AnimatedUndoBar message="Inspection deleted · restore within 5 seconds" actionLabel="Restore" accessibilityLabel="Restore deleted inspection" onPress={restoreDeletedInspection} intensity={settings.motionIntensity} /> : null}{findingUndoItem ? <AnimatedUndoBar message={`${findingUndoItem.name} removed · undo within 5 seconds`} actionLabel="Undo" accessibilityLabel={`Undo removal of ${findingUndoItem.name}`} onPress={undoRemovedFinding} intensity={settings.motionIntensity} /> : null}{noteUndoItem ? <AnimatedUndoBar message="Field note deleted · undo within 5 seconds" actionLabel="Undo" accessibilityLabel="Undo field-note deletion" onPress={undoDeletedToolNote} intensity={settings.motionIntensity} /> : null}</SafeAreaView>;
 }
 

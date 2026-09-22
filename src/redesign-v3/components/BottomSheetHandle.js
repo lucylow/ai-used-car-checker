@@ -1,0 +1,1 @@
+import React from 'react'; import {View} from 'react-native'; import {COLORS} from '../tokens'; export default function BottomSheetHandle(){return <View style={{width:42,height:4,borderRadius:99,backgroundColor:COLORS.line,alignSelf:'center',marginBottom:14}}/>;}

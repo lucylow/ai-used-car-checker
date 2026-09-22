@@ -1,0 +1,2 @@
+import React from 'react'; import {SafeAreaView,ScrollView,View} from 'react-native'; import {COLORS} from '../tokens';
+export default function Screen({children,scroll=true,background=COLORS.ink,style}){const body=<View style={[{paddingHorizontal:16,paddingBottom:132},style]}>{children}</View>;return <SafeAreaView style={{flex:1,backgroundColor:background}}>{scroll?<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow:1}}>{body}</ScrollView>:body}</SafeAreaView>;}

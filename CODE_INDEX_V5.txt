@@ -1,0 +1,6 @@
+CarWise Frontend V5 AI Mock Data Expansion
+New V5 JS files: 77
+New V5 source lines: 23375
+Approx 45-line code pages: 520
+Validation: Node --check passed for all JS files in archive
+Previous V4 baseline: included under V4_BASELINE/

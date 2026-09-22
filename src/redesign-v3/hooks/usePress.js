@@ -1,0 +1,2 @@
+import {useRef} from 'react'; import {Animated} from 'react-native'; import {MOTION} from '../tokens';
+export default function usePress(scale=.975){const a=useRef(new Animated.Value(1)).current;const onPressIn=()=>Animated.spring(a,{toValue:scale,useNativeDriver:true,...MOTION.spring}).start();const onPressOut=()=>Animated.spring(a,{toValue:1,useNativeDriver:true,...MOTION.spring}).start();return{animatedStyle:{transform:[{scale:a}]},onPressIn,onPressOut};}

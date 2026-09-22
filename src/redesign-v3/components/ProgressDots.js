@@ -1,0 +1,1 @@
+import React from 'react'; import {View} from 'react-native'; import {COLORS} from '../tokens'; export default function ProgressDots({total=5,current=2}){return <View style={{flexDirection:'row',gap:6}}>{[...Array(total)].map((_,i)=><View key={i} style={{width:i===current?22:7,height:7,borderRadius:99,backgroundColor:i<=current?COLORS.cyan:COLORS.surface2}}/>)}</View>;}

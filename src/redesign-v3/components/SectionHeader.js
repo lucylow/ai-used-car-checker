@@ -1,0 +1,2 @@
+import React from 'react'; import {View} from 'react-native'; import {COLORS} from '../tokens'; import Text from './Text';
+export default function SectionHeader({title,action,onAction}){return <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginTop:24,marginBottom:10}}><Text variant="h3">{title}</Text>{action?<Text variant="caption" color={COLORS.cyan} onPress={onAction}>{action}</Text>:null}</View>;}

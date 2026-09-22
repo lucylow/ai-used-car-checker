@@ -1,0 +1,2 @@
+import React from 'react'; import {View} from 'react-native'; import {COLORS} from '../tokens'; import Text from './Text';
+export default function InfoRow({label,value,tone=COLORS.white,mono=false}){return <View style={{minHeight:44,flexDirection:'row',alignItems:'center',justifyContent:'space-between',borderBottomWidth:1,borderBottomColor:COLORS.line,gap:12}}><Text variant="caption" muted>{label}</Text><Text variant={mono?'mono':'bodyStrong'} color={tone} style={{textAlign:'right',flex:1}}>{value}</Text></View>;}
