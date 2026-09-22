@@ -8,4 +8,4 @@ export {
   AI_MARKET_INSIGHTS,
   AI_BUYER_GUIDES,
   getAiMockBundle,
-} from '../../redesign-v3/data/aiMockData';
+} from '../../redesign-v3/data/aiMockData.js';

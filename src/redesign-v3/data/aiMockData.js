@@ -1,4 +1,4 @@
-import { ALL_DEMO_VEHICLES } from './demoCatalog';
+import { ALL_DEMO_VEHICLES } from './demoCatalog.js';
 
 const severityRank = { cosmetic: 1, minor: 2, moderate: 3, major: 4, critical: 5 };
 const gradeFor = (score) => score < 30 ? 'A' : score < 55 ? 'B' : score < 75 ? 'C' : score < 90 ? 'D' : 'F';
@@ -129,5 +129,6 @@ export const AI_BUYER_GUIDES = [
 ];
 
 export function getAiMockBundle(vehicleId) {
-  return { photoDetection: AI_PHOTO_DETECTIONS[vehicleId], narrative: AI_CONDITION_NARRATIVES[vehicleId], negotiation: AI_NEGOTIATION_SCRIPTS[vehicleId], maintenance: AI_MAINTENANCE_PREDICTIONS[vehicleId], risk: AI_RISK_EXPLANATIONS[vehicleId], chat: AI_CHAT_SCENARIOS[vehicleId], market: AI_MARKET_INSIGHTS[vehicleId], buyerGuides: AI_BUYER_GUIDES };
+  const bundle = { photoDetection: AI_PHOTO_DETECTIONS[vehicleId], narrative: AI_CONDITION_NARRATIVES[vehicleId], negotiation: AI_NEGOTIATION_SCRIPTS[vehicleId], maintenance: AI_MAINTENANCE_PREDICTIONS[vehicleId], risk: AI_RISK_EXPLANATIONS[vehicleId], chat: AI_CHAT_SCENARIOS[vehicleId], market: AI_MARKET_INSIGHTS[vehicleId], buyerGuides: AI_BUYER_GUIDES };
+  return bundle.photoDetection ? bundle : null;
 }
